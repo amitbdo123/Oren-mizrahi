@@ -524,3 +524,31 @@ function motionOK() {
   }, { passive: true });
   mark();
 })();
+
+// ---------------------------------------------------------------------------
+// טקסט רץ על שורות המחברת: מזיזים כל פסקה כך שקו הבסיס של השורות שלה ייפול על הקווים.
+// השורות מצוירות על הרקע של הדף כל 2rem; לכל פסקה מתווסף ריפוד עליון קטן (פחות משורה).
+// ---------------------------------------------------------------------------
+(function () {
+  var sel = '.story-body, .story-next, .about-text p:not(.about-sub):not(.signature):not(.about-proof), .step p';
+  var els = Array.prototype.slice.call(document.querySelectorAll(sel));
+  if (!els.length) return;
+  var BASE = 0.22;  // מיקום הקו בתוך שורה, כחלק מגובה השורה (כוון לפי הגופן Assistant)
+
+  function align() {
+    if (document.documentElement.classList.contains('a11y-contrast')) { els.forEach(function (el) { el.style.paddingTop = ''; }); return; }
+    var rule = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2;
+    els.forEach(function (el) { el.style.paddingTop = ''; });
+    els.forEach(function (el) {
+      var top = el.getBoundingClientRect().top + window.scrollY;
+      var pad = ((BASE * rule - top) % rule + rule) % rule;
+      el.style.paddingTop = pad.toFixed(2) + 'px';
+    });
+  }
+  var t = null;
+  function later() { clearTimeout(t); t = setTimeout(align, 80); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(align); else align();
+  window.addEventListener('load', align);
+  window.addEventListener('resize', later);
+  new MutationObserver(later).observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-text-size'] });
+})();

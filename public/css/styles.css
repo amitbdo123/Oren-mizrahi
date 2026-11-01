@@ -839,7 +839,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
 @media (max-width: 55.99rem) {
   .how .step { padding-bottom: 3.25rem; }
   .how .step:last-child { padding-bottom: 0; }
-  .how { padding-bottom: 28vh; }
+  .how { padding-bottom: 4.5rem; }
 }
 
 @media (min-width: 56rem) {
@@ -1186,20 +1186,20 @@ html { scroll-padding-top: 4.5rem; }
    ===================================================================== */
 
 /* נייר: שורות וקו שוליים. הקו בצד ימין, כמו במחברת בעברית */
-body, .story, .words, .final-cta {
+body {
   background-image:
     linear-gradient(90deg, transparent calc(100% - .7rem), rgb(214 69 58 / .45) calc(100% - .7rem), rgb(214 69 58 / .45) calc(100% - .7rem + 1.5px), transparent calc(100% - .7rem + 1.5px)),
     repeating-linear-gradient(180deg, transparent 0 calc(2rem - 1px), var(--rule) calc(2rem - 1px) 2rem);
 }
 @media (min-width: 56rem) {
-  body, .story, .words, .final-cta {
+  body {
     background-image:
       linear-gradient(90deg, transparent calc(100% - 3rem), rgb(214 69 58 / .45) calc(100% - 3rem), rgb(214 69 58 / .45) calc(100% - 3rem + 1.5px), transparent calc(100% - 3rem + 1.5px)),
       repeating-linear-gradient(180deg, transparent 0 calc(2rem - 1px), var(--rule) calc(2rem - 1px) 2rem);
   }
 }
-/* דף חדש: קו ניקוב בראש הסקשנים בגוון השני */
-.story, .words, .final-cta { border-top: 2px dashed rgb(150 170 215 / .8); }
+/* דף חדש: קו ניקוב בראש הסקשנים, וגוון שקוף כדי שהשורות ימשיכו ברצף */
+.story, .words, .final-cta { border-top: 2px dashed rgb(150 170 215 / .8); background-color: rgb(238 233 214 / .45); background-image: none; }
 .site-header { background: var(--cream); }
 
 /* כותרות עם מרקר צהוב */
@@ -1221,14 +1221,20 @@ body, .story, .words, .final-cta {
   transform: rotate(-3deg);
 }
 @media (min-width: 56rem) { .hero-note { margin-top: -1.5rem; font-size: 2rem; } }
+.pen-arrow { display: inline-block; width: 1.5em; height: .7em; vertical-align: middle; margin-inline-start: .15em; }
 
-/* כפתורים כמו מדבקות: כחול עם צל צהוב */
+/* כפתורים כמו מדבקות: כחול עם שוליים לבנים חתוכים, צל רך והטיה קלה */
 .btn { border-radius: 12px; }
-.btn-primary { background: var(--terracotta); box-shadow: 3px 3px 0 var(--highlight); }
-@media (hover: hover) {
-  .btn-primary:hover { background: var(--terracotta-dark); box-shadow: 5px 5px 0 var(--highlight); transform: translate(-1px, -1px); }
+.btn-primary {
+  background: var(--terracotta);
+  box-shadow: 0 0 0 3px #ffffff, 0 7px 16px -7px rgb(20 30 60 / .45);
+  transform: rotate(-1deg);
 }
-.btn-primary:active { box-shadow: 1px 1px 0 var(--highlight); transform: translate(1px, 1px); }
+@media (hover: hover) {
+  .btn-primary:hover { background: var(--terracotta-dark); box-shadow: 0 0 0 3px #ffffff, 0 12px 22px -8px rgb(20 30 60 / .45); transform: rotate(-1deg) translateY(-2px); }
+}
+.btn-primary:active { box-shadow: 0 0 0 3px #ffffff, 0 3px 8px -4px rgb(20 30 60 / .45); transform: rotate(-1deg) translateY(1px); }
+.btn-block, .header-cta { transform: none; }
 .header-cta { border-radius: 12px; }
 
 /* תמונות פולארויד עם סלוטייפ */
@@ -1271,7 +1277,11 @@ body, .story, .words, .final-cta {
   .steps::before { background: repeating-linear-gradient(90deg, var(--gold-soft) 0 6px, transparent 6px 11px); }
 }
 .step-mark { border-radius: 8px; border-width: 2px; border-color: var(--terracotta); background: var(--cream); }
-.step.is-active .step-mark { background: var(--terracotta); border-color: var(--terracotta); color: #fff; box-shadow: 2px 2px 0 var(--highlight); }
+.step.is-active .step-mark { background: var(--terracotta); border-color: var(--terracotta); color: #fff; }
+/* היעד: וי בעט אדום */
+.step-goal .step-mark { color: var(--gold); }
+.step-goal.is-active .step-mark { background: var(--cream); color: var(--gold); border-color: var(--gold); }
+.step-goal .step-mark svg { width: 1.35rem; height: 1.35rem; }
 
 /* הפסוק על פתק צהוב */
 .verse {
@@ -1292,4 +1302,14 @@ body, .story, .words, .final-cta {
 .compose-avatar { box-shadow: 0 0 0 2px var(--cream), 0 0 0 3px var(--terracotta); }
 .chat-avatar { box-shadow: 0 0 0 2px var(--cream), 0 0 0 3px var(--terracotta); }
 
-html.a11y-contrast body, html.a11y-contrast .story, html.a11y-contrast .words, html.a11y-contrast .final-cta { background-image: none; }
+html.a11y-contrast body { background-image: none; }
+html.a11y-contrast .story, html.a11y-contrast .words, html.a11y-contrast .final-cta { background-color: #ffffff; }
+
+/* טקסט רץ על שורות המחברת: גובה שורה בדיוק כמו השורות (2rem), והיישור מתבצע ב-JS */
+.story-body, .about-text p:not(.about-sub):not(.signature):not(.about-proof), .step p, .story-next { line-height: 2rem !important; }
+.story-body.yad-text, .about-text p.yad-text { line-height: 2rem !important; }
+/* 5. כותרות מאוזנות */
+.section-title { text-wrap: balance; }
+/* 8. מרקר עם קצוות לא אחידים, וכפתור תפריט בעט כחול */
+.hl { border-radius: .2em .6em .25em .7em / .15em .4em .2em .45em; }
+.nav-toggle { border: 2px solid var(--terracotta); color: var(--terracotta); border-radius: 10px; }
