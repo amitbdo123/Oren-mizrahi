@@ -937,10 +937,12 @@ html.intro-on .hero-title .line, html.intro-on .arch img { animation-play-state:
   user-select: none;
   -webkit-user-select: none;
   /* קטיפה בורדו עם קפלים אנכיים ואור רך מלמעלה */
-  background:
+  background-color: #5e1219;
+  background-image:
     radial-gradient(ellipse 80% 45% at 50% 18%, rgb(255 255 255 / .1), transparent 70%),
     repeating-linear-gradient(90deg, rgb(0 0 0 / .22) 0, rgb(255 255 255 / .05) 2.2%, rgb(0 0 0 / .1) 4.6%, rgb(0 0 0 / .22) 7%),
     linear-gradient(180deg, #74181e, #57101a 70%, #4a0d15);
+  background-color: #5e1219;
   box-shadow: -18px 0 40px rgb(30 8 10 / .55);
   transform: translateX(var(--dx, 0px));
   will-change: transform;
@@ -982,7 +984,7 @@ html.intro-on .hero-title .line, html.intro-on .arch img { animation-play-state:
   font-size: clamp(3rem, 14vw, 5.5rem);
   line-height: 1;
   color: #ecd29b;
-  text-shadow: 0 2px 0 rgb(0 0 0 / .3), 0 0 18px rgb(236 210 155 / .25);
+  text-shadow: 0 2px 0 rgb(0 0 0 / .3);
 }
 .parochet-role { font-size: 1.05rem; font-weight: 600; letter-spacing: .04em; color: #e6cc95; }
 
@@ -1006,6 +1008,29 @@ html.intro-on .hero-title .line, html.intro-on .arch img { animation-play-state:
 /* פתיחה: האור מתפשט ואז האתר עולה דרכו */
 .intro.is-bright .intro-light { --light: 1; --light-scale: 2.4; }
 .intro.is-done { opacity: 0; pointer-events: none; }
+
+/* ---------- יד לקריאה על הטקסטים הרציפים ---------- */
+.yad-text { position: relative; line-height: 2.2 !important; }
+.story-lead.yad-text, .final-title.yad-text { line-height: 1.8 !important; }
+.yad-word {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .9em;
+  height: 1.55em;
+  color: #9a7337;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(calc(var(--x, 0px) - 50%), var(--y, 0px));
+  transition: transform .28s cubic-bezier(.22, .61, .36, 1), opacity .3s ease;
+  filter: drop-shadow(0 1px 0 var(--cream));
+}
+.story .yad-word { filter: drop-shadow(0 1px 0 var(--cream-deep)); }
+.yad-word.is-on { opacity: 1; }
+.story-lead .yad-word, .final-title .yad-word { width: .6em; height: 1.05em; }
+.yw { transition: color .3s ease; }
+.yw.is-cur { color: var(--terracotta); }
+html.a11y-still .yad-word { display: none; }
 
 /* מסכים צרים מאוד / הגדלה של 200% */
 @media (max-width: 20rem) {

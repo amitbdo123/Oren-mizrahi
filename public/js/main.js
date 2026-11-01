@@ -357,3 +357,82 @@ function motionOK() {
   window.addEventListener('resize', update);
   update();
 })();
+
+// ---------------------------------------------------------------------------
+// יד לקריאה בתורה בטקסטים הרציפים: מצביעה מלמטה על מילה אחרי מילה, לפי קצב הגלילה.
+// היד נמצאת מתחת למילה ולא מכסה אותה. בלי JS, או עם "הפחתת תנועה"/"עצירת אנימציות": אין יד.
+// ---------------------------------------------------------------------------
+(function () {
+  var targets = Array.prototype.slice.call(document.querySelectorAll('[data-yad-text]'));
+  if (!targets.length || !motionOK()) return;
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  function wrapWords(el) {
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (node) {
+      var parts = node.nodeValue.split(/(\s+)/);
+      if (parts.length < 2 && !parts[0].trim()) return;
+      var frag = document.createDocumentFragment();
+      parts.forEach(function (part) {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+        var span = document.createElement('span');
+        span.className = 'yw';
+        span.textContent = part;
+        frag.appendChild(span);
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+    return Array.prototype.slice.call(el.querySelectorAll('.yw'));
+  }
+
+  var items = targets.map(function (el) {
+    var words = wrapWords(el);
+    el.classList.add('yad-text');
+    var svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('class', 'yad-word');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    var use = document.createElementNS(SVGNS, 'use');
+    use.setAttribute('href', '#yad-up');
+    svg.appendChild(use);
+    el.appendChild(svg);
+    return { el: el, words: words, svg: svg, idx: -1 };
+  });
+
+  function place(item, i) {
+    if (item.idx === i) return;
+    if (item.idx >= 0) item.words[item.idx].classList.remove('is-cur');
+    item.idx = i;
+    var w = item.words[i];
+    w.classList.add('is-cur');
+    var tr = item.el.getBoundingClientRect();
+    var wr = w.getBoundingClientRect();
+    var x = wr.left + wr.width / 2 - tr.left;
+    var y = wr.bottom - tr.top + 1;
+    item.svg.style.setProperty('--x', x.toFixed(1) + 'px');
+    item.svg.style.setProperty('--y', y.toFixed(1) + 'px');
+  }
+
+  function update() {
+    var line = window.innerHeight * 0.6;
+    items.forEach(function (item) {
+      var r = item.el.getBoundingClientRect();
+      var active = r.top < line && r.bottom > line - r.height * 0.15 - 40;
+      item.svg.classList.toggle('is-on', active);
+      if (!active) { if (item.idx >= 0) { item.words[item.idx].classList.remove('is-cur'); item.idx = -1; } return; }
+      var p = Math.min(Math.max((line - r.top) / (r.height + 20), 0), 0.9999);
+      place(item, Math.floor(p * item.words.length));
+    });
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; update(); }); }
+  }, { passive: true });
+  window.addEventListener('resize', function () { items.forEach(function (it) { it.idx = -1; }); update(); });
+  document.addEventListener('a11y:still', function () { items.forEach(function (it) { it.svg.remove(); }); });
+  update();
+})();
