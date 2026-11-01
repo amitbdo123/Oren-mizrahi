@@ -472,6 +472,42 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   .msg-bubble { max-width: 85%; }
 }
 
+/* ---------- אודות ---------- */
+.about { padding-block: 4.5rem 5rem; }
+.about-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.25rem; align-items: center; }
+.about-media { margin: 0; }
+.arch-sm { width: min(100%, 22rem); }
+.about-text { max-width: 34rem; margin-inline: auto; }
+.about-text .section-title { margin-bottom: 1.5rem; text-align: start; }
+.about-text p { margin: 0 0 1.1rem; font-size: 1.08rem; line-height: 1.85; text-wrap: pretty; }
+.about-proof {
+  position: relative;
+  margin-top: 1.75rem !important;
+  padding-inline-start: 1.1rem;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.2rem !important;
+  line-height: 1.6 !important;
+  color: var(--terracotta-dark);
+}
+.about-proof::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: .35em;
+  bottom: .35em;
+  width: 1px;
+  background: var(--gold);
+}
+
+@media (min-width: 56rem) {
+  .about { padding-block: 6.5rem; }
+  .about-grid { grid-template-columns: .85fr 1.15fr; gap: 5rem; }
+  .about-text { margin-inline: 0; }
+  .about-text .section-title { text-align: start; }
+  .arch-sm { width: 100%; max-width: 24rem; margin-inline: 0 auto; }
+}
+
 /* מסכים צרים מאוד / הגדלה של 200% */
 @media (max-width: 20rem) {
   .btn { padding-inline: 1rem; }
