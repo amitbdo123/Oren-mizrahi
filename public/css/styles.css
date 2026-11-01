@@ -183,12 +183,16 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   border-radius: 10px;
 }
 .nav-list a:hover { background: var(--cream-deep); }
-.nav-list a[aria-current="true"] { color: var(--terracotta); }
+.nav-list a[aria-current="location"] { color: var(--terracotta); }
 
 @media (min-width: 56rem) {
   .header-inner { min-height: 4.75rem; }
   .site-header .wordmark-name { font-size: 1.85rem; }
   .nav-toggle { display: none; }
+  /* בקוד הניווט בא אחרי הכפתורים (לסדר מקלדת נכון במובייל); במחשב הוא באמצע */
+  .site-header .wordmark { order: 1; }
+  .site-nav { order: 2; }
+  .header-actions { order: 3; }
   .site-nav {
     position: static;
     display: block;
@@ -205,7 +209,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
     position: relative;
   }
   .nav-list a:hover { background: transparent; color: var(--terracotta); }
-  .nav-list a[aria-current="true"]::after {
+  .nav-list a[aria-current="location"]::after {
     content: "";
     position: absolute;
     inset-inline: .8rem;
@@ -1117,6 +1121,18 @@ html, body { overflow-x: clip; }
 .yw { transition: color .3s ease; }
 .yw.is-cur { color: var(--terracotta); }
 html.a11y-still .yad-word { display: none; }
+
+/* מסך צר מאוד (הגדלה של 200%): הדר מצומצם, בלי כפתור וואטסאפ בהדר (יש פס תחתון) */
+@media (max-width: 20rem) {
+  .site-header .wordmark-name { font-size: 1.3rem; }
+  .site-header .wordmark-role, .site-header .wordmark-flourish { display: none; }
+  .header-cta { display: none; }
+}
+[tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
+.footer-links ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.5rem; }
+.legal a { overflow-wrap: anywhere; }
+html.a11y-still .yad-rail { display: none; }
+@media (prefers-reduced-motion: reduce) { .yad-rail { display: none; } }
 
 /* מסכים צרים מאוד / הגדלה של 200% */
 @media (max-width: 20rem) {

@@ -6,14 +6,21 @@
   var root = document.documentElement;
   var KEY = 'a11y-prefs';
   var prefs = { size: 0, contrast: false, still: false, links: false, font: false };
-  try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved) for (var k in prefs) if (k in saved) prefs[k] = saved[k]; } catch (e) {}
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved && typeof saved === 'object') {
+      prefs.size = Math.min(3, Math.max(0, parseInt(saved.size, 10) || 0));
+      ['contrast', 'still', 'links', 'font'].forEach(function (k) { prefs[k] = !!saved[k]; });
+    }
+  } catch (e) {}
 
   function apply() {
     root.dataset.textSize = prefs.size;
     ['contrast', 'still', 'links', 'font'].forEach(function (k) { root.classList.toggle('a11y-' + k, !!prefs[k]); });
     document.querySelectorAll('[data-a11y-toggle]').forEach(function (b) { b.setAttribute('aria-pressed', prefs[b.dataset.a11yToggle] ? 'true' : 'false'); });
-    try { localStorage.setItem(KEY, JSON.stringify(prefs)); } catch (e) {}
   }
+  // שומרים בדפדפן רק כשהגולש משנה הגדרה
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(prefs)); } catch (e) {} }
   apply();
 
   var tool = document.querySelector('[data-a11y-tool]');
@@ -33,24 +40,28 @@
   document.addEventListener('click', function (e) {
     if (!panel.hidden && !tool.contains(e.target)) setOpen(false);
   });
+  tool.addEventListener('focusout', function (e) {
+    if (!panel.hidden && e.relatedTarget && !tool.contains(e.relatedTarget)) setOpen(false);
+  });
 
   tool.querySelectorAll('[data-a11y-size]').forEach(function (b) {
     b.addEventListener('click', function () {
       prefs.size = Math.min(3, Math.max(0, prefs.size + (+b.dataset.a11ySize)));
-      apply();
+      apply(); save();
     });
   });
   tool.querySelectorAll('[data-a11y-toggle]').forEach(function (b) {
     b.addEventListener('click', function () {
       var k = b.dataset.a11yToggle;
       prefs[k] = !prefs[k];
-      apply();
+      apply(); save();
       if (k === 'still' && prefs.still) document.dispatchEvent(new CustomEvent('a11y:still'));
     });
   });
   tool.querySelector('[data-a11y-reset]').addEventListener('click', function () {
     prefs = { size: 0, contrast: false, still: false, links: false, font: false };
     apply();
+    try { localStorage.removeItem(KEY); } catch (e) {}
   });
 })();
 
@@ -152,10 +163,12 @@ function motionOK() {
 
   // מקלדת
   openBtn.addEventListener('click', open);
-  document.addEventListener('keydown', function (e) {
-    if (opened) return;
-    if (e.key === 'ArrowRight' || e.key === 'Escape' || e.key === 'PageDown' || e.key === ' ' && e.target !== openBtn) { e.preventDefault(); open(); }
-  });
+  function onKey(e) {
+    if (opened) { document.removeEventListener('keydown', onKey); return; }
+    if (e.key === 'Tab') { e.preventDefault(); openBtn.focus(); return; }   // הפוקוס נשאר בתוך הפרוכת
+    if (['ArrowRight', 'Escape', 'Enter', 'PageDown', ' '].indexOf(e.key) !== -1 && e.target !== openBtn) { e.preventDefault(); open(); }
+  }
+  document.addEventListener('keydown', onKey);
 })();
 
 // ---------------------------------------------------------------------------
@@ -276,6 +289,8 @@ function motionOK() {
   toggle.addEventListener('click', function () {
     if (state === 'playing') pause(); else play();
   });
+  // מי שנכנס לאזור ההודעות במקלדת כדי לקרוא: עוצרים, כדי שהשיחה לא תגלול לו מתחת לידיים
+  body.addEventListener('focusin', function () { if (state === 'playing') pause(); });
 
   // "עצירת אנימציות" באמצע השיחה: מורידים את העותקים, מציגים את ההודעות המקוריות ועוצרים
   document.addEventListener('a11y:still', function () {
@@ -349,7 +364,7 @@ function motionOK() {
 // ---------------------------------------------------------------------------
 (function () {
   var rail = document.querySelector('.yad-rail');
-  if (!rail) return;
+  if (!rail || !motionOK()) return;
   var ticking = false;
   function update() {
     ticking = false;
@@ -462,10 +477,14 @@ function motionOK() {
     if (!toggle) return;
     nav.classList.toggle('is-open', v);
     toggle.setAttribute('aria-expanded', v ? 'true' : 'false');
+    if (v) { var first = nav.querySelector('a'); if (first) first.focus(); }
   }
   if (toggle) {
     toggle.addEventListener('click', function () { setOpen(!nav.classList.contains('is-open')); });
     nav.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+    header.addEventListener('focusout', function (e) {
+      if (nav.classList.contains('is-open') && e.relatedTarget && !header.contains(e.relatedTarget)) setOpen(false);
+    });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && nav.classList.contains('is-open')) { setOpen(false); toggle.focus(); }
     });
@@ -481,10 +500,19 @@ function motionOK() {
     var line = window.innerHeight * 0.4, current = -1;
     sections.forEach(function (sec, i) { if (sec && sec.getBoundingClientRect().top < line) current = i; });
     links.forEach(function (a, i) {
-      if (i === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      if (i === current) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
     });
     header.classList.toggle('is-scrolled', window.scrollY > 8);
   }
+  // אחרי לחיצה על קישור בניווט: הפוקוס עובר לכותרת החלק, כדי שמקלדת וקורא מסך ימשיכו משם
+  links.forEach(function (a, i) {
+    a.addEventListener('click', function () {
+      var sec = sections[i]; if (!sec) return;
+      var h = sec.querySelector('h2[tabindex="-1"]') || sec;
+      setTimeout(function () { h.focus({ preventScroll: true }); }, 60);
+    });
+  });
+
   var ticking = false;
   window.addEventListener('scroll', function () {
     if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; mark(); }); }
