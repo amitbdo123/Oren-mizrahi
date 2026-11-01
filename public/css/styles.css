@@ -13,21 +13,25 @@
 
 /* ---------- צבעים ---------- */
 :root {
-  --cream: #fbf6ee;        /* רקע */
-  --cream-deep: #f3e9da;   /* רקע משני */
-  --ink: #2b2420;          /* טקסט רץ */
-  --muted: #5c5048;        /* טקסט משני */
-  --terracotta: #8a3e26;   /* הצבע העמוק: כותרות וכפתורים */
-  --terracotta-dark: #6e2f1b;
-  --gold: #b08d57;         /* נגיעות דקורטיביות בלבד, לא לטקסט */
-  --gold-soft: #d9c39b;
-  --focus: #6e2f1b;
+  /* עולם המחברת של האח הגדול. שמות המשתנים נשארו מהגרסה הקודמת כדי לא לשבור את הקוד:
+     cream = נייר, terracotta = כחול של עט (הצבע העמוק), gold = אדום של עט תיקון (קישוט בלבד) */
+  --cream: #fdfcf7;        /* נייר */
+  --cream-deep: #f4f1e6;   /* דף שני, גוון חם מעט */
+  --ink: #1c2236;          /* טקסט רץ */
+  --muted: #4a5068;        /* טקסט משני */
+  --terracotta: #1f3a8a;   /* כחול של עט: כותרות וכפתורים */
+  --terracotta-dark: #162b6b;
+  --gold: #c2412d;         /* אדום של עט תיקון: קווי שוליים, הערות וקישוטים */
+  --gold-soft: #b8c6e6;    /* כחול של שורות המחברת */
+  --highlight: #f8dd6b;    /* מרקר צהוב */
+  --rule: rgb(120 150 210 / .22);
+  --focus: #162b6b;
 
   --script: "Gveret Levin", "Rubik", sans-serif;
   --display: "Rubik", "Assistant", system-ui, sans-serif;
   --sans: "Assistant", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 
-  --shadow-soft: 0 1px 2px rgb(60 40 25 / .06), 0 12px 32px -12px rgb(60 40 25 / .18);
+  --shadow-soft: 0 1px 2px rgb(20 30 60 / .06), 0 12px 32px -12px rgb(20 30 60 / .18);
   --ease: cubic-bezier(.22, .61, .36, 1);
 }
 
@@ -80,7 +84,7 @@ main:focus { outline: none; }
 }
 
 /* ---------- משטחי דפדפן ---------- */
-::selection { background: #ecd9b8; color: var(--ink); }
+::selection { background: var(--highlight); color: var(--ink); }
 html { scrollbar-color: var(--gold-soft) var(--cream); }
 
 /* ---------- הדר קבוע: שם, ניווט לחלקי הדף, וכפתור וואטסאפ משמאל ---------- */
@@ -89,10 +93,10 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   top: 0;
   z-index: 50;
   background: var(--cream);
-  border-bottom: 1px solid rgb(217 195 155 / .7);
+  border-bottom: 1px solid rgb(150 170 215 / .7);
   transition: box-shadow .3s ease;
 }
-.site-header.is-scrolled { box-shadow: 0 10px 24px -18px rgb(60 40 25 / .35); }
+.site-header.is-scrolled { box-shadow: 0 10px 24px -18px rgb(20 30 60 / .35); }
 .header-inner {
   display: flex;
   align-items: center;
@@ -165,8 +169,8 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   inset-inline: 0;
   top: 100%;
   background: var(--cream);
-  border-bottom: 1px solid rgb(217 195 155 / .7);
-  box-shadow: 0 18px 30px -22px rgb(60 40 25 / .45);
+  border-bottom: 1px solid rgb(150 170 215 / .7);
+  box-shadow: 0 18px 30px -22px rgb(20 30 60 / .45);
   padding: .5rem 1.25rem 1rem;
   display: none;
 }
@@ -277,19 +281,19 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
 .btn-primary {
   background: var(--terracotta);
   color: #fff;
-  box-shadow: 0 8px 22px -10px rgb(138 62 38 / .55);
+  box-shadow: 0 8px 22px -10px rgb(31 58 138 / .55);
 }
 @media (hover: hover) {
   .btn-primary:hover {
     background: var(--terracotta-dark);
     transform: translateY(-1px);
-    box-shadow: 0 12px 26px -10px rgb(138 62 38 / .6);
+    box-shadow: 0 12px 26px -10px rgb(31 58 138 / .6);
   }
 }
 .btn-primary:active {
   background: var(--terracotta-dark);
   transform: scale(.98);
-  box-shadow: 0 4px 12px -8px rgb(138 62 38 / .6);
+  box-shadow: 0 4px 12px -8px rgb(31 58 138 / .6);
   transition-duration: .08s;
 }
 
@@ -321,7 +325,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   content: "";
   position: absolute;
   inset: .55rem;
-  border: 1.5px solid rgb(217 195 155 / .95);
+  border: 1.5px solid rgb(150 170 215 / .95);
   border-radius: 50% 50% 10px 10px / 12% 12% 10px 10px;
   pointer-events: none;
 }
@@ -337,7 +341,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   padding: .7rem 1.25rem calc(.7rem + env(safe-area-inset-bottom));
   background: var(--cream);
   border-top: 1px solid var(--gold-soft);
-  box-shadow: 0 -10px 24px -16px rgb(60 40 25 / .35);
+  box-shadow: 0 -10px 24px -16px rgb(20 30 60 / .35);
   transform: translateY(110%);
   visibility: hidden;
   transition: transform .5s var(--ease), visibility 0s linear .5s;
@@ -504,7 +508,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   padding: .6rem;
   border-radius: 2.8rem;
   background: linear-gradient(160deg, #3a2f29, #1f1916);
-  box-shadow: 0 2px 0 1px rgb(255 255 255 / .06) inset, 0 30px 60px -28px rgb(60 40 25 / .55), 0 12px 24px -16px rgb(60 40 25 / .35);
+  box-shadow: 0 2px 0 1px rgb(255 255 255 / .06) inset, 0 30px 60px -28px rgb(20 30 60 / .55), 0 12px 24px -16px rgb(20 30 60 / .35);
 }
 .phone-screen {
   position: relative;
@@ -514,7 +518,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   height: min(38rem, 78dvh);
   border-radius: 2.2rem;
   overflow: hidden;
-  background: #efe5d3 url("/images/chat-pattern.svg") 0 0 / 72px 72px;
+  background: #f3f1ea url("/images/chat-pattern.svg") 0 0 / 72px 72px;
 }
 /* "האי" למעלה */
 .phone-screen::before {
@@ -536,7 +540,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   gap: .65rem;
   padding: 2.2rem .9rem .7rem;
   background: var(--cream);
-  border-bottom: 1px solid rgb(217 195 155 / .7);
+  border-bottom: 1px solid rgb(150 170 215 / .7);
   z-index: 2;
 }
 .chat-avatar {
@@ -558,7 +562,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   color: var(--terracotta);
   cursor: pointer;
 }
-.chat-toggle:hover { background: rgb(138 62 38 / .08); }
+.chat-toggle:hover { background: rgb(31 58 138 / .08); }
 .chat-toggle svg { width: 1.05rem; height: 1.05rem; display: none; }
 .chat-toggle[data-state="idle"] .i-play,
 .chat-toggle[data-state="playing"] .i-pause,
@@ -585,10 +589,10 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   margin: 0;
   max-width: 92%;
   padding: .6rem .8rem .7rem;
-  background: #fffdf9;
+  background: #ffffff;
   border-radius: 14px;
   border-start-start-radius: 3px;
-  box-shadow: 0 1px 1.5px rgb(60 40 25 / .14);
+  box-shadow: 0 1px 1.5px rgb(20 30 60 / .14);
 }
 .msg-bubble::before {
   content: "";
@@ -597,7 +601,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   inset-inline-start: -7px;
   width: 8px;
   height: 11px;
-  background: #fffdf9;
+  background: #ffffff;
   clip-path: polygon(0 0, 100% 0, 100% 100%);
 }
 .msg-from { font-size: .82rem; font-weight: 700; color: var(--terracotta); margin-bottom: .1rem; }
@@ -620,10 +624,10 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   margin-top: .7rem;
   margin-inline-start: 8px;
   padding: .7rem .9rem;
-  background: #fffdf9;
+  background: #ffffff;
   border-radius: 14px;
   border-start-start-radius: 3px;
-  box-shadow: 0 1px 1.5px rgb(60 40 25 / .14);
+  box-shadow: 0 1px 1.5px rgb(20 30 60 / .14);
   opacity: 0;
   transform: translateY(6px);
   transition: opacity .25s ease, transform .25s ease;
@@ -685,7 +689,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
 .final-cta {
   background: var(--cream-deep);
   padding-block: 5rem;
-  border-top: 1px solid rgb(217 195 155 / .6);
+  border-top: 1px solid rgb(150 170 215 / .6);
 }
 .final-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.1rem; }
 .final-title {
@@ -701,7 +705,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
 .btn-lg { min-height: 3.6rem; padding-inline: 2.25rem; font-size: 1.12rem; border-radius: 1.8rem; }
 
 /* ---------- פוטר ---------- */
-.site-footer { padding-block: 3rem 2.5rem; border-top: 1px solid rgb(217 195 155 / .6); }
+.site-footer { padding-block: 3rem 2.5rem; border-top: 1px solid rgb(150 170 215 / .6); }
 .footer-inner { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center; }
 .wordmark-sm .wordmark-name { font-size: 1.8rem; }
 .wordmark-sm .wordmark-flourish { width: 6rem; }
@@ -767,7 +771,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   max-width: 88%;
   margin: 0;
   padding: .8rem 1rem;
-  background: #f6e3d6;
+  background: #dfe7f8;
   color: var(--ink);
   text-align: start;
   font-size: 1.02rem;
@@ -775,7 +779,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   border-radius: 18px;
   border-start-end-radius: 18px;
   border-end-end-radius: 4px;
-  box-shadow: 0 1px 1px rgb(60 40 25 / .06), 0 6px 16px -10px rgb(60 40 25 / .25);
+  box-shadow: 0 1px 1px rgb(20 30 60 / .06), 0 6px 16px -10px rgb(20 30 60 / .25);
 }
 .btn-send { width: 100%; }
 
@@ -871,7 +875,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
     margin-top: -.55rem;
     color: var(--gold);
     /* הידית יושבת על המסילה בשוליים, והאצבע מצביעה אל התוכן */
-    filter: drop-shadow(0 2px 3px rgb(60 40 25 / .18));
+    filter: drop-shadow(0 2px 3px rgb(20 30 60 / .18));
   }
 }
 
@@ -914,7 +918,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   border: 0; border-radius: 50%;
   background: var(--terracotta-dark);
   color: #fff;
-  box-shadow: 0 6px 16px -8px rgb(60 40 25 / .6);
+  box-shadow: 0 6px 16px -8px rgb(20 30 60 / .6);
   cursor: pointer;
 }
 .a11y-fab svg { width: 1.5rem; height: 1.5rem; }
@@ -931,7 +935,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   background: var(--cream);
   border: 1px solid var(--gold-soft);
   border-radius: 14px;
-  box-shadow: 0 18px 40px -18px rgb(60 40 25 / .45);
+  box-shadow: 0 18px 40px -18px rgb(20 30 60 / .45);
 }
 .a11y-panel[hidden] { display: none; }
 .a11y-panel-title { margin: 0 0 .25rem; font-family: var(--display); font-weight: 500; font-size: 1.15rem; color: var(--ink); }
@@ -941,7 +945,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   min-height: 44px;
   border: 1px solid var(--gold-soft);
   border-radius: 10px;
-  background: #fffdf9;
+  background: #ffffff;
   color: var(--ink);
   font: 600 .95rem/1.2 var(--sans);
   cursor: pointer;
@@ -962,10 +966,12 @@ html.a11y-contrast {
   --cream-deep: #ffffff;
   --ink: #000000;
   --muted: #1f1f1f;
-  --terracotta: #6b220e;
-  --terracotta-dark: #4a1708;
-  --gold: #5a4520;
-  --gold-soft: #5a4520;
+  --terracotta: #0f1f5c;
+  --terracotta-dark: #0a1540;
+  --gold: #8f1d10;
+  --gold-soft: #333333;
+  --highlight: #ffe14d;
+  --rule: transparent;
 }
 html.a11y-contrast .phone-screen { background: #ffffff; }
 html.a11y-contrast .msg-bubble, html.a11y-contrast .msg-bubble::before, html.a11y-contrast .chat-typing { background: #ffffff; outline: 1px solid #000; }
@@ -999,7 +1005,7 @@ html.intro-on .hero-title .line, html.intro-on .arch img { animation-play-state:
   position: absolute;
   inset: -20%;
   background:
-    radial-gradient(circle at 50% 45%, #ffffff 0, #fffaf0 18%, #fbecc9 38%, rgb(240 214 160 / .55) 58%, rgb(251 246 238 / 0) 78%),
+    radial-gradient(circle at 50% 45%, #ffffff 0, #fffaf0 18%, #fbecc9 38%, rgb(240 214 160 / .55) 58%, rgb(253 252 247 / 0) 78%),
     var(--cream);
   opacity: var(--light, .35);
   transform: scale(var(--light-scale, 1));
@@ -1107,16 +1113,16 @@ html, body { overflow-x: clip; }
   width: 1.45em;
   height: 2.9em;
   z-index: 2;
-  color: #9a7337;
+  color: var(--terracotta);
   pointer-events: none;
   opacity: 0;
   /* קצה האצבע צמוד למילה, והיד מוטה 35° שמאלה ממנו (הידית לכיוון ימין-למטה) */
   transform-origin: 50% 0;
   transform: translate(calc(var(--x, 0px) - 50%), var(--y, 0px)) rotate(-35deg);
   transition: transform .28s cubic-bezier(.22, .61, .36, 1), opacity .3s ease;
-  filter: drop-shadow(0 0 1.5px var(--cream)) drop-shadow(0 2px 3px rgb(60 40 25 / .25));
+  filter: drop-shadow(0 0 1.5px var(--cream)) drop-shadow(0 2px 3px rgb(20 30 60 / .25));
 }
-.story .yad-word { filter: drop-shadow(0 0 1.5px var(--cream-deep)) drop-shadow(0 2px 3px rgb(60 40 25 / .25)); }
+.story .yad-word { filter: drop-shadow(0 0 1.5px var(--cream-deep)) drop-shadow(0 2px 3px rgb(20 30 60 / .25)); }
 .yad-word.is-on { opacity: 1; }
 .story-lead .yad-word { width: 1em; height: 2em; }
 .yw { transition: color .3s ease; }
@@ -1172,3 +1178,118 @@ html { scroll-padding-top: 4.5rem; }
 @media (max-height: 30rem) { .sticky-cta { display: none; } }
 @keyframes rise { from { opacity: .001; transform: translateY(.35em); } to { opacity: 1; transform: none; } }
 @keyframes settle { from { transform: scale(1.04); } to { transform: none; } }
+
+/* =====================================================================
+   עולם המחברת של האח הגדול
+   נייר עם שורות כחולות וקו שוליים אדום בצד ימין, מרקר צהוב, הערות בעט אדום
+   בכתב היד של אורן, תמונות פולארויד מודבקות, וכפתורים כמו מדבקות.
+   ===================================================================== */
+
+/* נייר: שורות וקו שוליים. הקו בצד ימין, כמו במחברת בעברית */
+body, .story, .words, .final-cta {
+  background-image:
+    linear-gradient(90deg, transparent calc(100% - .7rem), rgb(214 69 58 / .45) calc(100% - .7rem), rgb(214 69 58 / .45) calc(100% - .7rem + 1.5px), transparent calc(100% - .7rem + 1.5px)),
+    repeating-linear-gradient(180deg, transparent 0 calc(2rem - 1px), var(--rule) calc(2rem - 1px) 2rem);
+}
+@media (min-width: 56rem) {
+  body, .story, .words, .final-cta {
+    background-image:
+      linear-gradient(90deg, transparent calc(100% - 3rem), rgb(214 69 58 / .45) calc(100% - 3rem), rgb(214 69 58 / .45) calc(100% - 3rem + 1.5px), transparent calc(100% - 3rem + 1.5px)),
+      repeating-linear-gradient(180deg, transparent 0 calc(2rem - 1px), var(--rule) calc(2rem - 1px) 2rem);
+  }
+}
+/* דף חדש: קו ניקוב בראש הסקשנים בגוון השני */
+.story, .words, .final-cta { border-top: 2px dashed rgb(150 170 215 / .8); }
+.site-header { background: var(--cream); }
+
+/* כותרות עם מרקר צהוב */
+.hero-title .accent { color: var(--terracotta); }
+.hl {
+  padding-inline: .12em;
+  background: linear-gradient(transparent 56%, var(--highlight) 56% 90%, transparent 90%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* הערה בעט אדום, בכתב היד של אורן */
+.hero-note {
+  margin: -1rem 0 1.5rem;
+  font-family: var(--script);
+  font-size: 1.7rem;
+  line-height: 1.2;
+  color: var(--gold);
+  transform: rotate(-3deg);
+}
+@media (min-width: 56rem) { .hero-note { margin-top: -1.5rem; font-size: 2rem; } }
+
+/* כפתורים כמו מדבקות: כחול עם צל צהוב */
+.btn { border-radius: 12px; }
+.btn-primary { background: var(--terracotta); box-shadow: 3px 3px 0 var(--highlight); }
+@media (hover: hover) {
+  .btn-primary:hover { background: var(--terracotta-dark); box-shadow: 5px 5px 0 var(--highlight); transform: translate(-1px, -1px); }
+}
+.btn-primary:active { box-shadow: 1px 1px 0 var(--highlight); transform: translate(1px, 1px); }
+.header-cta { border-radius: 12px; }
+
+/* תמונות פולארויד עם סלוטייפ */
+.polaroid {
+  border-radius: 3px;
+  overflow: visible;
+  background: #ffffff;
+  padding: .6rem .6rem 2.8rem;
+  box-shadow: 0 16px 30px -16px rgb(20 30 60 / .5);
+  transform: rotate(1.5deg);
+}
+.polaroid-tilt { transform: rotate(-2deg); }
+.polaroid picture { display: block; overflow: hidden; }
+.polaroid img { border-radius: 0; }
+.polaroid::after {
+  inset: auto;
+  top: -.8rem;
+  left: 50%;
+  width: 6.5rem;
+  height: 1.7rem;
+  margin-left: -3.25rem;
+  border: 0;
+  border-radius: 2px;
+  background: rgb(248 221 107 / .75);
+  transform: rotate(-4deg);
+}
+.polaroid-cap {
+  position: absolute;
+  bottom: .55rem;
+  inset-inline-start: 1rem;
+  font-family: var(--script);
+  font-size: 1.45rem;
+  line-height: 1;
+  color: var(--terracotta);
+}
+
+/* שלושת הצעדים כרשימת משימות במחברת */
+.steps::before { background: repeating-linear-gradient(180deg, var(--gold-soft) 0 6px, transparent 6px 11px); }
+@media (min-width: 56rem) {
+  .steps::before { background: repeating-linear-gradient(90deg, var(--gold-soft) 0 6px, transparent 6px 11px); }
+}
+.step-mark { border-radius: 8px; border-width: 2px; border-color: var(--terracotta); background: var(--cream); }
+.step.is-active .step-mark { background: var(--terracotta); border-color: var(--terracotta); color: #fff; box-shadow: 2px 2px 0 var(--highlight); }
+
+/* הפסוק על פתק צהוב */
+.verse {
+  background: #fff4b8;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 10px 18px -12px rgb(20 30 60 / .45);
+}
+
+/* פסקת הבידול: המשפט בכתב יד בעט אדום */
+.story-turn { color: var(--gold); }
+.story-body strong { color: var(--terracotta); }
+.about-sub { color: var(--gold); }
+.about-proof { color: var(--terracotta-dark); }
+.signature { color: var(--terracotta); }
+
+/* שיחת הוואטסאפ: בועה יוצאת בכחול בהיר */
+.compose-avatar { box-shadow: 0 0 0 2px var(--cream), 0 0 0 3px var(--terracotta); }
+.chat-avatar { box-shadow: 0 0 0 2px var(--cream), 0 0 0 3px var(--terracotta); }
+
+html.a11y-contrast body, html.a11y-contrast .story, html.a11y-contrast .words, html.a11y-contrast .final-cta { background-image: none; }
