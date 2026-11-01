@@ -61,6 +61,101 @@ function motionOK() {
 }
 
 // ---------------------------------------------------------------------------
+// פתיחה: פרוכת על כל המסך. גוררים ימינה (מגע/עכבר), גוללים, או לוחצים על הכפתור.
+// כשהיא נפתחת, האור שמאחוריה מתפשט והאתר עולה דרכו.
+// לא מוצגת עם "הפחתת תנועה"/"עצירת אנימציות", או אם כבר נפתחה בביקור הזה (sessionStorage).
+// ---------------------------------------------------------------------------
+(function () {
+  var intro = document.querySelector('[data-intro]');
+  if (!intro) return;
+  var root = document.documentElement;
+  var seen = false;
+  try { seen = sessionStorage.getItem('intro-seen') === '1'; } catch (e) {}
+  if (!motionOK() || seen) { intro.remove(); return; }
+
+  var curtain = intro.querySelector('[data-intro-curtain]');
+  var openBtn = intro.querySelector('[data-intro-open]');
+  var others = Array.prototype.filter.call(document.body.children, function (el) { return el !== intro && el.tagName !== 'SCRIPT'; });
+
+  root.classList.add('intro-on');
+  others.forEach(function (el) { el.inert = true; });
+  curtain.classList.add('is-idle');
+  setTimeout(function () { openBtn.focus({ preventScroll: true }); }, 50);
+
+  var opened = false;
+  function setDx(px) {
+    curtain.style.setProperty('--dx', px + 'px');
+    var p = Math.min(px / window.innerWidth, 1);
+    intro.style.setProperty('--light', (0.35 + p * 0.65).toFixed(3));
+    intro.style.setProperty('--light-scale', (1 + p * 0.5).toFixed(3));
+  }
+
+  function open() {
+    if (opened) return;
+    opened = true;
+    curtain.classList.remove('is-idle', 'is-dragging', 'is-settling');
+    curtain.classList.add('is-opening');
+    setTimeout(function () { intro.classList.add('is-bright'); }, 350);
+    setTimeout(function () {
+      intro.classList.add('is-done');
+      root.classList.remove('intro-on');
+      others.forEach(function (el) { el.inert = false; });
+      var main = document.getElementById('main');
+      if (main) main.focus({ preventScroll: true });
+    }, 1150);
+    setTimeout(function () { intro.remove(); }, 2400);
+    try { sessionStorage.setItem('intro-seen', '1'); } catch (e) {}
+  }
+
+  // גרירה
+  var startX = 0, dx = 0, dragging = false, lastX = 0, lastT = 0, v = 0;
+  curtain.addEventListener('pointerdown', function (e) {
+    if (opened || e.target === openBtn) return;
+    dragging = true; startX = lastX = e.clientX; lastT = e.timeStamp; dx = 0; v = 0;
+    curtain.classList.remove('is-idle', 'is-settling');
+    curtain.classList.add('is-dragging');
+    curtain.setPointerCapture(e.pointerId);
+  });
+  curtain.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    dx = Math.max(0, e.clientX - startX);
+    var dt = e.timeStamp - lastT;
+    if (dt > 0) v = (e.clientX - lastX) / dt;
+    lastX = e.clientX; lastT = e.timeStamp;
+    setDx(dx);
+  });
+  function release() {
+    if (!dragging) return;
+    dragging = false;
+    curtain.classList.remove('is-dragging');
+    if (dx > window.innerWidth * 0.25 || v > 0.6) { setDx(0); open(); }
+    else { curtain.classList.add('is-settling'); setDx(0); }
+  }
+  curtain.addEventListener('pointerup', release);
+  curtain.addEventListener('pointercancel', release);
+
+  // גלילה בגלגלת או במשטח מגע
+  var acc = 0, wheelTimer = null;
+  intro.addEventListener('wheel', function (e) {
+    if (opened) return;
+    e.preventDefault();
+    curtain.classList.remove('is-idle', 'is-settling');
+    acc = Math.max(0, acc + Math.abs(e.deltaY) + Math.abs(e.deltaX));
+    setDx(Math.min(acc, window.innerWidth));
+    if (acc > window.innerWidth * 0.25) { setDx(0); open(); return; }
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(function () { if (!opened) { acc = 0; curtain.classList.add('is-settling'); setDx(0); } }, 400);
+  }, { passive: false });
+
+  // מקלדת
+  openBtn.addEventListener('click', open);
+  document.addEventListener('keydown', function (e) {
+    if (opened) return;
+    if (e.key === 'ArrowRight' || e.key === 'Escape' || e.key === 'PageDown' || e.key === ' ' && e.target !== openBtn) { e.preventDefault(); open(); }
+  });
+})();
+
+// ---------------------------------------------------------------------------
 // כפתור וואטסאפ קבוע: פס תחתון במובייל, פס עליון במחשב.
 // מופיעים כשכפתור ההירו כבר מעל המסך, ונעלמים כשמגיעים לאזור data-hide-sticky.
 // ---------------------------------------------------------------------------

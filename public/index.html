@@ -27,6 +27,7 @@
   <link rel="preload" href="/fonts/assistant-hebrew-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/gveret-levin-hebrew-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/styles.css">
+  <noscript><link rel="stylesheet" href="/css/nojs.css"></noscript>
   <script src="/js/main.js" defer></script>
   <!-- נתונים מובנים. בלי Review: ההמלצות בשמות בדויים -->
   <script type="application/ld+json">
@@ -56,6 +57,23 @@
       <circle cx="8" cy="1.6" r="1" fill="currentColor"/>
     </symbol>
   </svg>
+  <!-- פתיחה: פרוכת על כל המסך. גוררים אותה ימינה (או לוחצים על הכפתור), ומאחוריה נפתח אור שדרכו האתר עולה.
+       לא מוצגת בלי JS (css/nojs.css), עם "הפחתת תנועה", או אם כבר נפתחה בביקור הזה. -->
+  <div class="intro" data-intro>
+    <div class="intro-light" aria-hidden="true"></div>
+    <div class="intro-curtain" data-intro-curtain role="dialog" aria-modal="true" aria-labelledby="intro-label">
+      <div class="parochet" aria-hidden="true">
+        <svg class="parochet-crown" focusable="false"><use href="#crown"/></svg>
+        <span class="parochet-name">אורן מזרחי</span>
+        <span class="parochet-role">מלמד בר מצווה</span>
+      </div>
+      <div class="intro-hint">
+        <p id="intro-label" class="intro-hint-text">גררו את הפרוכת ימינה כדי להיכנס</p>
+        <svg class="intro-hand" aria-hidden="true" focusable="false" viewBox="0 0 48 24"><path d="M4 12h30m0 0-7-7m7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="42" cy="12" r="3" fill="currentColor"/></svg>
+        <button class="intro-open" type="button" data-intro-open>פתיחת הפרוכת</button>
+      </div>
+    </div>
+  </div>
   <a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
   <!-- רכיב נגישות (שלנו, בלי צד שלישי). ההגדרות נשמרות רק בדפדפן של הגולש -->
   <div class="a11y-tool" data-a11y-tool>
@@ -123,9 +141,7 @@
         </div>
 
         <figure class="hero-media">
-          <div class="arch arch-doors">
-            <span class="door door-r" aria-hidden="true"></span>
-            <span class="door door-l" aria-hidden="true"></span>
+          <div class="arch">
             <picture>
               <source type="image/webp" srcset="/images/hero-600.webp 600w, /images/hero-1000.webp 1000w" sizes="(min-width: 56rem) 34vw, 88vw">
               <img src="/images/hero-1000.jpg" srcset="/images/hero-600.jpg 600w, /images/hero-1000.jpg 1000w" sizes="(min-width: 56rem) 34vw, 88vw" width="1000" height="1250" alt="אורן מזרחי עומד ליד ילד עטוף בטלית ומניח תפילין, מול ארון הקודש, ושניהם מחייכים" fetchpriority="high">
