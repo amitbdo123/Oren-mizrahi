@@ -1354,8 +1354,8 @@ html.anim-on .polaroid.is-taped::after {
 /* מרקר עם שכבה לא אחידה וקצה עקום: שתי שכבות בזוויות שונות */
 .hl {
   background-image:
-    linear-gradient(-1.6deg, transparent 54%, var(--highlight) 54% 87%, transparent 87%),
-    linear-gradient(1.2deg, transparent 60%, rgb(248 221 107 / .55) 60% 93%, transparent 93%);
+    linear-gradient(178.4deg, transparent 55%, var(--highlight) 55% 89%, transparent 89%),
+    linear-gradient(181.2deg, transparent 60%, rgb(248 221 107 / .55) 60% 93%, transparent 93%);
   background-repeat: no-repeat, no-repeat;
   background-position: 100% 0, 100% 0;
   background-size: 100% 100%, 100% 100%;
