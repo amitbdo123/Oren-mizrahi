@@ -245,6 +245,149 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
 }
 .btn-block { display: flex; width: 100%; }
 
+/* ---------- פסקת הבידול ---------- */
+.story {
+  background: var(--cream-deep);
+  padding-block: 4.5rem;
+  scroll-margin-top: 1rem;
+}
+.story-inner { max-width: 40rem; text-align: center; }
+
+.story-lead {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.45rem, 5.6vw, 2.1rem);
+  line-height: 1.45;
+  color: var(--ink);
+  margin: 0 0 1.25rem;
+  text-wrap: balance;
+}
+.story-turn {
+  font-family: var(--script);
+  font-size: clamp(1.9rem, 7vw, 2.6rem);
+  line-height: 1.2;
+  color: var(--terracotta);
+  margin: 0;
+}
+.story-rule {
+  display: block;
+  width: 6.5rem;
+  height: .7rem;
+  margin: 1rem auto 1.75rem;
+  color: var(--gold);
+}
+.story-body {
+  font-size: 1.1rem;
+  line-height: 1.85;
+  margin: 0 auto 1.5rem;
+  max-width: 34rem;
+  text-wrap: pretty;
+}
+.story-body strong { font-weight: 700; color: var(--terracotta-dark); }
+
+.story-next { margin: 0; font-size: 1.05rem; color: var(--muted); }
+.story-next a {
+  color: var(--terracotta);
+  font-weight: 700;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .3em;
+  text-decoration-color: var(--gold);
+  white-space: nowrap;
+  transition: color .3s var(--ease), text-decoration-color .3s var(--ease);
+}
+.story-next a:hover { color: var(--terracotta-dark); text-decoration-color: currentColor; }
+
+/* ---------- איך זה עובד ---------- */
+.how { padding-block: 4.5rem 5rem; scroll-margin-top: 1rem; }
+
+.section-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 6vw, 2.6rem);
+  line-height: 1.2;
+  color: var(--ink);
+  text-align: center;
+  margin: 0 0 2.75rem;
+}
+
+/* שביל אנכי עם נקודות ציון, מהיכרות ועד העלייה לתורה */
+.steps {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 34rem;
+  position: relative;
+}
+.steps::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 1.25rem;
+  top: 1.25rem;
+  bottom: 1.25rem;
+  width: 1px;
+  background: linear-gradient(var(--gold-soft), var(--gold) 85%);
+}
+.step {
+  position: relative;
+  padding-inline-start: 4rem;
+  padding-bottom: 2.25rem;
+}
+.step:last-child { padding-bottom: 0; }
+.step-mark {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--cream);
+  border: 1px solid var(--gold);
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--terracotta);
+}
+.step-goal .step-mark { background: var(--terracotta); border-color: var(--terracotta); color: var(--gold-soft); }
+.step-goal .step-mark svg { width: 1rem; height: 1rem; }
+.step-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 1.3;
+  color: var(--terracotta);
+  margin: .2rem 0 .4rem;
+}
+.step p { margin: 0; color: var(--ink); text-wrap: pretty; }
+
+@media (min-width: 56rem) {
+  .story { padding-block: 6.5rem; }
+  .story-lead { font-size: 2.3rem; }
+  .how { padding-block: 6rem 7rem; }
+  .section-title { margin-bottom: 3.75rem; }
+
+  /* במחשב השביל אופקי, מימין לשמאל */
+  .steps {
+    max-width: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3rem;
+  }
+  .steps::before {
+    inset-inline: calc(100% / 6) calc(100% / 6);
+    top: 1.25rem;
+    bottom: auto;
+    width: auto;
+    height: 1px;
+    background: linear-gradient(to left, var(--gold-soft), var(--gold) 85%);
+  }
+  .step { padding: 0; text-align: center; }
+  .step-mark { position: relative; margin: 0 auto 1.25rem; }
+  .step p { max-width: 18rem; margin-inline: auto; }
+}
+
 /* מסכים צרים מאוד / הגדלה של 200% */
 @media (max-width: 20rem) {
   .btn { padding-inline: 1rem; }
