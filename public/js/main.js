@@ -296,6 +296,14 @@ function motionOK() {
   });
   // מי שנכנס לאזור ההודעות במקלדת כדי לקרוא: עוצרים, כדי שהשיחה לא תגלול לו מתחת לידיים
   body.addEventListener('focusin', function () { if (state === 'playing') pause(); });
+  // במחשב (עכבר): כשהעכבר מעל הטלפון השיחה עוצרת כדי שאפשר יהיה לקרוא, וממשיכה כשהוא יוצא.
+  // במובייל אין ריחוף, ולכן ההתנהגות שם לא משתנה.
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    var hoverPaused = false;
+    phone.addEventListener('mouseenter', function () { if (state === 'playing') { pause(); hoverPaused = true; } });
+    phone.addEventListener('mouseleave', function () { if (hoverPaused && state === 'paused') play(); hoverPaused = false; });
+    toggle.addEventListener('click', function () { hoverPaused = false; });
+  }
 
   // "עצירת אנימציות" באמצע השיחה: מורידים את העותקים, מציגים את ההודעות המקוריות ועוצרים
   document.addEventListener('a11y:still', function () {
