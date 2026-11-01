@@ -61,6 +61,101 @@ function motionOK() {
 }
 
 // ---------------------------------------------------------------------------
+// פתיחה: פרוכת על כל המסך. גוררים ימינה (מגע/עכבר), גוללים, או לוחצים על הכפתור.
+// כשהיא נפתחת, האור שמאחוריה מתפשט והאתר עולה דרכו.
+// לא מוצגת עם "הפחתת תנועה"/"עצירת אנימציות", או אם כבר נפתחה בביקור הזה (sessionStorage).
+// ---------------------------------------------------------------------------
+(function () {
+  var intro = document.querySelector('[data-intro]');
+  if (!intro) return;
+  var root = document.documentElement;
+  var seen = false;
+  try { seen = sessionStorage.getItem('intro-seen') === '1'; } catch (e) {}
+  if (!motionOK() || seen) { intro.remove(); return; }
+
+  var curtain = intro.querySelector('[data-intro-curtain]');
+  var openBtn = intro.querySelector('[data-intro-open]');
+  var others = Array.prototype.filter.call(document.body.children, function (el) { return el !== intro && el.tagName !== 'SCRIPT'; });
+
+  root.classList.add('intro-on');
+  others.forEach(function (el) { el.inert = true; });
+  curtain.classList.add('is-idle');
+  setTimeout(function () { openBtn.focus({ preventScroll: true }); }, 50);
+
+  var opened = false;
+  function setDx(px) {
+    curtain.style.setProperty('--dx', px + 'px');
+    var p = Math.min(px / window.innerWidth, 1);
+    intro.style.setProperty('--light', (0.35 + p * 0.65).toFixed(3));
+    intro.style.setProperty('--light-scale', (1 + p * 0.5).toFixed(3));
+  }
+
+  function open() {
+    if (opened) return;
+    opened = true;
+    curtain.classList.remove('is-idle', 'is-dragging', 'is-settling');
+    curtain.classList.add('is-opening');
+    setTimeout(function () { intro.classList.add('is-bright'); }, 350);
+    setTimeout(function () {
+      intro.classList.add('is-done');
+      root.classList.remove('intro-on');
+      others.forEach(function (el) { el.inert = false; });
+      var main = document.getElementById('main');
+      if (main) main.focus({ preventScroll: true });
+    }, 1150);
+    setTimeout(function () { intro.remove(); }, 2400);
+    try { sessionStorage.setItem('intro-seen', '1'); } catch (e) {}
+  }
+
+  // גרירה
+  var startX = 0, dx = 0, dragging = false, lastX = 0, lastT = 0, v = 0;
+  curtain.addEventListener('pointerdown', function (e) {
+    if (opened || e.target === openBtn) return;
+    dragging = true; startX = lastX = e.clientX; lastT = e.timeStamp; dx = 0; v = 0;
+    curtain.classList.remove('is-idle', 'is-settling');
+    curtain.classList.add('is-dragging');
+    curtain.setPointerCapture(e.pointerId);
+  });
+  curtain.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    dx = Math.max(0, e.clientX - startX);
+    var dt = e.timeStamp - lastT;
+    if (dt > 0) v = (e.clientX - lastX) / dt;
+    lastX = e.clientX; lastT = e.timeStamp;
+    setDx(dx);
+  });
+  function release() {
+    if (!dragging) return;
+    dragging = false;
+    curtain.classList.remove('is-dragging');
+    if (dx > window.innerWidth * 0.25 || v > 0.6) { setDx(0); open(); }
+    else { curtain.classList.add('is-settling'); setDx(0); }
+  }
+  curtain.addEventListener('pointerup', release);
+  curtain.addEventListener('pointercancel', release);
+
+  // גלילה בגלגלת או במשטח מגע
+  var acc = 0, wheelTimer = null;
+  intro.addEventListener('wheel', function (e) {
+    if (opened) return;
+    e.preventDefault();
+    curtain.classList.remove('is-idle', 'is-settling');
+    acc = Math.max(0, acc + Math.abs(e.deltaY) + Math.abs(e.deltaX));
+    setDx(Math.min(acc, window.innerWidth));
+    if (acc > window.innerWidth * 0.25) { setDx(0); open(); return; }
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(function () { if (!opened) { acc = 0; curtain.classList.add('is-settling'); setDx(0); } }, 400);
+  }, { passive: false });
+
+  // מקלדת
+  openBtn.addEventListener('click', open);
+  document.addEventListener('keydown', function (e) {
+    if (opened) return;
+    if (e.key === 'ArrowRight' || e.key === 'Escape' || e.key === 'PageDown' || e.key === ' ' && e.target !== openBtn) { e.preventDefault(); open(); }
+  });
+})();
+
+// ---------------------------------------------------------------------------
 // כפתור וואטסאפ קבוע: פס תחתון במובייל, פס עליון במחשב.
 // מופיעים כשכפתור ההירו כבר מעל המסך, ונעלמים כשמגיעים לאזור data-hide-sticky.
 // ---------------------------------------------------------------------------
@@ -101,10 +196,10 @@ function motionOK() {
 })();
 
 // ---------------------------------------------------------------------------
-// שיחת ההמלצות בטלפון של אורן: "מקליד...", הודעה נכנסת, והשיחה גוללת אליה.
-// זמן ההמתנה לכל הודעה לפי האורך שלה, כדי שיהיה זמן לקרוא.
-// כפתור השהיה/המשך/שוב (WCAG 2.2.2). גלילה מעל הטלפון לא עוצרת את השיחה.
-// בלי JS או עם "הפחתת תנועה": כל ההודעות מוצגות, ואפשר לגלול בתוך הטלפון.
+// שיחת ההמלצות בטלפון של אורן, בקצב של חצי שנייה לכל שלב:
+// ריק -> הקלדה -> הודעה -> הקלדה -> הודעה ... וכשההודעות נגמרות, השיחה ממשיכה
+// ושולחת שוב את אותן הודעות, בלולאה. העותקים החוזרים מוסתרים מקוראי מסך.
+// כפתור השהיה/המשך (WCAG 2.2.2). בלי JS או עם "הפחתת תנועה": כל ההודעות מוצגות בלי תנועה.
 // ---------------------------------------------------------------------------
 (function () {
   var body = document.querySelector('[data-chat-body]');
@@ -112,6 +207,10 @@ function motionOK() {
   if (!body || !toggle || !('IntersectionObserver' in window)) return;
   if (!motionOK()) return;
 
+  var STEP = 500;          // חצי שנייה בין כל שלב
+  var MAX_REPEATS = 8;     // כמה עותקים חוזרים נשארים בשיחה לכל היותר
+
+  var list = body.querySelector('.chat-list');
   var msgs = Array.prototype.slice.call(body.querySelectorAll('[data-msg]'));
   var typing = body.querySelector('.chat-typing');
   var label = toggle.querySelector('[data-chat-toggle-label]');
@@ -120,71 +219,70 @@ function motionOK() {
   phone.classList.add('chat-live');
   toggle.hidden = false;
 
-  var i = 0, timer = null, state = 'idle', phase = 'type';
+  var i = 0, timer = null, state = 'idle', phase = 'wait', repeats = [];
 
-  var LABELS = { idle: 'הפעלת ההודעות', playing: 'השהיית ההודעות', paused: 'המשך ההודעות', done: 'הצגת ההודעות מההתחלה' };
+  var LABELS = { idle: 'הפעלת ההודעות', playing: 'השהיית ההודעות', paused: 'המשך ההודעות' };
   function setState(s) {
     state = s;
-    toggle.dataset.state = s;
+    toggle.dataset.state = s === 'idle' ? 'paused' : s;
     label.textContent = LABELS[s] || '';
   }
 
-  // כמו בוואטסאפ: גוללים לתחתית. הודעה ארוכה מהמסך? גוללים לתחילתה כדי לקרוא מההתחלה.
-  function scrollToEl(el) {
-    var bottom = body.scrollHeight - body.clientHeight;
-    var top = el.offsetTop - body.offsetTop - 12;
-    body.scrollTo({ top: Math.max(Math.min(bottom, top), 0), behavior: 'smooth' });
-  }
+  function toBottom() { body.scrollTo({ top: body.scrollHeight, behavior: 'smooth' }); }
 
-  function holdFor(m) {
-    var n = m.textContent.trim().length;
-    return Math.min(Math.max(n * 28, 3200), 7500);
+  // ההודעה הבאה: קודם המקוריות, ואחר כך עותקים חוזרים שלהן
+  function nextMessage() {
+    var n = msgs.length;
+    if (i < n) return msgs[i];
+    var copy = msgs[i % n].cloneNode(true);
+    copy.classList.remove('is-shown');
+    copy.removeAttribute('data-msg');
+    copy.setAttribute('aria-hidden', 'true');
+    list.appendChild(copy);
+    repeats.push(copy);
+    if (repeats.length > MAX_REPEATS) repeats.shift().remove();
+    return copy;
   }
 
   function tick() {
     if (state !== 'playing') return;
-    if (i >= msgs.length) { typing.classList.remove('is-on'); setState('done'); return; }
-    if (phase === 'type') {
+    if (phase === 'wait') {            // שיחה ריקה / רגע אחרי הודעה
+      phase = 'type';
+      timer = setTimeout(tick, STEP);
+    } else if (phase === 'type') {     // הקלדה
       typing.classList.add('is-on');
-      body.scrollTo({ top: body.scrollHeight, behavior: 'smooth' });
+      toBottom();
       phase = 'show';
-      timer = setTimeout(tick, i === 0 ? 900 : 1300);
-    } else {
+      timer = setTimeout(tick, STEP);
+    } else {                           // הודעה
       typing.classList.remove('is-on');
-      var m = msgs[i];
+      var m = nextMessage();
+      // מכריחים חישוב כדי שהמעבר יתחיל מהמצב הסגור גם בעותק חדש
+      void m.offsetHeight;
       m.classList.add('is-shown');
-      setTimeout(function () { scrollToEl(m); }, 80);
+      setTimeout(toBottom, 60);
       i++;
       phase = 'type';
-      timer = setTimeout(tick, holdFor(m));
+      timer = setTimeout(tick, STEP);
     }
   }
 
   function play() { setState('playing'); clearTimeout(timer); tick(); }
   function pause() { clearTimeout(timer); typing.classList.remove('is-on'); if (phase === 'show') phase = 'type'; setState('paused'); }
-  function restart() {
-    msgs.forEach(function (m) { m.classList.remove('is-shown'); });
-    i = 0; phase = 'type';
-    body.scrollTo({ top: 0 });
-    play();
-  }
-  function showAll() { msgs.forEach(function (m) { m.classList.add('is-shown'); }); i = msgs.length; }
 
   toggle.addEventListener('click', function () {
-    if (state === 'idle') play();
-    else if (state === 'playing') pause();
-    else if (state === 'paused') play();
-    else restart();
+    if (state === 'playing') pause(); else play();
   });
 
-  // "עצירת אנימציות" באמצע השיחה: מציגים הכול ועוצרים
+  // "עצירת אנימציות" באמצע השיחה: מורידים את העותקים, מציגים את ההודעות המקוריות ועוצרים
   document.addEventListener('a11y:still', function () {
     clearTimeout(timer);
     typing.classList.remove('is-on');
-    showAll();
+    repeats.forEach(function (r) { r.remove(); });
+    msgs.forEach(function (m) { m.classList.add('is-shown'); });
     phone.classList.remove('chat-live');
     toggle.hidden = true;
-    state = 'done';
+    state = 'stopped';
   });
 
   setState('idle');
@@ -260,5 +358,84 @@ function motionOK() {
     if (!ticking) { ticking = true; requestAnimationFrame(update); }
   }, { passive: true });
   window.addEventListener('resize', update);
+  update();
+})();
+
+// ---------------------------------------------------------------------------
+// יד לקריאה בתורה בטקסטים הרציפים: מצביעה מלמטה על מילה אחרי מילה, לפי קצב הגלילה.
+// היד נמצאת מתחת למילה ולא מכסה אותה. בלי JS, או עם "הפחתת תנועה"/"עצירת אנימציות": אין יד.
+// ---------------------------------------------------------------------------
+(function () {
+  var targets = Array.prototype.slice.call(document.querySelectorAll('[data-yad-text]'));
+  if (!targets.length || !motionOK()) return;
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  function wrapWords(el) {
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (node) {
+      var parts = node.nodeValue.split(/(\s+)/);
+      if (parts.length < 2 && !parts[0].trim()) return;
+      var frag = document.createDocumentFragment();
+      parts.forEach(function (part) {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+        var span = document.createElement('span');
+        span.className = 'yw';
+        span.textContent = part;
+        frag.appendChild(span);
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+    return Array.prototype.slice.call(el.querySelectorAll('.yw'));
+  }
+
+  var items = targets.map(function (el) {
+    var words = wrapWords(el);
+    el.classList.add('yad-text');
+    var svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('class', 'yad-word');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    var use = document.createElementNS(SVGNS, 'use');
+    use.setAttribute('href', '#yad-up');
+    svg.appendChild(use);
+    el.appendChild(svg);
+    return { el: el, words: words, svg: svg, idx: -1 };
+  });
+
+  function place(item, i) {
+    if (item.idx === i) return;
+    if (item.idx >= 0) item.words[item.idx].classList.remove('is-cur');
+    item.idx = i;
+    var w = item.words[i];
+    w.classList.add('is-cur');
+    var tr = item.el.getBoundingClientRect();
+    var wr = w.getBoundingClientRect();
+    var x = wr.left + wr.width / 2 - tr.left;
+    var y = wr.bottom - tr.top + 1;
+    item.svg.style.setProperty('--x', x.toFixed(1) + 'px');
+    item.svg.style.setProperty('--y', y.toFixed(1) + 'px');
+  }
+
+  function update() {
+    var line = window.innerHeight * 0.6;
+    items.forEach(function (item) {
+      var r = item.el.getBoundingClientRect();
+      var active = r.top < line && r.bottom > line - r.height * 0.15 - 40;
+      item.svg.classList.toggle('is-on', active);
+      if (!active) { if (item.idx >= 0) { item.words[item.idx].classList.remove('is-cur'); item.idx = -1; } return; }
+      var p = Math.min(Math.max((line - r.top) / (r.height + 20), 0), 0.9999);
+      place(item, Math.floor(p * item.words.length));
+    });
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; update(); }); }
+  }, { passive: true });
+  window.addEventListener('resize', function () { items.forEach(function (it) { it.idx = -1; }); update(); });
+  document.addEventListener('a11y:still', function () { items.forEach(function (it) { it.svg.remove(); }); });
   update();
 })();

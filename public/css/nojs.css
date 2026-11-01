@@ -1,0 +1,3 @@
+/* בלי JS: בלי פרוכת הפתיחה */
+.intro { display: none !important; }
+html.intro-on { overflow: auto; }
