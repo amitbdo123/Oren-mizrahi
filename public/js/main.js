@@ -448,3 +448,46 @@ function motionOK() {
   document.addEventListener('a11y:still', function () { items.forEach(function (it) { it.svg.remove(); }); });
   update();
 })();
+
+// ---------------------------------------------------------------------------
+// הדר: תפריט במובייל, סימון החלק שבו נמצאים, וצל קטן כשגוללים.
+// ---------------------------------------------------------------------------
+(function () {
+  var header = document.querySelector('[data-site-header]');
+  var nav = document.querySelector('[data-site-nav]');
+  var toggle = document.querySelector('[data-nav-toggle]');
+  if (!header || !nav) return;
+
+  function setOpen(v) {
+    if (!toggle) return;
+    nav.classList.toggle('is-open', v);
+    toggle.setAttribute('aria-expanded', v ? 'true' : 'false');
+  }
+  if (toggle) {
+    toggle.addEventListener('click', function () { setOpen(!nav.classList.contains('is-open')); });
+    nav.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) { setOpen(false); toggle.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (nav.classList.contains('is-open') && !header.contains(e.target)) setOpen(false);
+    });
+  }
+
+  // סימון הקישור של החלק שנמצא כרגע במרכז המסך
+  var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
+  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function mark() {
+    var line = window.innerHeight * 0.4, current = -1;
+    sections.forEach(function (sec, i) { if (sec && sec.getBoundingClientRect().top < line) current = i; });
+    links.forEach(function (a, i) {
+      if (i === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; mark(); }); }
+  }, { passive: true });
+  mark();
+})();
