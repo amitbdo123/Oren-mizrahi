@@ -95,6 +95,9 @@ function motionOK() {
     opened = true;
     curtain.classList.remove('is-idle', 'is-dragging', 'is-settling');
     curtain.classList.add('is-opening');
+    // ממשיכים מהמקום שאליו הפרוכת כבר נגררה/נגללה, בלי לחזור להתחלה
+    void curtain.offsetWidth;
+    setDx(window.innerWidth * 1.15);
     setTimeout(function () { intro.classList.add('is-bright'); }, 350);
     setTimeout(function () {
       intro.classList.add('is-done');
@@ -128,7 +131,7 @@ function motionOK() {
     if (!dragging) return;
     dragging = false;
     curtain.classList.remove('is-dragging');
-    if (dx > window.innerWidth * 0.25 || v > 0.6) { setDx(0); open(); }
+    if (dx > window.innerWidth * 0.25 || v > 0.6) { open(); }
     else { curtain.classList.add('is-settling'); setDx(0); }
   }
   curtain.addEventListener('pointerup', release);
@@ -142,7 +145,7 @@ function motionOK() {
     curtain.classList.remove('is-idle', 'is-settling');
     acc = Math.max(0, acc + Math.abs(e.deltaY) + Math.abs(e.deltaX));
     setDx(Math.min(acc, window.innerWidth));
-    if (acc > window.innerWidth * 0.25) { setDx(0); open(); return; }
+    if (acc > window.innerWidth * 0.25) { open(); return; }
     clearTimeout(wheelTimer);
     wheelTimer = setTimeout(function () { if (!opened) { acc = 0; curtain.classList.add('is-settling'); setDx(0); } }, 400);
   }, { passive: false });
