@@ -267,10 +267,10 @@ Character: a blue sticker stuck on the page.
 ### Polaroid (signature)
 Character: a real photo taped into the notebook.
 - White frame with 0.6rem sides and a 2.8rem bottom, 3px corners, rotated +1.5deg (or -2deg for the second photo), the polaroid shadow, a yellow tape strip across the top, and a handwritten ink-blue caption in the bottom margin.
-- Entrance (motion allowed only): the photo is held above the page, lands into its tilt over 0.7s, then the tape stretches on over 0.38s.
+- Entrance (motion allowed only, driven by the visitor's scroll): nothing happens until the visitor scrolls; when a polaroid scrolls up past 72% of the viewport it lands into its tilt over 0.7s, then the tape stretches on over 0.38s. Photos already on screen at load wait for the first scroll.
 
 ### Highlighter
-- Two-layer yellow swipe behind one phrase, starting from the right (RTL writing direction), clone-decorated across line breaks. With motion allowed it draws across in 0.9s when it enters view; otherwise it is simply there.
+- Two-layer yellow swipe behind one phrase, starting from the right (RTL writing direction), clone-decorated across line breaks. With motion allowed it is scroll-linked: its width follows the visitor's scroll (from 88% to 58% of the viewport; phrases already on screen at load fill over the first quarter-screen of scrolling), and nothing draws on its own. Otherwise it is simply there.
 
 ### Steps as a to-do list
 - Square checkboxes (2.5rem, 8px corners, 2px ink-blue border, paper fill) with the step number in Rubik; the active step fills ink blue with a white number. The goal step carries a red-pen checkmark and keeps its paper fill. A dashed rule-blue path (6px dash, 5px gap) links them: vertical on mobile, horizontal on desktop.
