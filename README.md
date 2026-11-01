@@ -7,6 +7,7 @@
 - `public/js/main.js` - פס וואטסאפ קבוע במובייל ואנימציית שיחת ההמלצות (האתר עובד גם בלי JS)
 - `public/fonts/` - גופנים מוגשים מהאתר: Rubik לכותרות, Assistant לטקסט, Gveret Levin לשם בכתב יד, Noto Serif Hebrew לפסוק בלבד (רישיון OFL)
 - `public/images/` - תמונות מעובדות (ההקדשה על הפרוכת מטושטשת)
+- `public/accessibility.html`, `public/privacy.html` - הצהרת נגישות ומדיניות פרטיות (בוורסל: /accessibility, /privacy)
 - `vercel.json` - פריסה, CSP וכותרות אבטחה
 
 אין build. ורסל מגיש את `public` כמו שהיא.

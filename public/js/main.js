@@ -1,4 +1,66 @@
 // ---------------------------------------------------------------------------
+// רכיב נגישות: גודל טקסט, ניגודיות גבוהה, עצירת אנימציות, הדגשת קישורים, גופן קריא.
+// ההגדרות נשמרות ב-localStorage של הגולש בלבד (לא נשלחות לשום מקום).
+// ---------------------------------------------------------------------------
+(function () {
+  var root = document.documentElement;
+  var KEY = 'a11y-prefs';
+  var prefs = { size: 0, contrast: false, still: false, links: false, font: false };
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved) for (var k in prefs) if (k in saved) prefs[k] = saved[k]; } catch (e) {}
+
+  function apply() {
+    root.dataset.textSize = prefs.size;
+    ['contrast', 'still', 'links', 'font'].forEach(function (k) { root.classList.toggle('a11y-' + k, !!prefs[k]); });
+    document.querySelectorAll('[data-a11y-toggle]').forEach(function (b) { b.setAttribute('aria-pressed', prefs[b.dataset.a11yToggle] ? 'true' : 'false'); });
+    try { localStorage.setItem(KEY, JSON.stringify(prefs)); } catch (e) {}
+  }
+  apply();
+
+  var tool = document.querySelector('[data-a11y-tool]');
+  if (!tool) return;
+  var open = tool.querySelector('[data-a11y-open]');
+  var panel = tool.querySelector('.a11y-panel');
+
+  function setOpen(v) {
+    panel.hidden = !v;
+    open.setAttribute('aria-expanded', v ? 'true' : 'false');
+    if (v) { var first = panel.querySelector('button'); if (first) first.focus(); }
+  }
+  open.addEventListener('click', function () { setOpen(panel.hidden); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !panel.hidden) { setOpen(false); open.focus(); }
+  });
+  document.addEventListener('click', function (e) {
+    if (!panel.hidden && !tool.contains(e.target)) setOpen(false);
+  });
+
+  tool.querySelectorAll('[data-a11y-size]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      prefs.size = Math.min(3, Math.max(0, prefs.size + (+b.dataset.a11ySize)));
+      apply();
+    });
+  });
+  tool.querySelectorAll('[data-a11y-toggle]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var k = b.dataset.a11yToggle;
+      prefs[k] = !prefs[k];
+      apply();
+      if (k === 'still' && prefs.still) document.dispatchEvent(new CustomEvent('a11y:still'));
+    });
+  });
+  tool.querySelector('[data-a11y-reset]').addEventListener('click', function () {
+    prefs = { size: 0, contrast: false, still: false, links: false, font: false };
+    apply();
+  });
+})();
+
+// תנועה מותרת? (הגדרת המכשיר + "עצירת אנימציות" ברכיב הנגישות)
+function motionOK() {
+  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+         !document.documentElement.classList.contains('a11y-still');
+}
+
+// ---------------------------------------------------------------------------
 // כפתור וואטסאפ קבוע: פס תחתון במובייל, פס עליון במחשב.
 // מופיעים כשכפתור ההירו כבר מעל המסך, ונעלמים כשמגיעים לאזור data-hide-sticky.
 // ---------------------------------------------------------------------------
@@ -48,7 +110,7 @@
   var body = document.querySelector('[data-chat-body]');
   var toggle = document.querySelector('[data-chat-toggle]');
   if (!body || !toggle || !('IntersectionObserver' in window)) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!motionOK()) return;
 
   var msgs = Array.prototype.slice.call(body.querySelectorAll('[data-msg]'));
   var typing = body.querySelector('.chat-typing');
@@ -126,6 +188,16 @@
   body.addEventListener('wheel', userTakesOver, { passive: true });
   body.addEventListener('touchstart', userTakesOver, { passive: true });
   body.addEventListener('keydown', function (e) { if (e.key !== 'Tab' && e.key !== 'Shift') userTakesOver(); });
+
+  // "עצירת אנימציות" באמצע השיחה: מציגים הכול ועוצרים
+  document.addEventListener('a11y:still', function () {
+    clearTimeout(timer);
+    typing.classList.remove('is-on');
+    showAll();
+    phone.classList.remove('chat-live');
+    toggle.hidden = true;
+    state = 'done';
+  });
 
   setState('idle');
   new IntersectionObserver(function (entries, obs) {
