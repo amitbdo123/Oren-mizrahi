@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO לפני עלייה לאוויר: להחליף DOMAIN ולהסיר את ההערה
+# Sitemap: https://DOMAIN/sitemap.xml

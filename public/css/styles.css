@@ -711,8 +711,8 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
     will-change: transform;
   }
   /* בדף RTL: הדלת הימנית נתלית על הקצה הימני, השמאלית על השמאלי */
-  .door-r { right: 0; transform-origin: right center; animation: door-r 1.7s cubic-bezier(.6, 0, .2, 1) .35s both; }
-  .door-l { left: 0; transform-origin: left center; animation: door-l 1.7s cubic-bezier(.6, 0, .2, 1) .35s both; }
+  .door-r { right: 0; transform-origin: right center; animation: door-r 1.4s cubic-bezier(.6, 0, .2, 1) .15s both; }
+  .door-l { left: 0; transform-origin: left center; animation: door-l 1.4s cubic-bezier(.6, 0, .2, 1) .15s both; }
   /* ידיות זהב בקצה שבו הדלתות נפגשות */
   .arch-doors .door::after {
     content: "";
