@@ -524,3 +524,81 @@ function motionOK() {
   }, { passive: true });
   mark();
 })();
+
+// ---------------------------------------------------------------------------
+// טקסט רץ על שורות המחברת: מזיזים כל קבוצה (כותרת+פסקה) בפחות מחצי שורה, כך שקו הבסיס
+// של הפסקה ייפול על הקווים. ההזזה היא חזותית בלבד (position: relative; top), ולכן היא
+// לא מוסיפה רווחים ולא מנתקת כותרת מהטקסט שלה. השורות מצוירות על רקע הדף כל 2rem.
+// ---------------------------------------------------------------------------
+(function () {
+  var BASE = 0.22;   // מיקום הקו בתוך שורה, כחלק מגובה השורה (כוון לפי הגופן Assistant)
+  // [העוגן שמיישרים לפיו, האלמנט שזז]
+  var pairs = [];
+  function add(anchor, mover) { if (anchor && mover) pairs.push([anchor, mover]); }
+  add(document.querySelector('.story-body'), document.querySelector('.story-body'));
+  add(document.querySelector('.story-next'), document.querySelector('.story-next'));
+  var about = document.querySelector('.about-text');
+  if (about) add(about.querySelector('p:not(.about-sub):not(.signature):not(.about-proof)'), about);
+  Array.prototype.forEach.call(document.querySelectorAll('.step'), function (st) { add(st.querySelector('p'), st); });
+  if (!pairs.length) return;
+
+  function align() {
+    pairs.forEach(function (pr) { pr[1].style.top = ''; });
+    if (document.documentElement.classList.contains('a11y-contrast')) return;
+    var rule = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2;
+    pairs.forEach(function (pr) {
+      var top = pr[0].getBoundingClientRect().top + window.scrollY;
+      var off = ((BASE * rule - top) % rule + rule) % rule;
+      if (off > rule / 2) off -= rule;          // תמיד ההזזה הקטנה יותר, למעלה או למטה
+      pr[1].style.top = off.toFixed(2) + 'px';
+    });
+  }
+  var t = null;
+  function later() { clearTimeout(t); t = setTimeout(align, 80); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(align); else align();
+  window.addEventListener('load', align);
+  window.addEventListener('resize', later);
+  new MutationObserver(later).observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-text-size'] });
+})();
+
+// ---------------------------------------------------------------------------
+// מרקר שמסמן את הכתב, ותמונות שמודבקות בסלוטייפ, כשהן נכנסות למסך.
+// בזמן שהפרוכת פתוחה מחכים, כדי שהגולש יראה את האנימציה של ההירו אחרי שנכנס.
+// בלי JS, עם "הפחתת תנועה" או "עצירת אנימציות": הכול מוצג במצב הסופי.
+// ---------------------------------------------------------------------------
+(function () {
+  if (!('IntersectionObserver' in window) || !motionOK()) return;
+  var root = document.documentElement;
+  var items = Array.prototype.slice.call(document.querySelectorAll('.hl, .polaroid'));
+  if (!items.length) return;
+  root.classList.add('anim-on');
+
+  var pending = [];
+  function reveal(el) {
+    if (root.classList.contains('intro-on')) { pending.push(el); return; }
+    // שני פריימים: הדפדפן מצייר קודם את מצב ההתחלה, ורק אז עוברים למצב הסופי (אחרת אין אנימציה)
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      el.classList.add(el.classList.contains('polaroid') ? 'is-taped' : 'is-marked');
+    }); });
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      reveal(e.target);
+    });
+  }, { threshold: 0.35, rootMargin: '0px 0px -8% 0px' });
+  items.forEach(function (el) { io.observe(el); });
+
+  // כשהפרוכת נפתחת: מריצים את מה שחיכה (עם השהיה קטנה, כדי שהאור יספיק להתפזר)
+  new MutationObserver(function () {
+    if (root.classList.contains('intro-on') || !pending.length) return;
+    var list = pending; pending = [];
+    setTimeout(function () { list.forEach(reveal); }, 450);
+  }).observe(root, { attributes: true, attributeFilter: ['class'] });
+
+  // "עצירת אנימציות": מציגים הכול מיד
+  document.addEventListener('a11y:still', function () {
+    root.classList.remove('anim-on');
+  });
+})();

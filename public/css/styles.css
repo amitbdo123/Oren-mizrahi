@@ -507,7 +507,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   width: min(100%, 22rem);
   padding: .6rem;
   border-radius: 2.8rem;
-  background: linear-gradient(160deg, #3a2f29, #1f1916);
+  background: linear-gradient(160deg, #2b3247, #161a28);
   box-shadow: 0 2px 0 1px rgb(255 255 255 / .06) inset, 0 30px 60px -28px rgb(20 30 60 / .55), 0 12px 24px -16px rgb(20 30 60 / .35);
 }
 .phone-screen {
@@ -530,7 +530,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   height: 1.35rem;
   margin-left: -2.75rem;
   border-radius: 1rem;
-  background: #1f1916;
+  background: #161a28;
   z-index: 3;
 }
 
@@ -839,7 +839,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
 @media (max-width: 55.99rem) {
   .how .step { padding-bottom: 3.25rem; }
   .how .step:last-child { padding-bottom: 0; }
-  .how { padding-bottom: 28vh; }
+  .how { padding-bottom: 4.5rem; }
 }
 
 @media (min-width: 56rem) {
@@ -1186,27 +1186,30 @@ html { scroll-padding-top: 4.5rem; }
    ===================================================================== */
 
 /* נייר: שורות וקו שוליים. הקו בצד ימין, כמו במחברת בעברית */
-body, .story, .words, .final-cta {
+body {
   background-image:
     linear-gradient(90deg, transparent calc(100% - .7rem), rgb(214 69 58 / .45) calc(100% - .7rem), rgb(214 69 58 / .45) calc(100% - .7rem + 1.5px), transparent calc(100% - .7rem + 1.5px)),
     repeating-linear-gradient(180deg, transparent 0 calc(2rem - 1px), var(--rule) calc(2rem - 1px) 2rem);
 }
 @media (min-width: 56rem) {
-  body, .story, .words, .final-cta {
+  body {
     background-image:
       linear-gradient(90deg, transparent calc(100% - 3rem), rgb(214 69 58 / .45) calc(100% - 3rem), rgb(214 69 58 / .45) calc(100% - 3rem + 1.5px), transparent calc(100% - 3rem + 1.5px)),
       repeating-linear-gradient(180deg, transparent 0 calc(2rem - 1px), var(--rule) calc(2rem - 1px) 2rem);
   }
 }
-/* דף חדש: קו ניקוב בראש הסקשנים בגוון השני */
-.story, .words, .final-cta { border-top: 2px dashed rgb(150 170 215 / .8); }
+/* דף חדש: קו ניקוב בראש הסקשנים, וגוון שקוף כדי שהשורות ימשיכו ברצף */
+.story, .words, .final-cta { border-top: 2px dashed rgb(150 170 215 / .8); background-color: rgb(238 233 214 / .45); background-image: none; }
 .site-header { background: var(--cream); }
 
 /* כותרות עם מרקר צהוב */
 .hero-title .accent { color: var(--terracotta); }
 .hl {
   padding-inline: .12em;
-  background: linear-gradient(transparent 56%, var(--highlight) 56% 90%, transparent 90%);
+  background-image: linear-gradient(transparent 56%, var(--highlight) 56% 90%, transparent 90%);
+  background-repeat: no-repeat;
+  background-position: 100% 0;   /* מתחילים מימין, כיוון הכתיבה בעברית */
+  background-size: 100% 100%;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -1221,14 +1224,20 @@ body, .story, .words, .final-cta {
   transform: rotate(-3deg);
 }
 @media (min-width: 56rem) { .hero-note { margin-top: -1.5rem; font-size: 2rem; } }
+.pen-arrow { display: inline-block; width: 1.5em; height: .7em; vertical-align: middle; margin-inline-start: .15em; }
 
-/* כפתורים כמו מדבקות: כחול עם צל צהוב */
+/* כפתורים כמו מדבקות: כחול עם שוליים לבנים חתוכים, צל רך והטיה קלה */
 .btn { border-radius: 12px; }
-.btn-primary { background: var(--terracotta); box-shadow: 3px 3px 0 var(--highlight); }
-@media (hover: hover) {
-  .btn-primary:hover { background: var(--terracotta-dark); box-shadow: 5px 5px 0 var(--highlight); transform: translate(-1px, -1px); }
+.btn-primary {
+  background: var(--terracotta);
+  box-shadow: 0 0 0 3px #ffffff, 0 7px 16px -7px rgb(20 30 60 / .45);
+  transform: rotate(-1deg);
 }
-.btn-primary:active { box-shadow: 1px 1px 0 var(--highlight); transform: translate(1px, 1px); }
+@media (hover: hover) {
+  .btn-primary:hover { background: var(--terracotta-dark); box-shadow: 0 0 0 3px #ffffff, 0 12px 22px -8px rgb(20 30 60 / .45); transform: rotate(-1deg) translateY(-2px); }
+}
+.btn-primary:active { box-shadow: 0 0 0 3px #ffffff, 0 3px 8px -4px rgb(20 30 60 / .45); transform: rotate(-1deg) translateY(1px); }
+.btn-block, .header-cta { transform: none; }
 .header-cta { border-radius: 12px; }
 
 /* תמונות פולארויד עם סלוטייפ */
@@ -1238,9 +1247,10 @@ body, .story, .words, .final-cta {
   background: #ffffff;
   padding: .6rem .6rem 2.8rem;
   box-shadow: 0 16px 30px -16px rgb(20 30 60 / .5);
-  transform: rotate(1.5deg);
+  --tilt: 1.5deg;
+  transform: rotate(var(--tilt));
 }
-.polaroid-tilt { transform: rotate(-2deg); }
+.polaroid-tilt { --tilt: -2deg; }
 .polaroid picture { display: block; overflow: hidden; }
 .polaroid img { border-radius: 0; }
 .polaroid::after {
@@ -1254,6 +1264,7 @@ body, .story, .words, .final-cta {
   border-radius: 2px;
   background: rgb(248 221 107 / .75);
   transform: rotate(-4deg);
+  transform-origin: 100% 50%;
 }
 .polaroid-cap {
   position: absolute;
@@ -1271,7 +1282,11 @@ body, .story, .words, .final-cta {
   .steps::before { background: repeating-linear-gradient(90deg, var(--gold-soft) 0 6px, transparent 6px 11px); }
 }
 .step-mark { border-radius: 8px; border-width: 2px; border-color: var(--terracotta); background: var(--cream); }
-.step.is-active .step-mark { background: var(--terracotta); border-color: var(--terracotta); color: #fff; box-shadow: 2px 2px 0 var(--highlight); }
+.step.is-active .step-mark { background: var(--terracotta); border-color: var(--terracotta); color: #fff; }
+/* היעד: וי בעט אדום */
+.step-goal .step-mark { color: var(--gold); }
+.step-goal.is-active .step-mark { background: var(--cream); color: var(--gold); border-color: var(--gold); }
+.step-goal .step-mark svg { width: 1.35rem; height: 1.35rem; }
 
 /* הפסוק על פתק צהוב */
 .verse {
@@ -1292,4 +1307,58 @@ body, .story, .words, .final-cta {
 .compose-avatar { box-shadow: 0 0 0 2px var(--cream), 0 0 0 3px var(--terracotta); }
 .chat-avatar { box-shadow: 0 0 0 2px var(--cream), 0 0 0 3px var(--terracotta); }
 
-html.a11y-contrast body, html.a11y-contrast .story, html.a11y-contrast .words, html.a11y-contrast .final-cta { background-image: none; }
+html.a11y-contrast body { background-image: none; }
+html.a11y-contrast .story, html.a11y-contrast .words, html.a11y-contrast .final-cta { background-color: #ffffff; }
+
+/* טקסט רץ על שורות המחברת: גובה שורה בדיוק כמו השורות (2rem), והיישור מתבצע ב-JS */
+.story-body, .about-text p:not(.about-sub):not(.signature):not(.about-proof), .step p, .story-next { line-height: 2rem !important; }
+.story-body.yad-text, .about-text p.yad-text { line-height: 2rem !important; }
+/* 5. כותרות מאוזנות */
+.section-title { text-wrap: balance; }
+/* 8. מרקר עם קצוות לא אחידים, וכפתור תפריט בעט כחול */
+.hl { border-radius: .2em .6em .25em .7em / .15em .4em .2em .45em; }
+.nav-toggle { border: 2px solid var(--terracotta); color: var(--terracotta); border-radius: 10px; }
+
+/* ---------- אנימציות: מרקר שמסמן, ותמונה שמודבקת בסלוטייפ ----------
+   פועלות רק עם JS ועם תנועה מותרת (html.anim-on). בלעדיהן הכול מוצג במצב הסופי. */
+html.anim-on .hl { background-size: 0% 100%; }
+html.anim-on .hl.is-marked {
+  background-size: 100% 100%;
+  transition: background-size .9s cubic-bezier(.55, .1, .25, 1);
+}
+
+/* התמונה מוחזקת ביד מעל הדף, נוחתת, ואז הסלוטייפ נמתח ונדבק */
+html.anim-on .polaroid {
+  transform: translateY(-18px) rotate(calc(var(--tilt) + 5deg)) scale(1.04);
+  box-shadow: 0 36px 50px -22px rgb(20 30 60 / .45);
+  opacity: .001;
+}
+html.anim-on .polaroid.is-taped {
+  transform: rotate(var(--tilt));
+  box-shadow: 0 16px 30px -16px rgb(20 30 60 / .5);
+  opacity: 1;
+  transition: transform .7s cubic-bezier(.2, .9, .3, 1.15), box-shadow .7s ease, opacity .25s ease;
+}
+html.anim-on .polaroid::after { transform: rotate(-4deg) scaleX(0); opacity: 0; }
+html.anim-on .polaroid.is-taped::after {
+  transform: rotate(-4deg) scaleX(1);
+  opacity: 1;
+  transition: transform .38s cubic-bezier(.3, 1.4, .5, 1) .62s, opacity .1s linear .62s;
+}
+
+/* יישור לשורות: הקבוצות זזות חזותית בלבד, והמרווחים בין פסקאות הם בדיוק שורה */
+.story-body, .story-next, .about-text, .step { position: relative; }
+.story-body { margin-bottom: 2rem !important; }
+.about-text p:not(.about-sub):not(.signature):not(.about-proof) { margin: 0 0 2rem !important; }
+
+/* מרקר עם שכבה לא אחידה וקצה עקום: שתי שכבות בזוויות שונות */
+.hl {
+  background-image:
+    linear-gradient(178.4deg, transparent 55%, var(--highlight) 55% 89%, transparent 89%),
+    linear-gradient(181.2deg, transparent 60%, rgb(248 221 107 / .55) 60% 93%, transparent 93%);
+  background-repeat: no-repeat, no-repeat;
+  background-position: 100% 0, 100% 0;
+  background-size: 100% 100%, 100% 100%;
+}
+html.anim-on .hl { background-size: 0% 100%, 0% 100%; }
+html.anim-on .hl.is-marked { background-size: 100% 100%, 100% 100%; }

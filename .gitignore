@@ -6,3 +6,4 @@ previews/
 .claude/settings.local.json
 .impeccable/config.local.json
 .DS_Store
+.impeccable/review/
