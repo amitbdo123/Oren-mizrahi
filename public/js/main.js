@@ -564,6 +564,7 @@ function motionOK() {
 // ---------------------------------------------------------------------------
 // מרקר ודבק, רק לפי הגלילה של הגולש:
 // - המרקר מצטייר בהדרגה, לפי כמה שגוללים לכיוון הטקסט (גוללים לאט, הוא מסמן לאט).
+//   יוצא מן הכלל: המרקר בהירו מצטייר לבד, שנייה וחצי אחרי שהאתר עולה.
 // - תמונה מודבקת בסלוטייפ רק כשגוללים אליה.
 // מה שכבר על המסך כשהאתר עולה (ההירו) מחכה לגלילה הראשונה. שום דבר לא קורה לבד.
 // בלי JS, עם "הפחתת תנועה" או "עצירת אנימציות": הכול מוצג במצב הסופי.
@@ -571,7 +572,9 @@ function motionOK() {
 (function () {
   if (!motionOK()) return;
   var root = document.documentElement;
-  var marks = Array.prototype.slice.call(document.querySelectorAll('.hl'));
+  // המרקר בהירו לא תלוי בגלילה: הוא מצטייר לבד, שנייה וחצי אחרי שהאתר עולה (או אחרי שהפרוכת נפתחת)
+  var heroMark = document.querySelector('.hero-title .hl');
+  var marks = Array.prototype.slice.call(document.querySelectorAll('.hl')).filter(function (el) { return el !== heroMark; });
   var tapes = Array.prototype.slice.call(document.querySelectorAll('.polaroid'));
   if (!marks.length && !tapes.length) return;
   root.classList.add('anim-on');
@@ -611,6 +614,19 @@ function motionOK() {
   classify();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(classify);
   window.addEventListener('load', classify);
+  if (heroMark) {
+    var HERO_DELAY = 1500;
+    var heroDone = false;
+    var drawHero = function () {
+      if (heroDone) return; heroDone = true;
+      setTimeout(function () { heroMark.classList.add('is-marked'); }, HERO_DELAY);
+    };
+    if (!root.classList.contains('intro-on')) drawHero();
+    else new MutationObserver(function (m, obs) {
+      if (!root.classList.contains('intro-on')) { obs.disconnect(); drawHero(); }
+    }).observe(root, { attributes: true, attributeFilter: ['class'] });
+  }
+
   // דף שנטען כשהוא כבר גלול (רענון באמצע): מה שמעל נחשב כאילו כבר גוללו אליו
   if (window.scrollY > 0) { userScrolled = true; update(); }
 

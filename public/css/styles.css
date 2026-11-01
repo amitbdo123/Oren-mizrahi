@@ -1323,6 +1323,12 @@ html.a11y-contrast .story, html.a11y-contrast .words, html.a11y-contrast .final-
    פועלות רק עם JS ועם תנועה מותרת (html.anim-on). בלעדיהן הכול מוצג במצב הסופי. */
 /* המרקר: --hlp בין 0 ל-1, נקבע ב-JS לפי הגלילה */
 html.anim-on .hl { background-size: calc(var(--hlp, 0) * 100%) 100%, calc(var(--hlp, 0) * 100%) 100%; }
+/* המרקר בהירו: מצטייר לבד (JS מוסיף is-marked שנייה וחצי אחרי העלייה) */
+html.anim-on .hero-title .hl { background-size: 0% 100%, 0% 100%; }
+html.anim-on .hero-title .hl.is-marked {
+  background-size: 100% 100%, 100% 100%;
+  transition: background-size 1s cubic-bezier(.55, .1, .25, 1);
+}
 
 /* התמונה מוחזקת ביד מעל הדף, נוחתת, ואז הסלוטייפ נמתח ונדבק */
 html.anim-on .polaroid {
