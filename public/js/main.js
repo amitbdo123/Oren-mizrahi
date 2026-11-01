@@ -109,7 +109,7 @@ function motionOK() {
   function open() {
     if (opened) return;
     opened = true;
-    curtain.classList.remove('is-idle', 'is-dragging', 'is-settling');
+    curtain.classList.remove('is-idle', 'is-dragging', 'is-settling', 'is-wheeling');
     curtain.classList.add('is-opening');
     // ממשיכים מהמקום שאליו הפרוכת כבר נגררה/נגללה, בלי לחזור להתחלה
     void curtain.offsetWidth;
@@ -159,11 +159,12 @@ function motionOK() {
     if (opened) return;
     e.preventDefault();
     curtain.classList.remove('is-idle', 'is-settling');
+    curtain.classList.add('is-wheeling');
     acc = Math.max(0, acc + Math.abs(e.deltaY) + Math.abs(e.deltaX));
     setDx(Math.min(acc, window.innerWidth));
     if (acc > window.innerWidth * 0.25) { open(); return; }
     clearTimeout(wheelTimer);
-    wheelTimer = setTimeout(function () { if (!opened) { acc = 0; curtain.classList.add('is-settling'); setDx(0); } }, 400);
+    wheelTimer = setTimeout(function () { if (!opened) { acc = 0; curtain.classList.remove('is-wheeling'); curtain.classList.add('is-settling'); setDx(0); } }, 400);
   }, { passive: false });
 
   // מקלדת
