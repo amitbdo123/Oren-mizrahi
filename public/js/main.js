@@ -421,11 +421,17 @@ function motionOK() {
 
   function update() {
     var line = window.innerHeight * 0.6;
+    // רק פסקה אחת פעילה: זו שקו הקריאה עובר בה כרגע (או האחרונה שהתחילה מעליו)
+    var active = null;
     items.forEach(function (item) {
       var r = item.el.getBoundingClientRect();
-      var active = r.top < line && r.bottom > line - r.height * 0.15 - 40;
-      item.svg.classList.toggle('is-on', active);
-      if (!active) { if (item.idx >= 0) { item.words[item.idx].classList.remove('is-cur'); item.idx = -1; } return; }
+      if (r.top < line && r.bottom > line - 40) active = item;
+    });
+    items.forEach(function (item) {
+      var on = item === active;
+      item.svg.classList.toggle('is-on', on);
+      if (!on) { if (item.idx >= 0) { item.words[item.idx].classList.remove('is-cur'); item.idx = -1; } return; }
+      var r = item.el.getBoundingClientRect();
       var p = Math.min(Math.max((line - r.top) / (r.height + 20), 0), 0.9999);
       place(item, Math.floor(p * item.words.length));
     });

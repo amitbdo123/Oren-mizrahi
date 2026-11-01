@@ -1011,7 +1011,7 @@ html.intro-on .hero-title .line, html.intro-on .arch img { animation-play-state:
 
 /* ---------- יד לקריאה על הטקסטים הרציפים ---------- */
 .yad-text { position: relative; line-height: 2.2 !important; }
-.story-lead.yad-text, .final-title.yad-text { line-height: 1.8 !important; }
+.story-lead.yad-text { line-height: 1.8 !important; }
 .yad-word {
   position: absolute;
   top: 0;
@@ -1022,13 +1022,15 @@ html.intro-on .hero-title .line, html.intro-on .arch img { animation-play-state:
   color: #9a7337;
   pointer-events: none;
   opacity: 0;
-  transform: translate(calc(var(--x, 0px) - 50%), var(--y, 0px));
+  /* קצה האצבע צמוד למילה, והיד מוטה 45° ימינה ממנו */
+  transform-origin: 50% 0;
+  transform: translate(calc(var(--x, 0px) - 50%), var(--y, 0px)) rotate(45deg);
   transition: transform .28s cubic-bezier(.22, .61, .36, 1), opacity .3s ease;
   filter: drop-shadow(0 0 1.5px var(--cream)) drop-shadow(0 2px 3px rgb(60 40 25 / .25));
 }
 .story .yad-word { filter: drop-shadow(0 0 1.5px var(--cream-deep)) drop-shadow(0 2px 3px rgb(60 40 25 / .25)); }
 .yad-word.is-on { opacity: 1; }
-.story-lead .yad-word, .final-title .yad-word { width: 1em; height: 2em; }
+.story-lead .yad-word { width: 1em; height: 2em; }
 .yw { transition: color .3s ease; }
 .yw.is-cur { color: var(--terracotta); }
 html.a11y-still .yad-word { display: none; }
