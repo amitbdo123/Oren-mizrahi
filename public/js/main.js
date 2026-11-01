@@ -197,7 +197,7 @@ function motionOK() {
 
 // ---------------------------------------------------------------------------
 // שיחת ההמלצות בטלפון של אורן, בקצב של שתיים וחצי שניות לכל שלב:
-// ריק -> הקלדה -> הודעה -> הקלדה -> הודעה ... וכשההודעות נגמרות, השיחה ממשיכה
+// מתחילים ישר בהקלדה (שנייה) -> הודעה -> הקלדה -> הודעה ... וכשההודעות נגמרות, השיחה ממשיכה
 // ושולחת שוב את אותן הודעות, בלולאה. העותקים החוזרים מוסתרים מקוראי מסך.
 // כפתור השהיה/המשך (WCAG 2.2.2). בלי JS או עם "הפחתת תנועה": כל ההודעות מוצגות בלי תנועה.
 // ---------------------------------------------------------------------------
@@ -219,7 +219,8 @@ function motionOK() {
   phone.classList.add('chat-live');
   toggle.hidden = false;
 
-  var i = 0, timer = null, state = 'idle', phase = 'wait', repeats = [];
+  var i = 0, timer = null, state = 'idle', phase = 'type', repeats = [];
+  var FIRST_TYPING = 1000; // ההקלדה הראשונה: שנייה אחת, ומיד בהתחלה (בלי שיחה ריקה)
 
   var LABELS = { idle: 'הפעלת ההודעות', playing: 'השהיית ההודעות', paused: 'המשך ההודעות' };
   function setState(s) {
@@ -253,7 +254,7 @@ function motionOK() {
       typing.classList.add('is-on');
       toBottom();
       phase = 'show';
-      timer = setTimeout(tick, STEP);
+      timer = setTimeout(tick, i === 0 ? FIRST_TYPING : STEP);
     } else {                           // הודעה
       typing.classList.remove('is-on');
       var m = nextMessage();
