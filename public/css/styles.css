@@ -1011,6 +1011,8 @@ html.intro-on .hero-title .line, html.intro-on .arch img { animation-play-state:
 
 /* ---------- יד לקריאה על הטקסטים הרציפים ---------- */
 .yad-text { position: relative; line-height: 2.2 !important; }
+/* היד המוטה לא תבלוט מעבר לרוחב המסך */
+.story, .about { overflow-x: clip; }
 .story-lead.yad-text { line-height: 1.8 !important; }
 .yad-word {
   position: absolute;
