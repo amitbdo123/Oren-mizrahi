@@ -17,6 +17,24 @@
   <script src="/js/main.js" defer></script>
 </head>
 <body>
+  <svg class="symbols" aria-hidden="true" focusable="false">
+    <symbol id="yad" viewBox="0 0 64 16">
+      <path fill="currentColor" d="M2.2 6.3h6.6v2.4H2.2a1.2 1.2 0 0 1 0-2.4Z"/>
+      <path fill="currentColor" d="M10.4 4.4h3.4a2.6 2.6 0 0 1 2.6 2.6v2.2a2.6 2.6 0 0 1-2.6 2.6h-3.6a2.4 2.4 0 0 1-2.4-2.4V9.2c.9 0 1.6-.6 1.6-1.4V6.1c0-.9.4-1.7 1-1.7Z"/>
+      <path fill="currentColor" d="M9.6 10.1h3.2a1 1 0 0 1 0 2H9.9a1 1 0 0 1-.3-2Z" opacity=".55"/>
+      <rect fill="currentColor" x="16.4" y="5" width="2" height="6.2" rx=".8"/>
+      <rect fill="currentColor" x="18.4" y="7.25" width="33" height="1.5" rx=".75"/>
+      <rect fill="currentColor" x="28.6" y="5.9" width="1.6" height="4.2" rx=".8"/>
+      <rect fill="currentColor" x="41" y="5.9" width="1.6" height="4.2" rx=".8"/>
+      <rect fill="currentColor" x="50.6" y="5.6" width="2" height="4.8" rx=".9"/>
+      <circle fill="currentColor" cx="56.2" cy="8" r="3.1"/>
+      <circle fill="currentColor" cx="61.2" cy="8" r="1.3"/>
+    </symbol>
+    <symbol id="crown" viewBox="0 0 16 16">
+      <path fill="currentColor" d="M2 11.5 1.2 4.6l3.6 2.8L8 2.6l3.2 4.8 3.6-2.8-.8 6.9H2Zm0 1.3h12v1.4H2z"/>
+      <circle cx="8" cy="1.6" r="1" fill="currentColor"/>
+    </symbol>
+  </svg>
   <a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
 
   <header class="site-header">
@@ -57,7 +75,7 @@
           <span>דברו עם אורן בוואטסאפ</span>
           <span class="visually-hidden">(נפתח בחלון חדש)</span>
         </a>
-            <p class="cta-note"><svg class="cta-mark" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M8 0c.6 4.2 3.8 7.4 8 8-4.2.6-7.4 3.8-8 8-.6-4.2-3.8-7.4-8-8 4.2-.6 7.4-3.8 8-8Z" fill="currentColor"/></svg>תוכנית מותאמת ליכולת של כל ילד.</p>
+            <p class="cta-note"><svg class="cta-mark" aria-hidden="true" focusable="false"><use href="#yad"/></svg>תוכנית מותאמת ליכולת של כל ילד.</p>
           </div>
         </div>
 
@@ -117,7 +135,7 @@
             <p>הרבה חזרות, ומילים מעודדות לאורך כל הדרך, כדי שהוא ידע שהכול בסדר.</p>
           </li>
           <li class="step step-goal">
-            <span class="step-mark" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M8 0c.6 4.2 3.8 7.4 8 8-4.2.6-7.4 3.8-8 8-.6-4.2-3.8-7.4-8-8 4.2-.6 7.4-3.8 8-8Z" fill="currentColor"/></svg></span>
+            <span class="step-mark" aria-hidden="true"><svg focusable="false"><use href="#crown"/></svg></span>
             <h3 class="step-title">היעד</h3>
             <p>קריאה בתורה בשליטה של קורא מקצועי, אחרי אימון מול ספר תורה וקהל.</p>
           </li>
@@ -216,7 +234,7 @@
           <span class="visually-hidden">(נפתח בחלון חדש)</span>
         </a>
         </div>
-        <p class="cta-note"><svg class="cta-mark" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M8 0c.6 4.2 3.8 7.4 8 8-4.2.6-7.4 3.8-8 8-.6-4.2-3.8-7.4-8-8 4.2-.6 7.4-3.8 8-8Z" fill="currentColor"/></svg>תוכנית מותאמת ליכולת של כל ילד.</p>
+        <p class="cta-note"><svg class="cta-mark" aria-hidden="true" focusable="false"><use href="#yad"/></svg>תוכנית מותאמת ליכולת של כל ילד.</p>
       </div>
     </section>
   </main>
@@ -242,6 +260,9 @@
       </details>
     </div>
   </footer>
+
+  <!-- יד לקריאה בתורה שמלווה את הגלילה (מחשב רחב בלבד) -->
+  <div class="yad-rail" aria-hidden="true"><svg class="yad-pointer" focusable="false"><use href="#yad"/></svg></div>
 
   <!-- פס וואטסאפ קבוע במובייל: מופיע אחרי שכפתור ההירו יוצא מהמסך (js/main.js) -->
   <div class="sticky-cta" data-sticky-cta hidden>

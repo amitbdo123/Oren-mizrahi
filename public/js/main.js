@@ -149,3 +149,23 @@
   window.addEventListener('resize', update);
   update();
 })();
+
+// ---------------------------------------------------------------------------
+// היד לקריאה בתורה: יורדת לאורך השוליים לפי ההתקדמות בדף (מחשב רחב בלבד, ב-CSS).
+// ---------------------------------------------------------------------------
+(function () {
+  var rail = document.querySelector('.yad-rail');
+  if (!rail) return;
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+    rail.style.setProperty('--p', p.toFixed(4));
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
