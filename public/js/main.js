@@ -196,8 +196,9 @@ function motionOK() {
 })();
 
 // ---------------------------------------------------------------------------
-// שיחת ההמלצות בטלפון של אורן, בקצב של שתיים וחצי שניות לכל שלב:
-// מתחילים ישר בהקלדה (שנייה) -> הודעה -> הקלדה -> הודעה ... וכשההודעות נגמרות, השיחה ממשיכה
+// שיחת ההמלצות בטלפון של אורן:
+// מקליד מיד (שנייה) -> הודעה (2.5) -> מקליד (2) -> הודעה (2.5) -> מקליד (1.5) -> הודעה (2.5) ...
+// וכשההודעות נגמרות, השיחה ממשיכה
 // ושולחת שוב את אותן הודעות, בלולאה. העותקים החוזרים מוסתרים מקוראי מסך.
 // כפתור השהיה/המשך (WCAG 2.2.2). בלי JS או עם "הפחתת תנועה": כל ההודעות מוצגות בלי תנועה.
 // ---------------------------------------------------------------------------
@@ -207,7 +208,9 @@ function motionOK() {
   if (!body || !toggle || !('IntersectionObserver' in window)) return;
   if (!motionOK()) return;
 
-  var STEP = 2500;         // שתיים וחצי שניות בין כל שלב
+  var MSG_HOLD = 2500;     // כל הודעה נשארת שתיים וחצי שניות לפני ההקלדה הבאה
+  // משך ההקלדה: הראשונה שנייה, השנייה שתי שניות, ומהשלישית והלאה שנייה וחצי
+  function typingFor(n) { return n === 0 ? 1000 : n === 1 ? 2000 : 1500; }
   var MAX_REPEATS = 8;     // כמה עותקים חוזרים נשארים בשיחה לכל היותר
 
   var list = body.querySelector('.chat-list');
@@ -220,7 +223,6 @@ function motionOK() {
   toggle.hidden = false;
 
   var i = 0, timer = null, state = 'idle', phase = 'type', repeats = [];
-  var FIRST_TYPING = 1000; // ההקלדה הראשונה: שנייה אחת, ומיד בהתחלה (בלי שיחה ריקה)
 
   var LABELS = { idle: 'הפעלת ההודעות', playing: 'השהיית ההודעות', paused: 'המשך ההודעות' };
   function setState(s) {
@@ -247,14 +249,11 @@ function motionOK() {
 
   function tick() {
     if (state !== 'playing') return;
-    if (phase === 'wait') {            // שיחה ריקה / רגע אחרי הודעה
-      phase = 'type';
-      timer = setTimeout(tick, STEP);
-    } else if (phase === 'type') {     // הקלדה
+    if (phase === 'type') {     // הקלדה
       typing.classList.add('is-on');
       toBottom();
       phase = 'show';
-      timer = setTimeout(tick, i === 0 ? FIRST_TYPING : STEP);
+      timer = setTimeout(tick, typingFor(i));
     } else {                           // הודעה
       typing.classList.remove('is-on');
       var m = nextMessage();
@@ -264,7 +263,7 @@ function motionOK() {
       setTimeout(toBottom, 60);
       i++;
       phase = 'type';
-      timer = setTimeout(tick, STEP);
+      timer = setTimeout(tick, MSG_HOLD);
     }
   }
 
