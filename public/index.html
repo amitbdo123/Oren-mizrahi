@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>אורן מזרחי - מלמד בר מצווה | הכנה לבר מצווה מול ספר תורה וקהל</title>
-  <meta name="description" content="אורן מזרחי, מלמד בר מצווה. 30 ילדים עלו לתורה בביטחון. תוכנית אישית לפי היכולת של כל ילד, ואימון מול ספר תורה אמיתי וקהל. דברו עם אורן בוואטסאפ.">
+  <meta name="description" content="אורן מזרחי, מלמד בר מצווה. 30 ילדים עלו לתורה בביטחון. תוכנית אישית לפי היכולת של כל ילד, ואימון מול ספר תורה אמיתי וקהל. דברו איתי בוואטסאפ.">
   <meta name="keywords" content="מלמד בר מצווה, הכנה לבר מצווה, לימוד בר מצווה, קריאה בתורה, טעמי המקרא, עלייה לתורה, אורן מזרחי">
   <meta name="theme-color" content="#fbf6ee">
   <!-- TODO לפני עלייה לאוויר: להחליף DOMAIN בדומיין הסופי ולהסיר את ההערה -->
@@ -29,6 +29,18 @@
     </div>
   </header>
 
+  <!-- פס עליון במחשב: מופיע אחרי שכפתור ההירו יוצא מהמסך (js/main.js) -->
+  <div class="topbar" data-topbar hidden>
+    <div class="container topbar-inner">
+      <span class="topbar-name">אורן מזרחי</span>
+      <a class="btn btn-primary btn-sm" href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9B%D7%A0%D7%94%20%D7%9C%D7%91%D7%A8%20%D7%9E%D7%A6%D7%95%D7%95%D7%94%20%D7%9C%D7%91%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener noreferrer">
+          <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+          <span>דברו עם אורן בוואטסאפ</span>
+          <span class="visually-hidden">(נפתח בחלון חדש)</span>
+        </a>
+    </div>
+  </div>
+
   <main id="main" tabindex="-1">
     <section id="top" class="hero" aria-labelledby="hero-title">
       <div class="container hero-grid">
@@ -36,15 +48,15 @@
           <!-- TODO לוודא את המספר המדויק מול אורן לפני עלייה לאוויר -->
           <h1 id="hero-title" class="hero-title">
             <span class="line">30 ילדים עלו לתורה בביטחון.</span>
-            <span class="line accent">הבן שלך הבא.</span>
+            <span class="line accent">הבן שלכם הבא.</span>
           </h1>
           <div class="hero-cta">
-            <!-- TODO: להחליף 972500000000 במספר של אורן -->
-            <a id="hero-cta" class="btn btn-primary" href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9B%D7%A0%D7%94%20%D7%9C%D7%91%D7%A8%20%D7%9E%D7%A6%D7%95%D7%95%D7%94%20%D7%9C%D7%91%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener noreferrer">
-              <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
-              <span>דברו עם אורן בוואטסאפ</span>
-              <span class="visually-hidden">(נפתח בחלון חדש)</span>
-            </a>
+            <!-- TODO: להחליף 972500000000 במספר של אורן (בכל הקישורים בדף) -->
+            <a class="btn btn-primary" href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9B%D7%A0%D7%94%20%D7%9C%D7%91%D7%A8%20%D7%9E%D7%A6%D7%95%D7%95%D7%94%20%D7%9C%D7%91%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener noreferrer" id="hero-cta">
+          <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+          <span>דברו עם אורן בוואטסאפ</span>
+          <span class="visually-hidden">(נפתח בחלון חדש)</span>
+        </a>
             <p class="cta-note"><svg class="cta-mark" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M8 0c.6 4.2 3.8 7.4 8 8-4.2.6-7.4 3.8-8 8-.6-4.2-3.8-7.4-8-8 4.2-.6 7.4-3.8 8-8Z" fill="currentColor"/></svg>תוכנית מותאמת ליכולת של כל ילד.</p>
           </div>
         </div>
@@ -52,23 +64,22 @@
         <figure class="hero-media">
           <div class="arch">
             <picture>
-              <source type="image/webp" srcset="/images/hero-600.webp 600w, /images/hero-1000.webp 1000w" sizes="(min-width: 56rem) 40vw, 88vw">
-              <img src="/images/hero-1000.jpg" srcset="/images/hero-600.jpg 600w, /images/hero-1000.jpg 1000w" sizes="(min-width: 56rem) 40vw, 88vw" width="1000" height="1249" alt="אורן מזרחי עומד ליד ילד עטוף בטלית ומניח תפילין, מול ארון הקודש, ושניהם מחייכים" fetchpriority="high">
+              <source type="image/webp" srcset="/images/hero-600.webp 600w, /images/hero-1000.webp 1000w" sizes="(min-width: 56rem) 34vw, 88vw">
+              <img src="/images/hero-1000.jpg" srcset="/images/hero-600.jpg 600w, /images/hero-1000.jpg 1000w" sizes="(min-width: 56rem) 34vw, 88vw" width="1000" height="1249" alt="אורן מזרחי עומד ליד ילד עטוף בטלית ומניח תפילין, מול ארון הקודש, ושניהם מחייכים" fetchpriority="high">
             </picture>
           </div>
         </figure>
       </div>
-      <div class="scroll-cue" aria-hidden="true"><span></span></div>
     </section>
 
     <section id="story" class="story" aria-labelledby="story-title">
       <div class="container story-inner">
         <h2 id="story-title" class="visually-hidden">איך נראה ילד שהגיע מוכן</h2>
-        <p class="story-lead">דמיין את הבן שלך ביום הגדול: עומד מול כולם, קורא בתורה רגוע ומחייך, בלי פחד שיטעה, ואתה מסתכל עליו בגאווה.</p>
+        <p class="story-lead">דמיינו את הבן שלכם ביום הגדול: עומד מול כולם, קורא בתורה רגוע ומחייך, בלי פחד שיטעה, ואתם מסתכלים עליו בגאווה.</p>
         <p class="story-turn">כך נראה ילד שהגיע מוכן.</p>
         <svg class="story-rule" aria-hidden="true" focusable="false" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M2 8.5c14-5 26-6.5 40-3.2 9 2.1 14 4.3 22 3.6 7.5-.7 10-4.4 17-5 11-.9 20 2.6 37 4.6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="60" cy="8.6" r="1.6" fill="currentColor"/></svg>
-        <p class="story-body">אורן יהיה <strong>האח הגדול</strong> של הבן שלך לאורך כל הדרך: יבנה לו תוכנית אישית לפי היכולת שלו, ויאמן אותו <strong>מול ספר תורה וקהל</strong>, עם חזרות ומילים שמחזקות. ככה גם אתה תגיע לשם בלב שקט, כי תדע שהוא מוכן.</p>
-        <p class="story-next">רוצה לראות איך זה עובד? <a href="#how">תמשיך לגלול.</a> כבר בטוח? <a href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9B%D7%A0%D7%94%20%D7%9C%D7%91%D7%A8%20%D7%9E%D7%A6%D7%95%D7%95%D7%94%20%D7%9C%D7%91%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener noreferrer">דבר עם אורן<span class="visually-hidden"> בוואטסאפ (נפתח בחלון חדש)</span></a>.</p>
+        <p class="story-body">אני אהיה <strong>האח הגדול</strong> של הבן שלכם לאורך כל הדרך: אבנה לו תוכנית אישית לפי היכולת שלו, ואאמן אותו <strong>מול ספר תורה וקהל</strong>, עם חזרות ומילים שמחזקות. ככה גם אתם תגיעו לשם בלב שקט, כי תדעו שהוא מוכן.</p>
+        <p class="story-next">רוצים לראות איך זה עובד? <a href="#how">המשיכו לגלול.</a> כבר בטוחים? <a href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9B%D7%A0%D7%94%20%D7%9C%D7%91%D7%A8%20%D7%9E%D7%A6%D7%95%D7%95%D7%94%20%D7%9C%D7%91%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener noreferrer">דברו איתי<span class="visually-hidden"> בוואטסאפ (נפתח בחלון חדש)</span></a>.</p>
       </div>
     </section>
 
@@ -79,12 +90,12 @@
           <li class="step">
             <span class="step-mark" aria-hidden="true">1</span>
             <h3 class="step-title">היכרות ומפה</h3>
-            <p>היכרות עם אורן ועם טעמי המקרא, למה הם חשובים, ותוכנית לימוד עד היעד.</p>
+            <p>נכיר, אסביר מה הם טעמי המקרא ולמה הם חשובים, ונבנה יחד תוכנית לימוד עד היעד.</p>
           </li>
           <li class="step">
             <span class="step-mark" aria-hidden="true">2</span>
             <h3 class="step-title">תרגול וחיזוק</h3>
-            <p>חזרות רבות, ומילים מעודדות לאורך הדרך שמבהירות שהכול בסדר.</p>
+            <p>הרבה חזרות, ומילים מעודדות לאורך כל הדרך, כדי שהוא ידע שהכול בסדר.</p>
           </li>
           <li class="step step-goal">
             <span class="step-mark" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M8 0c.6 4.2 3.8 7.4 8 8-4.2.6-7.4 3.8-8 8-.6-4.2-3.8-7.4-8-8 4.2-.6 7.4-3.8 8-8Z" fill="currentColor"/></svg></span>
@@ -99,7 +110,7 @@
          בלי תאריכים, שעות ומספרי טלפון. -->
     <section id="words" class="words" aria-labelledby="words-title">
       <div class="container">
-        <h2 id="words-title" class="section-title">מה ההורים כותבים לאורן</h2>
+        <h2 id="words-title" class="section-title">מה ההורים כותבים לי</h2>
         <div class="chat">
           <ol class="chat-list" role="list">
           <li class="msg" data-msg>
@@ -141,28 +152,51 @@
         <figure class="about-media">
           <div class="arch arch-sm">
             <picture>
-              <source type="image/webp" srcset="/images/about-600.webp 600w, /images/about-1000.webp 1000w" sizes="(min-width: 56rem) 34vw, 80vw">
-              <img src="/images/about-1000.jpg" srcset="/images/about-600.jpg 600w, /images/about-1000.jpg 1000w" sizes="(min-width: 56rem) 34vw, 80vw" width="1000" height="1250" alt="אורן מזרחי מחבק את כתפו של ילד בחליפה בהירה, ושניהם מחייכים" loading="lazy" decoding="async">
+              <source type="image/webp" srcset="/images/about-600.webp 600w, /images/about-1000.webp 1000w" sizes="(min-width: 56rem) 28vw, 88vw">
+              <img src="/images/about-1000.jpg" srcset="/images/about-600.jpg 600w, /images/about-1000.jpg 1000w" sizes="(min-width: 56rem) 28vw, 88vw" width="1000" height="1249" alt="אורן מזרחי מחבק את כתפו של ילד בחליפה בהירה, ושניהם מחייכים" loading="lazy" decoding="async">
             </picture>
           </div>
         </figure>
         <div class="about-text">
-          <h2 id="about-title" class="section-title">אורן, האח הגדול בדרך</h2>
-          <p>אורן בן 18, ומלמד ילדים לקראת בר מצווה מגיל 15. הוא קרוב אליהם בגיל, ולכן הם מרגישים לידו כמו ליד אח גדול: אפשר לשאול, אפשר לטעות, ואפשר לנסות שוב.</p>
-          <p>אצל אורן טעות היא חלק מהתהליך. לאורך כל הדרך יש מילים טובות וחיזוק, והאימון נעשה מול ספר תורה אמיתי וקהל שמקשיב, כך שביום הגדול זה כבר לא מרגיש חדש.</p>
-          <p class="about-proof">המשפחה שבתמונות סמכה על אורן פעמיים: הוא הכין לבר מצווה שני אחים, בהפרש של שנה.</p>
+          <h2 id="about-title" class="section-title">אני אורן, האח הגדול בדרך</h2>
+          <p>אני בן 18, ומלמד ילדים לקראת בר מצווה מגיל 15. אני קרוב אליהם בגיל, ולכן לידי הם מרגישים כמו ליד אח גדול: אפשר לשאול, אפשר לטעות, ואפשר לנסות שוב.</p>
+          <p>אצלי טעות היא חלק מהתהליך. לאורך כל הדרך יש מילים טובות וחיזוק, והאימון נעשה מול ספר תורה אמיתי וקהל שמקשיב, כך שביום הגדול זה כבר לא מרגיש חדש.</p>
+          <p class="about-proof">המשפחה שבתמונות סמכה עליי פעמיים: הכנתי לבר מצווה שני אחים, בהפרש של שנה.</p>
+          <p class="signature" aria-hidden="true">אורן</p>
         </div>
       </div>
     </section>
 
+    <!-- TODO: שאלות של הורים, בקול של אורן. ממתין לתשובות מאורן.
+    <section id="faq" class="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <h2 id="faq-title" class="section-title">שאלות שהורים שואלים אותי</h2>
+        <details class="faq-item"><summary>איפה לומדים, ובאיזו תדירות?</summary><p>...</p></details>
+        <details class="faq-item"><summary>כמה זמן לפני הבר מצווה כדאי להתחיל?</summary><p>...</p></details>
+        <details class="faq-item"><summary>מה אם הבן שלי ביישן?</summary><p>...</p></details>
+        <details class="faq-item"><summary>מה זה בכלל טעמי המקרא?</summary><p>...</p></details>
+      </div>
+    </section>
+    -->
+
     <section id="contact" class="final-cta" aria-labelledby="contact-title" data-hide-sticky>
       <div class="container final-inner">
         <h2 id="contact-title" class="final-title">בואו נתכנן יחד את הדרך של הילד.</h2>
-        <a class="btn btn-primary btn-lg" href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9B%D7%A0%D7%94%20%D7%9C%D7%91%D7%A8%20%D7%9E%D7%A6%D7%95%D7%95%D7%94%20%D7%9C%D7%91%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener noreferrer">
+        <div class="compose" role="group" aria-label="ההודעה שתישלח לאורן">
+          <div class="compose-head">
+            <picture>
+              <source type="image/webp" srcset="/images/oren-avatar.webp">
+              <img class="compose-avatar" src="/images/oren-avatar.jpg" width="96" height="96" alt="" loading="lazy" decoding="async">
+            </picture>
+            <span class="compose-name">אורן מזרחי</span>
+          </div>
+          <p class="compose-bubble"><span class="visually-hidden">ההודעה המוכנה: </span>היי אורן, הגעתי מהאתר ואשמח לשמוע על הכנה לבר מצווה לבן שלי</p>
+          <a class="btn btn-primary btn-lg btn-send" href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9B%D7%A0%D7%94%20%D7%9C%D7%91%D7%A8%20%D7%9E%D7%A6%D7%95%D7%95%D7%94%20%D7%9C%D7%91%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener noreferrer">
           <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
-          <span>דברו עם אורן בוואטסאפ</span>
+          <span>שלחו לי בוואטסאפ</span>
           <span class="visually-hidden">(נפתח בחלון חדש)</span>
         </a>
+        </div>
         <p class="cta-note"><svg class="cta-mark" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M8 0c.6 4.2 3.8 7.4 8 8-4.2.6-7.4 3.8-8 8-.6-4.2-3.8-7.4-8-8 4.2-.6 7.4-3.8 8-8Z" fill="currentColor"/></svg>תוכנית מותאמת ליכולת של כל ילד.</p>
       </div>
     </section>
@@ -184,20 +218,19 @@
             <li>הצבעים נבחרו בניגודיות גבוהה, והטקסט ניתן להגדלה עד 200% בלי לאבד תוכן.</li>
             <li>לתמונות יש תיאור טקסטואלי, והאתר מכבד את הגדרת "הפחתת תנועה" במכשיר.</li>
           </ul>
-          <p>נתקלתם בבעיית נגישות? <a href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9B%D7%A0%D7%94%20%D7%9C%D7%91%D7%A8%20%D7%9E%D7%A6%D7%95%D7%95%D7%94%20%D7%9C%D7%91%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener noreferrer">כתבו לאורן בוואטסאפ<span class="visually-hidden"> (נפתח בחלון חדש)</span></a> ונטפל בה.</p>
+          <p>נתקלתם בבעיית נגישות? <a href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9B%D7%A0%D7%94%20%D7%9C%D7%91%D7%A8%20%D7%9E%D7%A6%D7%95%D7%95%D7%94%20%D7%9C%D7%91%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener noreferrer">כתבו לי בוואטסאפ<span class="visually-hidden"> (נפתח בחלון חדש)</span></a> ואטפל בה.</p>
         </div>
       </details>
     </div>
   </footer>
 
-
   <!-- פס וואטסאפ קבוע במובייל: מופיע אחרי שכפתור ההירו יוצא מהמסך (js/main.js) -->
   <div class="sticky-cta" data-sticky-cta hidden>
     <a class="btn btn-primary btn-block" href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9B%D7%A0%D7%94%20%D7%9C%D7%91%D7%A8%20%D7%9E%D7%A6%D7%95%D7%95%D7%94%20%D7%9C%D7%91%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener noreferrer">
-      <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
-      <span>דברו עם אורן בוואטסאפ</span>
-      <span class="visually-hidden">(נפתח בחלון חדש)</span>
-    </a>
+          <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+          <span>דברו עם אורן בוואטסאפ</span>
+          <span class="visually-hidden">(נפתח בחלון חדש)</span>
+        </a>
   </div>
 </body>
 </html>

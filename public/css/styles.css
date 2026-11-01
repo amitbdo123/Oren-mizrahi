@@ -222,7 +222,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   pointer-events: none;
 }
 
-.scroll-cue { display: none; }
+
 
 /* ---------- פס וואטסאפ קבוע במובייל ---------- */
 .sticky-cta {
@@ -557,6 +557,79 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   .final-cta { padding-block: 7rem; }
 }
 
+/* ---------- פס עליון במחשב ---------- */
+.topbar { display: none; }
+@media (min-width: 56rem) {
+  .topbar {
+    display: block;
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 50;
+    background: rgb(251 246 238 / .97);
+    border-bottom: 1px solid var(--gold-soft);
+    box-shadow: 0 10px 24px -18px rgb(60 40 25 / .35);
+    transform: translateY(-110%);
+    visibility: hidden;
+    transition: transform .5s var(--ease), visibility 0s linear .5s;
+  }
+  .topbar.is-visible { transform: none; visibility: visible; transition: transform .5s var(--ease), visibility 0s; }
+  .topbar-inner { display: flex; align-items: center; justify-content: space-between; min-height: 4rem; }
+  .topbar-name { font-family: var(--script); font-size: 1.7rem; line-height: 1; color: var(--terracotta); }
+}
+.btn-sm { min-height: 2.75rem; padding: .5rem 1.25rem; font-size: .95rem; border-radius: 1.375rem; }
+.btn-sm .icon { width: 1.15rem; height: 1.15rem; }
+
+/* ---------- חתימה ---------- */
+.signature {
+  font-family: var(--script);
+  font-size: 2.6rem !important;
+  line-height: 1 !important;
+  color: var(--terracotta);
+  margin: 1.5rem 0 0 !important;
+}
+
+/* ---------- רקע שיחה עדין להמלצות ---------- */
+.words {
+  background-color: var(--cream-deep);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M12 20v-4a4 4 0 0 1 8 0v4M40 48v-4a4 4 0 0 1 8 0v4' fill='none' stroke='%23d9c39b' stroke-width='1' opacity='.38'/%3E%3Ccircle cx='44' cy='14' r='1' fill='%23d9c39b' opacity='.45'/%3E%3Ccircle cx='14' cy='42' r='1' fill='%23d9c39b' opacity='.45'/%3E%3C/svg%3E");
+}
+
+/* ---------- ההודעה שתישלח (קריאה לפעולה) ---------- */
+.compose {
+  width: min(100%, 26rem);
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+  margin-bottom: .25rem;
+}
+.compose-head { display: flex; align-items: center; gap: .65rem; }
+.compose-avatar {
+  width: 3rem; height: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 2px var(--cream), 0 0 0 3px var(--gold);
+}
+.compose-name { font-family: var(--script); font-size: 1.6rem; line-height: 1; color: var(--terracotta); }
+/* בועה יוצאת: בצד הסוף (שמאל), בגוון טרקוטה בהיר */
+.compose-bubble {
+  position: relative;
+  align-self: flex-end;
+  max-width: 88%;
+  margin: 0;
+  padding: .8rem 1rem;
+  background: #f6e3d6;
+  color: var(--ink);
+  text-align: start;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  border-radius: 18px;
+  border-start-end-radius: 18px;
+  border-end-end-radius: 4px;
+  box-shadow: 0 1px 1px rgb(60 40 25 / .06), 0 6px 16px -10px rgb(60 40 25 / .25);
+}
+.btn-send { width: 100%; }
+
 /* מסכים צרים מאוד / הגדלה של 200% */
 @media (max-width: 20rem) {
   .btn { padding-inline: 1rem; }
@@ -575,25 +648,6 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   .arch { width: 100%; max-width: 28rem; margin-inline: auto 0; }
   .sticky-cta { display: none; }
 
-  .scroll-cue {
-    display: block;
-    position: absolute;
-    bottom: 1.75rem;
-    inset-inline-start: 50%;
-    width: 1px;
-    height: 2.75rem;
-    background: linear-gradient(var(--gold), transparent);
-  }
-  .scroll-cue span {
-    position: absolute;
-    top: 0;
-    left: -2px;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--gold);
-  }
-}
 
 /* ---------- תנועה: רגע אחד איטי ועדין ---------- */
 /* התמונה והכפתור גלויים מהרגע הראשון. רק הכותרת עולה, והשורה "הבן שלך הבא." נכנסת אחריה. */
@@ -601,11 +655,9 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   .hero-title .line { animation: rise 1.2s cubic-bezier(.16, 1, .3, 1) both; }
   .hero-title .accent { animation-delay: .35s; }
   .arch img { animation: settle 2.4s cubic-bezier(.16, 1, .3, 1) both; }
-  .scroll-cue span { animation: drift 3.2s ease-in-out 1.5s infinite; }
 }
 @media (prefers-reduced-motion: reduce) {
   .btn, .sticky-cta, .sticky-cta.is-visible { transition: none; }
 }
 @keyframes rise { from { opacity: .001; transform: translateY(.35em); } to { opacity: 1; transform: none; } }
 @keyframes settle { from { transform: scale(1.04); } to { transform: none; } }
-@keyframes drift { 0%, 100% { transform: translateY(0); opacity: 1; } 60% { transform: translateY(2.2rem); opacity: 0; } }
