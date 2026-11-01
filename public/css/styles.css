@@ -1206,7 +1206,10 @@ body {
 .hero-title .accent { color: var(--terracotta); }
 .hl {
   padding-inline: .12em;
-  background: linear-gradient(transparent 56%, var(--highlight) 56% 90%, transparent 90%);
+  background-image: linear-gradient(transparent 56%, var(--highlight) 56% 90%, transparent 90%);
+  background-repeat: no-repeat;
+  background-position: 100% 0;   /* מתחילים מימין, כיוון הכתיבה בעברית */
+  background-size: 100% 100%;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -1244,9 +1247,10 @@ body {
   background: #ffffff;
   padding: .6rem .6rem 2.8rem;
   box-shadow: 0 16px 30px -16px rgb(20 30 60 / .5);
-  transform: rotate(1.5deg);
+  --tilt: 1.5deg;
+  transform: rotate(var(--tilt));
 }
-.polaroid-tilt { transform: rotate(-2deg); }
+.polaroid-tilt { --tilt: -2deg; }
 .polaroid picture { display: block; overflow: hidden; }
 .polaroid img { border-radius: 0; }
 .polaroid::after {
@@ -1260,6 +1264,7 @@ body {
   border-radius: 2px;
   background: rgb(248 221 107 / .75);
   transform: rotate(-4deg);
+  transform-origin: 100% 50%;
 }
 .polaroid-cap {
   position: absolute;
@@ -1313,3 +1318,47 @@ html.a11y-contrast .story, html.a11y-contrast .words, html.a11y-contrast .final-
 /* 8. מרקר עם קצוות לא אחידים, וכפתור תפריט בעט כחול */
 .hl { border-radius: .2em .6em .25em .7em / .15em .4em .2em .45em; }
 .nav-toggle { border: 2px solid var(--terracotta); color: var(--terracotta); border-radius: 10px; }
+
+/* ---------- אנימציות: מרקר שמסמן, ותמונה שמודבקת בסלוטייפ ----------
+   פועלות רק עם JS ועם תנועה מותרת (html.anim-on). בלעדיהן הכול מוצג במצב הסופי. */
+html.anim-on .hl { background-size: 0% 100%; }
+html.anim-on .hl.is-marked {
+  background-size: 100% 100%;
+  transition: background-size .9s cubic-bezier(.55, .1, .25, 1);
+}
+
+/* התמונה מוחזקת ביד מעל הדף, נוחתת, ואז הסלוטייפ נמתח ונדבק */
+html.anim-on .polaroid {
+  transform: translateY(-18px) rotate(calc(var(--tilt) + 5deg)) scale(1.04);
+  box-shadow: 0 36px 50px -22px rgb(20 30 60 / .45);
+  opacity: .001;
+}
+html.anim-on .polaroid.is-taped {
+  transform: rotate(var(--tilt));
+  box-shadow: 0 16px 30px -16px rgb(20 30 60 / .5);
+  opacity: 1;
+  transition: transform .7s cubic-bezier(.2, .9, .3, 1.15), box-shadow .7s ease, opacity .25s ease;
+}
+html.anim-on .polaroid::after { transform: rotate(-4deg) scaleX(0); opacity: 0; }
+html.anim-on .polaroid.is-taped::after {
+  transform: rotate(-4deg) scaleX(1);
+  opacity: 1;
+  transition: transform .38s cubic-bezier(.3, 1.4, .5, 1) .62s, opacity .1s linear .62s;
+}
+
+/* יישור לשורות: הקבוצות זזות חזותית בלבד, והמרווחים בין פסקאות הם בדיוק שורה */
+.story-body, .story-next, .about-text, .step { position: relative; }
+.story-body { margin-bottom: 2rem !important; }
+.about-text p:not(.about-sub):not(.signature):not(.about-proof) { margin: 0 0 2rem !important; }
+
+/* מרקר עם שכבה לא אחידה וקצה עקום: שתי שכבות בזוויות שונות */
+.hl {
+  background-image:
+    linear-gradient(-1.6deg, transparent 54%, var(--highlight) 54% 87%, transparent 87%),
+    linear-gradient(1.2deg, transparent 60%, rgb(248 221 107 / .55) 60% 93%, transparent 93%);
+  background-repeat: no-repeat, no-repeat;
+  background-position: 100% 0, 100% 0;
+  background-size: 100% 100%, 100% 100%;
+}
+html.anim-on .hl { background-size: 0% 100%, 0% 100%; }
+html.anim-on .hl.is-marked { background-size: 100% 100%, 100% 100%; }
