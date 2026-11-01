@@ -650,7 +650,8 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
 .about-media { margin: 0; }
 .arch-sm { width: min(100%, 22rem); }
 .about-text { max-width: 34rem; margin-inline: auto; }
-.about-text .section-title { margin-bottom: 1.5rem; text-align: start; }
+.about-text .section-title { margin-bottom: .35rem; text-align: start; }
+.about-sub { font-family: var(--script); font-size: 1.9rem !important; line-height: 1.2 !important; color: var(--terracotta); margin: 0 0 1.4rem !important; }
 .about-text p { margin: 0 0 1.1rem; font-size: 1.08rem; line-height: 1.85; text-wrap: pretty; }
 .about-proof {
   position: relative;

@@ -74,7 +74,8 @@ function motionOK() {
 // ---------------------------------------------------------------------------
 // פתיחה: פרוכת על כל המסך. גוררים ימינה (מגע/עכבר), גוללים, או לוחצים על הכפתור.
 // כשהיא נפתחת, האור שמאחוריה מתפשט והאתר עולה דרכו.
-// לא מוצגת עם "הפחתת תנועה"/"עצירת אנימציות", או אם כבר נפתחה בביקור הזה (sessionStorage).
+// לא מוצגת עם "הפחתת תנועה"/"עצירת אנימציות", אם כבר נפתחה בביקור הזה (sessionStorage),
+// או למי שהגיע מאתר אחר (למשל מתוצאות החיפוש בגוגל).
 // ---------------------------------------------------------------------------
 (function () {
   var intro = document.querySelector('[data-intro]');
@@ -82,7 +83,11 @@ function motionOK() {
   var root = document.documentElement;
   var seen = false;
   try { seen = sessionStorage.getItem('intro-seen') === '1'; } catch (e) {}
-  if (!motionOK() || seen) { intro.remove(); return; }
+  // מי שמגיע מגוגל או מאתר אחר נכנס ישר לתוכן (גוגל רואה בשכבה חוסמת אות שלילי).
+  // מי שמגיע מקישור בוואטסאפ, הקלדה ישירה או מתוך האתר עצמו רואה את הפרוכת.
+  var external = false;
+  try { external = !!document.referrer && new URL(document.referrer).origin !== location.origin; } catch (e) {}
+  if (!motionOK() || seen || external) { intro.remove(); return; }
 
   var curtain = intro.querySelector('[data-intro-curtain]');
   var openBtn = intro.querySelector('[data-intro-open]');
