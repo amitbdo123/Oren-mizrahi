@@ -508,6 +508,55 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   .arch-sm { width: 100%; max-width: 24rem; margin-inline: 0 auto; }
 }
 
+/* ---------- קריאה לפעולה ---------- */
+.final-cta {
+  background: var(--cream-deep);
+  padding-block: 5rem;
+  border-top: 1px solid rgb(217 195 155 / .6);
+}
+.final-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.1rem; }
+.final-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 7vw, 3rem);
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0 0 1rem;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.btn-lg { min-height: 3.6rem; padding-inline: 2.25rem; font-size: 1.12rem; border-radius: 1.8rem; }
+
+/* ---------- פוטר ---------- */
+.site-footer { padding-block: 3rem 2.5rem; border-top: 1px solid rgb(217 195 155 / .6); }
+.footer-inner { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center; }
+.wordmark-sm .wordmark-name { font-size: 1.8rem; }
+.wordmark-sm .wordmark-flourish { width: 6rem; }
+
+.a11y { max-width: 36rem; font-size: .95rem; color: var(--muted); }
+.a11y summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: .5rem;
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: .3em;
+}
+.a11y-body { text-align: start; padding-top: .5rem; }
+.a11y-body p { margin: 0 0 .75rem; }
+.a11y-body ul { margin: 0 0 .75rem; padding-inline-start: 1.25rem; }
+.a11y-body li { margin-bottom: .35rem; }
+.a11y-body li::marker { color: var(--gold); }
+.a11y-body a { color: var(--terracotta); font-weight: 700; text-underline-offset: .25em; }
+
+@media (min-width: 56rem) {
+  .final-cta { padding-block: 7rem; }
+}
+
 /* מסכים צרים מאוד / הגדלה של 200% */
 @media (max-width: 20rem) {
   .btn { padding-inline: 1rem; }
