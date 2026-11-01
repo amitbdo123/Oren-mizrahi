@@ -13,7 +13,7 @@ Parents (mostly fathers and mothers) of a boy approaching bar mitzvah age, in Je
 A one-page site for Oren Mizrahi, a bar mitzvah teacher. Success is a parent understanding what Oren offers and how he differs from any other teacher, then sending him a WhatsApp message.
 
 ## Positioning
-- Practice in front of a real Torah scroll and a listening audience, not only from a book.
+- Practice in front of a real Torah scroll, and sometimes in front of a listening audience, not only from a book.
 - Kind words and encouragement throughout; mistakes are part of the process.
 - Oren is 18 and has taught since 15. His age is the advantage: he is the boy's big brother.
 - 23 boys have read from the Torah with him. One family trusted him twice (two brothers a year apart, shown in the photos).
