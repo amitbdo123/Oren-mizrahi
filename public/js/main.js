@@ -101,3 +101,51 @@
   }, { passive: true });
   window.addEventListener('pageshow', function () { if (started) catchUp(); });
 })();
+
+// ---------------------------------------------------------------------------
+// מהתיקון לספר התורה: לפי ההתקדמות בגלילה בתוך "איך זה עובד", הפסוק מאבד קודם את
+// הטעמים ואחר כך את הניקוד, והצעד המתאים נדלק.
+// ---------------------------------------------------------------------------
+(function () {
+  var section = document.getElementById('how');
+  var verse = document.querySelector('[data-verse]');
+  if (!section || !verse) return;
+  var layers = verse.querySelectorAll('[data-layer]');
+  var modes = verse.querySelectorAll('[data-mode]');
+  var steps = section.querySelectorAll('.step');
+  var current = 0;
+
+  function setStage(n) {
+    if (n === current) return;
+    current = n;
+    layers.forEach(function (l) { l.classList.toggle('is-on', +l.dataset.layer === n); });
+    modes.forEach(function (m) { m.classList.toggle('is-on', +m.dataset.mode === n); });
+    steps.forEach(function (s, i) { s.classList.toggle('is-active', i === n - 1); });
+  }
+
+  function update() {
+    var vh = window.innerHeight;
+    var vertical = steps.length > 1 && steps[1].getBoundingClientRect().top > steps[0].getBoundingClientRect().bottom - 1;
+    if (vertical) {
+      // מובייל: הצעד שנמצא כרגע מתחת לפסוק הדביק קובע את השלב
+      var line = vh * 0.5;
+      var n = 1;
+      steps.forEach(function (s, i) { if (s.getBoundingClientRect().top < line) n = i + 1; });
+      setStage(n);
+    } else {
+      // מחשב: הצעדים בשורה אחת, אז השלב נקבע לפי ההתקדמות בגלילה בסקשן
+      var r = section.getBoundingClientRect();
+      var p = (vh * 0.55 - r.top) / Math.max(r.height - vh * 0.1, 1);
+      setStage(p < 0.4 ? 1 : p < 0.68 ? 2 : 3);
+    }
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { ticking = false; update(); });
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();

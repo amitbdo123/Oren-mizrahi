@@ -1,5 +1,6 @@
 /* ---------- גופנים (מוגשים מהאתר עצמו, בלי צד שלישי) ---------- */
 /* קבצי punct: רק ספרות וסימני פיסוק, כדי לא להוריד את כל הלטינית בשביל "30" ונקודה */
+@font-face { font-family: "Verse"; font-weight: 500; font-display: swap; src: url("/fonts/noto-serif-hebrew-verse-500.woff2") format("woff2"); }
 @font-face { font-family: "Gveret Levin"; font-weight: 400; font-display: swap; src: url("/fonts/gveret-levin-hebrew-400-normal.woff2") format("woff2"); unicode-range: U+0020, U+00A0, U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
 @font-face { font-family: "Frank Ruhl Libre"; font-weight: 700; font-display: swap; src: url("/fonts/frank-ruhl-libre-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0020, U+00A0, U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
 @font-face { font-family: "Frank Ruhl Libre"; font-weight: 700; font-display: swap; src: url("/fonts/frank-ruhl-libre-punct-700.woff2") format("woff2"); unicode-range: U+0021-0040, U+2011-2027; }
@@ -350,7 +351,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   font-size: 1.1rem;
   color: var(--terracotta);
 }
-.step-goal .step-mark { background: var(--terracotta); border-color: var(--terracotta); color: var(--gold-soft); }
+.step-goal .step-mark { color: var(--gold); }
 .step-goal .step-mark svg { width: 1rem; height: 1rem; }
 .step-title {
   font-family: var(--serif);
@@ -566,7 +567,7 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
     inset-inline: 0;
     top: 0;
     z-index: 50;
-    background: rgb(251 246 238 / .97);
+    background: var(--cream);
     border-bottom: 1px solid var(--gold-soft);
     box-shadow: 0 10px 24px -18px rgb(60 40 25 / .35);
     transform: translateY(-110%);
@@ -666,6 +667,73 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
 }
 @keyframes door-r { from { transform: none; } 85% { opacity: 1; } to { transform: rotateY(-108deg); opacity: 0; } }
 @keyframes door-l { from { transform: none; } 85% { opacity: 1; } to { transform: rotateY(108deg); opacity: 0; } }
+
+/* ---------- מהתיקון לספר התורה ---------- */
+.verse {
+  position: sticky;
+  top: .5rem;
+  z-index: 3;
+  margin: -1rem auto 2.5rem;
+  max-width: 34rem;
+  padding: 1rem 1rem .9rem;
+  text-align: center;
+  background: var(--cream);
+  border-block: 1px solid var(--gold-soft);
+}
+.verse-text {
+  display: grid;
+  margin: 0;
+  font-family: "Verse", var(--serif);
+  font-weight: 500;
+  font-size: clamp(2rem, 9vw, 3.1rem);
+  line-height: 1.9;
+  color: var(--ink);
+}
+.verse-layer {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 1.1s cubic-bezier(.16, 1, .3, 1);
+}
+.verse-layer.is-on { opacity: 1; }
+.verse-cap {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .25rem .75rem;
+  font-size: .9rem;
+  color: var(--muted);
+}
+.verse-modes { display: grid; }
+.verse-mode {
+  grid-area: 1 / 1;
+  opacity: 0;
+  font-weight: 700;
+  color: var(--terracotta);
+  transition: opacity .6s ease;
+}
+.verse-mode.is-on { opacity: 1; }
+.verse-cap { flex-direction: column; align-items: center; gap: .1rem; }
+.verse-src { font-size: .82rem; }
+
+.step-mark { transition: background-color .6s var(--ease), color .6s var(--ease), border-color .6s var(--ease); }
+.step.is-active .step-mark { background: var(--terracotta); border-color: var(--terracotta); color: #fff; }
+.step-goal.is-active .step-mark { color: var(--gold-soft); }
+/* מובייל: מרווח כדי שכל צעד יקבל את הרגע שלו מתחת לפסוק הדביק */
+@media (max-width: 55.99rem) {
+  .how .step { padding-bottom: 3.25rem; }
+  .how .step:last-child { padding-bottom: 0; }
+  .how { padding-bottom: 28vh; }
+}
+
+@media (min-width: 56rem) {
+  .verse { top: 4.75rem; margin-bottom: 3.5rem; padding-block: 1.25rem 1rem; }
+  .verse-text { font-size: 3.4rem; }
+  .how { padding-bottom: 9rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .verse-layer, .verse-mode, .step-mark { transition: none; }
+}
 
 /* מסכים צרים מאוד / הגדלה של 200% */
 @media (max-width: 20rem) {
