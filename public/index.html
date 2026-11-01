@@ -7,7 +7,6 @@
   <meta name="description" content="אורן מזרחי, מלמד בר מצווה. 30 ילדים עלו לתורה בביטחון. תוכנית אישית לפי היכולת של כל ילד, ואימון מול ספר תורה אמיתי וקהל. דברו איתי בוואטסאפ.">
   <meta name="keywords" content="מלמד בר מצווה, מורה לבר מצווה, הכנה לבר מצווה, לימוד קריאה בתורה, קריאה בתורה לבר מצווה, טעמי המקרא, עלייה לתורה, בר מצוה, אורן מזרחי">
   <meta name="theme-color" content="#fbf6ee">
-  <meta name="robots" content="max-image-preview:large">
   <!-- TODO לפני עלייה לאוויר: להחליף DOMAIN בדומיין הסופי ולהסיר את ההערות (canonical, og:url, og:image) -->
   <!-- <link rel="canonical" href="https://DOMAIN/"> -->
   <meta property="og:type" content="website">
@@ -131,7 +130,8 @@
         <!-- מהתיקון לספר התורה: הניקוד והטעמים נעלמים לאורך הצעדים. מקור: ויקרא יט, יח (כתב יד לנינגרד, WLC) -->
         <figure class="verse" data-verse>
           <p class="verse-text">
-            <span class="verse-layer is-on" data-layer="1">וְאָֽהַבְתָּ֥ לְרֵעֲךָ֖ כָּמ֑וֹךָ</span>
+            <span class="visually-hidden">ואהבת לרעך כמוך.</span>
+            <span class="verse-layer is-on" data-layer="1" aria-hidden="true">וְאָֽהַבְתָּ֥ לְרֵעֲךָ֖ כָּמ֑וֹךָ</span>
             <span class="verse-layer" data-layer="2" aria-hidden="true">וְאָהַבְתָּ לְרֵעֲךָ כָּמוֹךָ</span>
             <span class="verse-layer" data-layer="3" aria-hidden="true">ואהבת לרעך כמוך</span>
           </p>
@@ -189,7 +189,7 @@
                 <span class="visually-hidden" data-chat-toggle-label>השהיית ההודעות</span>
               </button>
             </div>
-            <div class="chat-body" data-chat-body tabindex="0" role="region" aria-labelledby="words-title">
+            <div class="chat-body" data-chat-body tabindex="0" role="region" aria-label="ההודעות מההורים, אפשר לגלול">
               <ol class="chat-list" role="list">
           <li class="msg" data-msg>
             <div class="msg-inner"><figure class="msg-bubble">
@@ -285,18 +285,33 @@
         <svg class="wordmark-flourish" aria-hidden="true" focusable="false" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M2 8.5c14-5 26-6.5 40-3.2 9 2.1 14 4.3 22 3.6 7.5-.7 10-4.4 17-5 11-.9 20 2.6 37 4.6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="60" cy="8.6" r="1.6" fill="currentColor"/></svg>
         <span class="wordmark-role">מלמד בר מצווה</span>
       </p>
-      <details class="a11y">
-        <summary>הצהרת נגישות</summary>
-        <div class="a11y-body">
-          <p>האתר נבנה כך שיהיה נוח לשימוש לכולם, בהתאם להנחיות הנגישות המקובלות (WCAG 2.1 ברמה AA):</p>
-          <ul>
-            <li>אפשר לנווט בכל האתר באמצעות המקלדת בלבד, ויש קישור לדילוג לתוכן הראשי.</li>
-            <li>הצבעים נבחרו בניגודיות גבוהה, והטקסט ניתן להגדלה עד 200% בלי לאבד תוכן.</li>
-            <li>לתמונות יש תיאור טקסטואלי, והאתר מכבד את הגדרת "הפחתת תנועה" במכשיר.</li>
-          </ul>
-          <p>נתקלתם בבעיית נגישות? <a href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9B%D7%A0%D7%94%20%D7%9C%D7%91%D7%A8%20%D7%9E%D7%A6%D7%95%D7%95%D7%94%20%D7%9C%D7%91%D7%9F%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener noreferrer">כתבו לי בוואטסאפ<span class="visually-hidden"> (נפתח בחלון חדש)</span></a> ואטפל בה.</p>
-        </div>
-      </details>
+      <!-- TODO לפני עלייה לאוויר: טלפון ודוא"ל של אורן בהצהרת הנגישות ובהודעת הפרטיות -->
+      <div class="footer-notes">
+        <details class="a11y" id="accessibility">
+          <summary>הצהרת נגישות</summary>
+          <div class="a11y-body">
+            <p>האתר הותאם לתקן הישראלי ת"י 5568 ולהנחיות WCAG 2.1 ברמה AA. מה עשיתי כדי שיהיה נוח לכולם:</p>
+            <ul>
+              <li>אפשר לנווט בכל האתר במקלדת בלבד, ויש קישור לדילוג לתוכן הראשי.</li>
+              <li>הצבעים בניגודיות גבוהה, והטקסט ניתן להגדלה עד 200% בלי לאבד תוכן.</li>
+              <li>לתמונות יש תיאור טקסטואלי.</li>
+              <li>האתר מכבד את הגדרת "הפחתת תנועה" במכשיר. לשיחת ההמלצות יש כפתור השהיה, ואפשר לגלול בה בקצב שלכם.</li>
+            </ul>
+            <p><strong>מגבלות ידועות:</strong> הפסוק עם הניקוד וטעמי המקרא מוצג בשכבות מעוצבות שמתחלפות בגלילה, ולקוראי מסך מוקרא נוסח פשוט שלו. הפנייה העיקרית היא בוואטסאפ, ואפשר לפנות גם בטלפון או בדוא"ל.</p>
+            <p><strong>השיעורים עצמם:</strong> אם הבן שלכם צריך התאמה כלשהי, ספרו לי מראש ונמצא יחד את הדרך המתאימה.</p>
+            <p><strong>רכז הנגישות:</strong> אורן מזרחי · טלפון: 05X-XXXXXXX · דוא"ל: XXXX@XXXX · <a href="https://wa.me/972500000000?text=%D7%94%D7%99%D7%99%20%D7%90%D7%95%D7%A8%D7%9F%2C%20%D7%A0%D7%AA%D7%A7%D7%9C%D7%AA%D7%99%20%D7%91%D7%91%D7%A2%D7%99%D7%99%D7%AA%20%D7%A0%D7%92%D7%99%D7%A9%D7%95%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8%3A" target="_blank" rel="noopener noreferrer">דיווח בוואטסאפ<span class="visually-hidden"> (נפתח בחלון חדש)</span></a></p>
+            <p>ההצהרה עודכנה בתאריך 1.11.2026.</p>
+          </div>
+        </details>
+        <details class="a11y" id="privacy">
+          <summary>פרטיות</summary>
+          <div class="a11y-body">
+            <p>האתר לא משתמש בעוגיות, לא מפעיל כלי מעקב או סטטיסטיקה ולא אוסף פרטים. ספק האחסון (Vercel) שומר יומני גישה טכניים, כמו כתובת IP, לצורכי אבטחה.</p>
+            <p>לחיצה על כפתור וואטסאפ מעבירה אתכם לשירות של WhatsApp, הכפוף למדיניות הפרטיות שלו. פרטים שתשלחו לי בשיחה ישמשו רק לתיאום ולליווי ההכנה לבר המצווה, לא יועברו לאחרים, וימחקו לבקשתכם.</p>
+            <p>התמונות וההמלצות באתר מתפרסמות בהסכמת ההורים. לבקשת הסרה: טלפון 05X-XXXXXXX או דוא"ל XXXX@XXXX.</p>
+          </div>
+        </details>
+      </div>
     </div>
   </footer>
 

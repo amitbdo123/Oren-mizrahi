@@ -60,7 +60,7 @@
 
   var i = 0, timer = null, state = 'idle', phase = 'type';
 
-  var LABELS = { playing: 'השהיית ההודעות', paused: 'המשך ההודעות', done: 'הצגת ההודעות מההתחלה' };
+  var LABELS = { idle: 'הפעלת ההודעות', playing: 'השהיית ההודעות', paused: 'המשך ההודעות', done: 'הצגת ההודעות מההתחלה' };
   function setState(s) {
     state = s;
     toggle.dataset.state = s;
@@ -109,7 +109,8 @@
   function showAll() { msgs.forEach(function (m) { m.classList.add('is-shown'); }); i = msgs.length; }
 
   toggle.addEventListener('click', function () {
-    if (state === 'playing') pause();
+    if (state === 'idle') play();
+    else if (state === 'playing') pause();
     else if (state === 'paused') play();
     else restart();
   });
@@ -124,13 +125,13 @@
   }
   body.addEventListener('wheel', userTakesOver, { passive: true });
   body.addEventListener('touchstart', userTakesOver, { passive: true });
-  body.addEventListener('keydown', userTakesOver);
+  body.addEventListener('keydown', function (e) { if (e.key !== 'Tab' && e.key !== 'Shift') userTakesOver(); });
 
   setState('idle');
   new IntersectionObserver(function (entries, obs) {
     if (!entries[0].isIntersecting) return;
     obs.disconnect();
-    play();
+    if (state === 'idle') play();
   }, { threshold: 0.45 }).observe(phone);
 })();
 
