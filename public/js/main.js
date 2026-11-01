@@ -562,43 +562,57 @@ function motionOK() {
 })();
 
 // ---------------------------------------------------------------------------
-// מרקר שמסמן את הכתב, ותמונות שמודבקות בסלוטייפ, כשהן נכנסות למסך.
-// בזמן שהפרוכת פתוחה מחכים, כדי שהגולש יראה את האנימציה של ההירו אחרי שנכנס.
+// מרקר ודבק, רק לפי הגלילה של הגולש:
+// - המרקר מצטייר בהדרגה, לפי כמה שגוללים לכיוון הטקסט (גוללים לאט, הוא מסמן לאט).
+// - תמונה מודבקת בסלוטייפ רק כשגוללים אליה.
+// מה שכבר על המסך כשהאתר עולה (ההירו) מחכה לגלילה הראשונה. שום דבר לא קורה לבד.
 // בלי JS, עם "הפחתת תנועה" או "עצירת אנימציות": הכול מוצג במצב הסופי.
 // ---------------------------------------------------------------------------
 (function () {
-  if (!('IntersectionObserver' in window) || !motionOK()) return;
+  if (!motionOK()) return;
   var root = document.documentElement;
-  var items = Array.prototype.slice.call(document.querySelectorAll('.hl, .polaroid'));
-  if (!items.length) return;
+  var marks = Array.prototype.slice.call(document.querySelectorAll('.hl'));
+  var tapes = Array.prototype.slice.call(document.querySelectorAll('.polaroid'));
+  if (!marks.length && !tapes.length) return;
   root.classList.add('anim-on');
 
-  var pending = [];
-  function reveal(el) {
-    if (root.classList.contains('intro-on')) { pending.push(el); return; }
-    // שני פריימים: הדפדפן מצייר קודם את מצב ההתחלה, ורק אז עוברים למצב הסופי (אחרת אין אנימציה)
-    requestAnimationFrame(function () { requestAnimationFrame(function () {
-      el.classList.add(el.classList.contains('polaroid') ? 'is-taped' : 'is-marked');
-    }); });
-  }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      io.unobserve(e.target);
-      reveal(e.target);
+  function docTop(el) { return el.getBoundingClientRect().top + window.scrollY; }
+  var H = window.innerHeight;
+  var markItems = marks.map(function (el) { return { el: el, first: false }; });
+  var tapeItems = tapes.map(function (el) { return { el: el, done: false }; });
+  var userScrolled = false;
+  // מה שנמצא במסך הראשון (אחרי שהגופנים נטענו והפריסה התייצבה) נצבע רק במהלך הגלילה הראשונה
+  function classify() { markItems.forEach(function (it) { it.first = docTop(it.el) < H * 0.6; }); }
+
+  function clamp(v) { return Math.min(Math.max(v, 0), 1); }
+
+  function update() {
+    if (root.classList.contains('intro-on') || !userScrolled) return;   // שום דבר לא קורה לבד
+    H = window.innerHeight;
+    var y = window.scrollY;
+    markItems.forEach(function (it) {
+      var p;
+      if (it.first) p = clamp(y / (H * 0.25));                       // ההירו: נצבע במהלך הגלילה הראשונה
+      else p = clamp((H * 0.88 - it.el.getBoundingClientRect().top) / (H * 0.3));  // נכנס מלמטה: נצבע בדרך למעלה
+      it.el.style.setProperty('--hlp', p.toFixed(3));
     });
-  }, { threshold: 0.35, rootMargin: '0px 0px -8% 0px' });
-  items.forEach(function (el) { io.observe(el); });
+    tapeItems.forEach(function (it) {
+      if (it.done) return;
+      if (it.el.getBoundingClientRect().top < H * 0.72) { it.done = true; it.el.classList.add('is-taped'); }
+    });
+  }
 
-  // כשהפרוכת נפתחת: מריצים את מה שחיכה (עם השהיה קטנה, כדי שהאור יספיק להתפזר)
-  new MutationObserver(function () {
-    if (root.classList.contains('intro-on') || !pending.length) return;
-    var list = pending; pending = [];
-    setTimeout(function () { list.forEach(reveal); }, 450);
-  }).observe(root, { attributes: true, attributeFilter: ['class'] });
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!userScrolled && window.scrollY > 0 && !root.classList.contains('intro-on')) userScrolled = true;
+    if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; update(); }); }
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  classify();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(classify);
+  window.addEventListener('load', classify);
+  // דף שנטען כשהוא כבר גלול (רענון באמצע): מה שמעל נחשב כאילו כבר גוללו אליו
+  if (window.scrollY > 0) { userScrolled = true; update(); }
 
-  // "עצירת אנימציות": מציגים הכול מיד
-  document.addEventListener('a11y:still', function () {
-    root.classList.remove('anim-on');
-  });
+  document.addEventListener('a11y:still', function () { root.classList.remove('anim-on'); });
 })();

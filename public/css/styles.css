@@ -1321,11 +1321,8 @@ html.a11y-contrast .story, html.a11y-contrast .words, html.a11y-contrast .final-
 
 /* ---------- אנימציות: מרקר שמסמן, ותמונה שמודבקת בסלוטייפ ----------
    פועלות רק עם JS ועם תנועה מותרת (html.anim-on). בלעדיהן הכול מוצג במצב הסופי. */
-html.anim-on .hl { background-size: 0% 100%; }
-html.anim-on .hl.is-marked {
-  background-size: 100% 100%;
-  transition: background-size .9s cubic-bezier(.55, .1, .25, 1);
-}
+/* המרקר: --hlp בין 0 ל-1, נקבע ב-JS לפי הגלילה */
+html.anim-on .hl { background-size: calc(var(--hlp, 0) * 100%) 100%, calc(var(--hlp, 0) * 100%) 100%; }
 
 /* התמונה מוחזקת ביד מעל הדף, נוחתת, ואז הסלוטייפ נמתח ונדבק */
 html.anim-on .polaroid {
@@ -1360,5 +1357,3 @@ html.anim-on .polaroid.is-taped::after {
   background-position: 100% 0, 100% 0;
   background-size: 100% 100%, 100% 100%;
 }
-html.anim-on .hl { background-size: 0% 100%, 0% 100%; }
-html.anim-on .hl.is-marked { background-size: 100% 100%, 100% 100%; }
