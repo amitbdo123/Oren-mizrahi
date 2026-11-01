@@ -103,7 +103,7 @@ function motionOK() {
 // ---------------------------------------------------------------------------
 // שיחת ההמלצות בטלפון של אורן: "מקליד...", הודעה נכנסת, והשיחה גוללת אליה.
 // זמן ההמתנה לכל הודעה לפי האורך שלה, כדי שיהיה זמן לקרוא.
-// כפתור השהיה/המשך/שוב (WCAG 2.2.2). גלילה או מגע בתוך הטלפון משהים.
+// כפתור השהיה/המשך/שוב (WCAG 2.2.2). גלילה מעל הטלפון לא עוצרת את השיחה.
 // בלי JS או עם "הפחתת תנועה": כל ההודעות מוצגות, ואפשר לגלול בתוך הטלפון.
 // ---------------------------------------------------------------------------
 (function () {
@@ -176,18 +176,6 @@ function motionOK() {
     else if (state === 'paused') play();
     else restart();
   });
-
-  // משתמש שגולל או נוגע בתוך הטלפון: עוצרים, ומציגים את כל מה שנשאר כדי שיוכל לקרוא בקצב שלו
-  function userTakesOver() {
-    if (state !== 'playing') return;
-    clearTimeout(timer);
-    typing.classList.remove('is-on');
-    showAll();
-    setState('done');
-  }
-  body.addEventListener('wheel', userTakesOver, { passive: true });
-  body.addEventListener('touchstart', userTakesOver, { passive: true });
-  body.addEventListener('keydown', function (e) { if (e.key !== 'Tab' && e.key !== 'Shift') userTakesOver(); });
 
   // "עצירת אנימציות" באמצע השיחה: מציגים הכול ועוצרים
   document.addEventListener('a11y:still', function () {
