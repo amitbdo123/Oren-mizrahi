@@ -1363,3 +1363,37 @@ html.anim-on .polaroid.is-taped::after {
   background-position: 100% 0, 100% 0;
   background-size: 100% 100%, 100% 100%;
 }
+
+/* =====================================================================
+   מחשב בלבד (56rem ומעלה, או מכשיר עם עכבר). המובייל לא מושפע מהבלוק הזה.
+   ===================================================================== */
+.words-cta { display: none; }
+@media (min-width: 56rem) {
+  /* טקסט רץ קצת גדול יותר, כי יש מקום; גובה השורה נשאר 2rem כדי לשבת על השורות */
+  .story-body { font-size: 1.2rem; max-width: 38rem; }
+  .story-next { font-size: 1.1rem; }
+  .about-text p:not(.about-sub):not(.signature):not(.about-proof) { font-size: 1.15rem; }
+  .step p { font-size: 1.05rem; }
+
+  /* ליד ההמלצות: כפתור וואטסאפ מתחת לכותרת */
+  .words-cta { display: inline-flex; margin-top: 1.75rem; }
+  .words-intro { max-width: 20rem; }
+}
+
+/* ריחוף עם עכבר: תמונה שמושכים קצת מהדף, ומרקר מתחת לקישורי התפריט */
+@media (hover: hover) and (pointer: fine) and (min-width: 56rem) {
+  html.anim-on .polaroid.is-taped:hover,
+  html:not(.anim-on) .polaroid:hover {
+    transform: rotate(calc(var(--tilt) * .4)) translateY(-6px);
+    box-shadow: 0 26px 40px -20px rgb(20 30 60 / .5);
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+  }
+  .nav-list a:hover {
+    color: var(--ink);
+    background: linear-gradient(transparent 58%, var(--highlight) 58% 88%, transparent 88%) no-repeat;
+  }
+  .nav-list a[aria-current="location"]:hover { color: var(--terracotta); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .polaroid:hover { transition: none !important; }
+}
