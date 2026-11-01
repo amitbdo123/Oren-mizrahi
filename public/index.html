@@ -146,41 +146,58 @@
     <!-- המלצות: ההורים שלחו אותן לאורן לצורך פרסום. טקסטים מקוצרים ומאושרים, שמות בדויים,
          בלי תאריכים, שעות ומספרי טלפון. -->
     <section id="words" class="words" aria-labelledby="words-title">
-      <div class="container">
-        <h2 id="words-title" class="section-title">מה ההורים כותבים לי</h2>
-        <div class="chat">
-          <ol class="chat-list" role="list">
+      <div class="container words-grid">
+        <div class="words-intro">
+          <h2 id="words-title" class="section-title">מה ההורים כותבים לי</h2>
+          <p class="words-note">השמות שונו לשמירה על פרטיות.</p>
+        </div>
+
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="chat-head">
+              <picture>
+                <source type="image/webp" srcset="/images/oren-avatar.webp">
+                <img class="chat-avatar" src="/images/oren-avatar.jpg" width="96" height="96" alt="" loading="lazy" decoding="async">
+              </picture>
+              <p class="chat-head-text"><span class="chat-title">הודעות מההורים</span><span class="chat-sub">אורן מזרחי</span></p>
+              <button class="chat-toggle" type="button" data-chat-toggle hidden>
+                <svg class="i-pause" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><rect x="3.5" y="2.5" width="3" height="11" rx="1" fill="currentColor"/><rect x="9.5" y="2.5" width="3" height="11" rx="1" fill="currentColor"/></svg>
+                <svg class="i-play" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M5 2.8v10.4a.8.8 0 0 0 1.2.7l8-5.2a.8.8 0 0 0 0-1.4l-8-5.2A.8.8 0 0 0 5 2.8Z" fill="currentColor"/></svg>
+                <svg class="i-replay" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M8 2.5a5.5 5.5 0 1 1-5.2 3.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M2.2 2.6v3.9h3.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="visually-hidden" data-chat-toggle-label>השהיית ההודעות</span>
+              </button>
+            </div>
+            <div class="chat-body" data-chat-body tabindex="0" role="region" aria-labelledby="words-title">
+              <ol class="chat-list" role="list">
           <li class="msg" data-msg>
-            <span class="msg-typing" aria-hidden="true"><i></i><i></i><i></i></span>
-            <figure class="msg-bubble">
+            <div class="msg-inner"><figure class="msg-bubble">
               <figcaption class="msg-from">מיכל</figcaption>
               <blockquote><p>לאורן המיוחד, אומרים שמורה טוב מלמד חומר, אבל מורה מיוחד מלמד גם דרך, מעניק ביטחון ומשאיר חותם בלב. תודה על כל רגע שהקדשת לבן שלנו, על כל מילה טובה, על העידוד ועל ההשקעה עד לרגע המיוחד של בר המצווה. ❤️</p></blockquote>
-            </figure>
+            </figure></div>
           </li>
           <li class="msg" data-msg>
-            <span class="msg-typing" aria-hidden="true"><i></i><i></i><i></i></span>
-            <figure class="msg-bubble">
+            <div class="msg-inner"><figure class="msg-bubble">
               <figcaption class="msg-from">שירה</figcaption>
               <blockquote><p>לאורן היקר והאהוב! פשוט מדהים לראות נער צעיר שעושה את זה מתוך שליחות אמיתית, עם סבלנות, אכפתיות ונתינה אמיתית. תודה על כל ההשקעה בבן שלנו, על העידוד, על הסבלנות ועל הדרך המיוחדת שבה ליווית אותו לקראת היום הגדול שלו. יש מורים שמלמדים, ויש מורים שמשאירים חותם בלב, ואתה בהחלט אחד מהם! ❤️</p></blockquote>
-            </figure>
+            </figure></div>
           </li>
           <li class="msg" data-msg>
-            <span class="msg-typing" aria-hidden="true"><i></i><i></i><i></i></span>
-            <figure class="msg-bubble">
+            <div class="msg-inner"><figure class="msg-bubble">
               <figcaption class="msg-from">אבי</figcaption>
               <blockquote><p>אורן היקר שלנו! וואו, מאיפה מתחילים?! תודה על הלב, על הסבלנות, על החיוך, על ההשקעה ועל הדרך המיוחדת שבה ליווית את הבן שלנו לקראת היום הגדול שלו. רואים שאתה לא עושה את העבודה שלך רק בשביל ללמד, אלא באמת מתוך אהבה לילדים ורצון לראות אותם מצליחים. ❤️</p></blockquote>
-            </figure>
+            </figure></div>
           </li>
           <li class="msg" data-msg>
-            <span class="msg-typing" aria-hidden="true"><i></i><i></i><i></i></span>
-            <figure class="msg-bubble">
+            <div class="msg-inner"><figure class="msg-bubble">
               <figcaption class="msg-from">רונית</figcaption>
               <blockquote><p>אורן האהוב והיקר, רצינו להודות לך מכל הלב על ההשקעה, הסבלנות, המסירות והיחס החם שהענקת לבן שלנו לקראת יום בר המצווה שלו. יש אנשים שמלמדים ילד לקרוא בתורה, ויש אנשים שזוכים להעניק לו מתנה שתלווה אותו לכל החיים. בזכות כל זה זכינו לראות אותו קורא בתורה מתוך קדושה, התרגשות וגאווה. ❤️</p></blockquote>
-            </figure>
+            </figure></div>
           </li>
           </ol>
+              <div class="chat-typing" aria-hidden="true"><i></i><i></i><i></i></div>
+            </div>
+          </div>
         </div>
-        <p class="words-note">השמות שונו לשמירה על פרטיות.</p>
       </div>
     </section>
 
