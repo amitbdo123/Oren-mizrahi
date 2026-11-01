@@ -270,7 +270,7 @@ Character: a real photo taped into the notebook.
 - Entrance (motion allowed only, driven by the visitor's scroll): nothing happens until the visitor scrolls; when a polaroid scrolls up past 72% of the viewport it lands into its tilt over 0.7s, then the tape stretches on over 0.38s. Photos already on screen at load wait for the first scroll.
 
 ### Highlighter
-- Two-layer yellow swipe behind one phrase, starting from the right (RTL writing direction), clone-decorated across line breaks. With motion allowed it is scroll-linked: its width follows the visitor's scroll (from 88% to 58% of the viewport; phrases already on screen at load fill over the first quarter-screen of scrolling), and nothing draws on its own. Otherwise it is simply there.
+- Two-layer yellow swipe behind one phrase, starting from the right (RTL writing direction), clone-decorated across line breaks. With motion allowed, the hero phrase draws itself once, 1.5s after the site appears (or after the parochet opens), over 1s; every other marker is scroll-linked: its width follows the visitor's scroll (from 88% to 58% of the viewport) and never draws on its own. Otherwise it is simply there.
 
 ### Steps as a to-do list
 - Square checkboxes (2.5rem, 8px corners, 2px ink-blue border, paper fill) with the step number in Rubik; the active step fills ink blue with a white number. The goal step carries a red-pen checkmark and keeps its paper fill. A dashed rule-blue path (6px dash, 5px gap) links them: vertical on mobile, horizontal on desktop.
