@@ -157,7 +157,7 @@ components:
 
 The site is a page out of an older brother's Hebrew school notebook: warm off-white paper ruled in faint blue every 2rem, a red margin line on the right (the RTL side, where a Hebrew notebook keeps it), headings written in one confident ink blue, key phrases swiped with a yellow highlighter, and Oren's own notes in red pen in his handwriting. Photos are polaroids taped onto the page; the main button is a blue sticker stuck on slightly crooked. It reads as personal and close, a teenager who is serious about the work, never as a school brochure or a template.
 
-Playfulness lives in the materials (paper, marker, tape, pen) and never in the copy. The serious work is done by the words, the Torah material and the verse: the verse sits on a yellow sticky note and sheds its cantillation and then its vowels across the three steps, the yad pointer follows running text, and the testimonials arrive as a WhatsApp conversation on Oren's phone. The notebook frames these; it does not compete with them. The approved opening is the exception to the paper world: a full-screen burgundy velvet parochet with an embroidered gold frame, dragged open into light, after which the notebook appears.
+Playfulness lives in the materials (paper, marker, tape, pen) and never in the copy. The serious work is done by the words, the Torah material and the verse: the verse sits on a yellow sticky note and sheds its cantillation and then its vowels across the three steps, a Torah yad pointer follows the words of the first story paragraph as it scrolls, and the testimonials arrive as a WhatsApp conversation on Oren's phone. The notebook frames these; it does not compete with them. The approved opening is the exception to the paper world: a full-screen burgundy velvet parochet with an embroidered gold frame, dragged open into light, after which the notebook appears.
 
 Density is calm and single-column on mobile (where parents arrive from a WhatsApp link), opening to two columns on desktop. Every path ends in one WhatsApp message.
 
@@ -174,7 +174,7 @@ Density is calm and single-column on mobile (where parents arrive from a WhatsAp
 A cool paper-and-ink palette: one deep blue, one red pen, one yellow marker, on warm off-white.
 
 ### Primary
-- **Notebook Ink Blue** (`ink-blue`): the single deep colour. Headings' accent line, the WhatsApp sticker buttons, Oren's handwritten name and signature, step titles, links, the yad on running text, pressed states. White text on it passes AA comfortably.
+- **Notebook Ink Blue** (`ink-blue`): the single deep colour. Headings' accent line, the WhatsApp sticker buttons, Oren's handwritten name and signature, step titles, links, the yad pointer on the story lead, pressed states. White text on it passes AA comfortably.
 - **Pressed-Nib Blue** (`ink-blue-deep`): hover and active state of the sticker button, the accessibility launcher, bold proof lines and focus rings.
 
 ### Secondary
@@ -281,6 +281,9 @@ Character: a real photo taped into the notebook.
 ### Chat (testimonials and contact)
 - A dark phone body holding a WhatsApp-style chat: paper header with a ring-framed avatar, white incoming bubbles with a tail, messages revealed one by one with a typing indicator, and a play/pause/replay control. The contact section shows one outgoing light-blue bubble with the pre-written message above the large sticker button.
 
+### Yad pointer (signature)
+- A tilted (-35deg) ink-blue Torah pointer whose fingertip follows the current word as the page scrolls, with the current word turning ink blue. It runs on one element only: the first story paragraph (the story lead, the only text marked for it); it was removed from the story body and the about paragraphs at the client's request, so new surfaces should not spread it to other running text. The yad text takes a looser line-height (1.8 on the lead) to leave room for the pointer. On desktop from 76rem a separate red-pen yad also rides a fixed rail in the margin to show scroll progress. Both are hidden under reduced motion and "stop animations".
+
 ### Navigation
 - Assistant 600 links, 48px targets on mobile in a drop-down panel, 44px on desktop inline in the header. Hover turns ink blue; the current section gets a 2px red-pen underline on desktop and ink blue text. The mobile toggle is a 2.75rem square with a 2px ink-blue border and 10px corners.
 
@@ -308,5 +311,6 @@ Character: a real photo taped into the notebook.
 - **Don't** fill buttons or set body text in red pen; it is for notes and decoration.
 - **Don't** use hard offset shadows or coloured shadows; the sticker's only edge is its 3px white die-cut.
 - **Don't** let the playful materials replace the serious content; the copy, the Torah material and the verse carry the weight.
+- **Don't** add the word-following yad to more running text; it belongs to the story lead only.
 - **Don't** bring the parochet's velvet and gold into the notebook; they belong to the opening only.
 - **Don't** add a logo, invented testimonials, numbers or images.
