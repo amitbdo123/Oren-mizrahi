@@ -1024,9 +1024,9 @@ html.intro-on .hero-title .line, html.intro-on .arch img { animation-play-state:
   color: #9a7337;
   pointer-events: none;
   opacity: 0;
-  /* קצה האצבע צמוד למילה, והיד מוטה 45° ימינה ממנו */
+  /* קצה האצבע צמוד למילה, והיד מוטה 35° שמאלה ממנו (הידית לכיוון ימין-למטה) */
   transform-origin: 50% 0;
-  transform: translate(calc(var(--x, 0px) - 50%), var(--y, 0px)) rotate(45deg);
+  transform: translate(calc(var(--x, 0px) - 50%), var(--y, 0px)) rotate(-35deg);
   transition: transform .28s cubic-bezier(.22, .61, .36, 1), opacity .3s ease;
   filter: drop-shadow(0 0 1.5px var(--cream)) drop-shadow(0 2px 3px rgb(60 40 25 / .25));
 }
