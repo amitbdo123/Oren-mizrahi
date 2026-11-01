@@ -36,3 +36,41 @@
     ends.forEach(function (el) { io.observe(el); });
   }
 })();
+
+// שיחת ההמלצות: ההודעות נכנסות אחת-אחת בגלילה, כל אחת אחרי "מקליד..." קצר.
+// בלי JS, או עם "הפחתת תנועה", כל ההודעות מוצגות מיד. הטקסט תמיד זמין לקורא מסך.
+(function () {
+  var chat = document.querySelector('.chat');
+  if (!chat || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var msgs = Array.prototype.slice.call(chat.querySelectorAll('[data-msg]'));
+  chat.classList.add('chat-live');
+
+  var queue = [];
+  var busy = false;
+
+  function next() {
+    if (busy || !queue.length) return;
+    busy = true;
+    var m = queue.shift();
+    m.classList.add('is-typing');
+    setTimeout(function () {
+      m.classList.remove('is-typing');
+      m.classList.add('is-shown');
+      setTimeout(function () { busy = false; next(); }, 350);
+    }, 900);
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      queue.push(e.target);
+    });
+    queue.sort(function (a, b) { return msgs.indexOf(a) - msgs.indexOf(b); });
+    next();
+  }, { rootMargin: '0px 0px -12% 0px' });
+
+  msgs.forEach(function (m) { io.observe(m); });
+})();
