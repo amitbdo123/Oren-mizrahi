@@ -196,10 +196,10 @@ function motionOK() {
 })();
 
 // ---------------------------------------------------------------------------
-// שיחת ההמלצות בטלפון של אורן: "מקליד...", הודעה נכנסת, והשיחה גוללת אליה.
-// זמן ההמתנה לכל הודעה לפי האורך שלה, כדי שיהיה זמן לקרוא.
-// כפתור השהיה/המשך/שוב (WCAG 2.2.2). גלילה מעל הטלפון לא עוצרת את השיחה.
-// בלי JS או עם "הפחתת תנועה": כל ההודעות מוצגות, ואפשר לגלול בתוך הטלפון.
+// שיחת ההמלצות בטלפון של אורן, בקצב של חצי שנייה לכל שלב:
+// ריק -> הקלדה -> הודעה -> הקלדה -> הודעה ... וכשההודעות נגמרות, השיחה ממשיכה
+// ושולחת שוב את אותן הודעות, בלולאה. העותקים החוזרים מוסתרים מקוראי מסך.
+// כפתור השהיה/המשך (WCAG 2.2.2). בלי JS או עם "הפחתת תנועה": כל ההודעות מוצגות בלי תנועה.
 // ---------------------------------------------------------------------------
 (function () {
   var body = document.querySelector('[data-chat-body]');
@@ -207,6 +207,10 @@ function motionOK() {
   if (!body || !toggle || !('IntersectionObserver' in window)) return;
   if (!motionOK()) return;
 
+  var STEP = 500;          // חצי שנייה בין כל שלב
+  var MAX_REPEATS = 8;     // כמה עותקים חוזרים נשארים בשיחה לכל היותר
+
+  var list = body.querySelector('.chat-list');
   var msgs = Array.prototype.slice.call(body.querySelectorAll('[data-msg]'));
   var typing = body.querySelector('.chat-typing');
   var label = toggle.querySelector('[data-chat-toggle-label]');
@@ -215,71 +219,70 @@ function motionOK() {
   phone.classList.add('chat-live');
   toggle.hidden = false;
 
-  var i = 0, timer = null, state = 'idle', phase = 'type';
+  var i = 0, timer = null, state = 'idle', phase = 'wait', repeats = [];
 
-  var LABELS = { idle: 'הפעלת ההודעות', playing: 'השהיית ההודעות', paused: 'המשך ההודעות', done: 'הצגת ההודעות מההתחלה' };
+  var LABELS = { idle: 'הפעלת ההודעות', playing: 'השהיית ההודעות', paused: 'המשך ההודעות' };
   function setState(s) {
     state = s;
-    toggle.dataset.state = s;
+    toggle.dataset.state = s === 'idle' ? 'paused' : s;
     label.textContent = LABELS[s] || '';
   }
 
-  // כמו בוואטסאפ: גוללים לתחתית. הודעה ארוכה מהמסך? גוללים לתחילתה כדי לקרוא מההתחלה.
-  function scrollToEl(el) {
-    var bottom = body.scrollHeight - body.clientHeight;
-    var top = el.offsetTop - body.offsetTop - 12;
-    body.scrollTo({ top: Math.max(Math.min(bottom, top), 0), behavior: 'smooth' });
-  }
+  function toBottom() { body.scrollTo({ top: body.scrollHeight, behavior: 'smooth' }); }
 
-  function holdFor(m) {
-    var n = m.textContent.trim().length;
-    return Math.min(Math.max(n * 28, 3200), 7500);
+  // ההודעה הבאה: קודם המקוריות, ואחר כך עותקים חוזרים שלהן
+  function nextMessage() {
+    var n = msgs.length;
+    if (i < n) return msgs[i];
+    var copy = msgs[i % n].cloneNode(true);
+    copy.classList.remove('is-shown');
+    copy.removeAttribute('data-msg');
+    copy.setAttribute('aria-hidden', 'true');
+    list.appendChild(copy);
+    repeats.push(copy);
+    if (repeats.length > MAX_REPEATS) repeats.shift().remove();
+    return copy;
   }
 
   function tick() {
     if (state !== 'playing') return;
-    if (i >= msgs.length) { typing.classList.remove('is-on'); setState('done'); return; }
-    if (phase === 'type') {
+    if (phase === 'wait') {            // שיחה ריקה / רגע אחרי הודעה
+      phase = 'type';
+      timer = setTimeout(tick, STEP);
+    } else if (phase === 'type') {     // הקלדה
       typing.classList.add('is-on');
-      body.scrollTo({ top: body.scrollHeight, behavior: 'smooth' });
+      toBottom();
       phase = 'show';
-      timer = setTimeout(tick, i === 0 ? 900 : 1300);
-    } else {
+      timer = setTimeout(tick, STEP);
+    } else {                           // הודעה
       typing.classList.remove('is-on');
-      var m = msgs[i];
+      var m = nextMessage();
+      // מכריחים חישוב כדי שהמעבר יתחיל מהמצב הסגור גם בעותק חדש
+      void m.offsetHeight;
       m.classList.add('is-shown');
-      setTimeout(function () { scrollToEl(m); }, 80);
+      setTimeout(toBottom, 60);
       i++;
       phase = 'type';
-      timer = setTimeout(tick, holdFor(m));
+      timer = setTimeout(tick, STEP);
     }
   }
 
   function play() { setState('playing'); clearTimeout(timer); tick(); }
   function pause() { clearTimeout(timer); typing.classList.remove('is-on'); if (phase === 'show') phase = 'type'; setState('paused'); }
-  function restart() {
-    msgs.forEach(function (m) { m.classList.remove('is-shown'); });
-    i = 0; phase = 'type';
-    body.scrollTo({ top: 0 });
-    play();
-  }
-  function showAll() { msgs.forEach(function (m) { m.classList.add('is-shown'); }); i = msgs.length; }
 
   toggle.addEventListener('click', function () {
-    if (state === 'idle') play();
-    else if (state === 'playing') pause();
-    else if (state === 'paused') play();
-    else restart();
+    if (state === 'playing') pause(); else play();
   });
 
-  // "עצירת אנימציות" באמצע השיחה: מציגים הכול ועוצרים
+  // "עצירת אנימציות" באמצע השיחה: מורידים את העותקים, מציגים את ההודעות המקוריות ועוצרים
   document.addEventListener('a11y:still', function () {
     clearTimeout(timer);
     typing.classList.remove('is-on');
-    showAll();
+    repeats.forEach(function (r) { r.remove(); });
+    msgs.forEach(function (m) { m.classList.add('is-shown'); });
     phone.classList.remove('chat-live');
     toggle.hidden = true;
-    state = 'done';
+    state = 'stopped';
   });
 
   setState('idle');
