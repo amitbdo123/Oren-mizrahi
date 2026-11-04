@@ -336,6 +336,8 @@ function motionOK() {
   var layers = verse.querySelectorAll('[data-layer]');
   var modes = verse.querySelectorAll('[data-mode]');
   var steps = section.querySelectorAll('.step');
+  var pin = section.querySelector('[data-how-pin]');
+  var root = document.documentElement;
   var current = 0;
 
   function setStage(n) {
@@ -348,6 +350,18 @@ function motionOK() {
 
   function update() {
     var vh = window.innerHeight;
+    var r0 = section.getBoundingClientRect();
+    // מחשב, אזור נעוץ: השורות על הרקע הנעוץ מיושרות לשורות של הדף, והשלב נקבע לפי ההתקדמות בנעיצה
+    if (pin && getComputedStyle(pin).position === 'sticky') {
+      var rule = parseFloat(getComputedStyle(root).fontSize) * 2;
+      var docTop = r0.top + window.scrollY;
+      pin.style.setProperty('--pin-bg-y', (-(docTop % rule)).toFixed(2) + 'px');
+      var headerH = parseFloat(getComputedStyle(pin).top) || 0;
+      var travel = Math.max(r0.height - pin.offsetHeight, 1);
+      var q = (headerH - r0.top) / travel;
+      setStage(q < 1 / 3 ? 1 : q < 2 / 3 ? 2 : 3);
+      return;
+    }
     var vertical = steps.length > 1 && steps[1].getBoundingClientRect().top > steps[0].getBoundingClientRect().bottom - 1;
     if (vertical) {
       // מובייל: הצעד שנמצא כרגע מתחת לפסוק הדביק קובע את השלב
@@ -370,6 +384,7 @@ function motionOK() {
     requestAnimationFrame(function () { ticking = false; update(); });
   }, { passive: true });
   window.addEventListener('resize', update);
+  new MutationObserver(update).observe(root, { attributes: true, attributeFilter: ['class'] });
   update();
 })();
 
@@ -540,7 +555,7 @@ function motionOK() {
 // לא מוסיפה רווחים ולא מנתקת כותרת מהטקסט שלה. השורות מצוירות על רקע הדף כל 2rem.
 // ---------------------------------------------------------------------------
 (function () {
-  var BASE = 0.22;   // מיקום הקו בתוך שורה, כחלק מגובה השורה (כוון לפי הגופן Assistant)
+  var BASE = 0.305;  // מיקום הקו בתוך שורה, כחלק מגובה השורה (כוון לפי הגופן felix007)
   // [העוגן שמיישרים לפיו, האלמנט שזז]
   var pairs = [];
   function add(anchor, mover) { if (anchor && mover) pairs.push([anchor, mover]); }
@@ -584,7 +599,9 @@ function motionOK() {
   // המרקר בהירו לא תלוי בגלילה: הוא מצטייר לבד, שנייה וחצי אחרי שהאתר עולה (או אחרי שהפרוכת נפתחת)
   var heroMark = document.querySelector('.hero-title .hl');
   var marks = Array.prototype.slice.call(document.querySelectorAll('.hl')).filter(function (el) { return el !== heroMark; });
-  var tapes = Array.prototype.slice.call(document.querySelectorAll('.polaroid'));
+  // במחשב התמונה שבהירו נדבקת לבד, חצי שנייה אחרי שהאתר עולה. במובייל: לפי הגלילה, כמו השאר.
+  var heroTape = window.matchMedia('(min-width: 56rem)').matches ? document.querySelector('.hero-media .polaroid') : null;
+  var tapes = Array.prototype.slice.call(document.querySelectorAll('.polaroid')).filter(function (el) { return el !== heroTape; });
   if (!marks.length && !tapes.length) return;
   root.classList.add('anim-on');
 
@@ -623,12 +640,13 @@ function motionOK() {
   classify();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(classify);
   window.addEventListener('load', classify);
-  if (heroMark) {
-    var HERO_DELAY = 1500;
+  if (heroMark || heroTape) {
+    var HERO_DELAY = 1500, TAPE_DELAY = 500;
     var heroDone = false;
     var drawHero = function () {
       if (heroDone) return; heroDone = true;
-      setTimeout(function () { heroMark.classList.add('is-marked'); }, HERO_DELAY);
+      if (heroMark) setTimeout(function () { heroMark.classList.add('is-marked'); }, HERO_DELAY);
+      if (heroTape) setTimeout(function () { heroTape.classList.add('is-taped'); }, TAPE_DELAY);
     };
     if (!root.classList.contains('intro-on')) drawHero();
     else new MutationObserver(function (m, obs) {
