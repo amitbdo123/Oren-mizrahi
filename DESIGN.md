@@ -20,43 +20,43 @@ colors:
   parochet-gold: "#e2c482"
 typography:
   display:
-    fontFamily: "Rubik, Assistant, system-ui, sans-serif"
+    fontFamily: "Felix007, system-ui, sans-serif"
     fontSize: "clamp(1.6rem, 8.5vw, 4.1rem)"
     fontWeight: 500
-    lineHeight: 1.18
+    lineHeight: 1.25
     letterSpacing: "-0.005em"
   headline:
-    fontFamily: "Rubik, Assistant, system-ui, sans-serif"
+    fontFamily: "Felix007, system-ui, sans-serif"
     fontSize: "clamp(1.75rem, 6vw, 2.6rem)"
     fontWeight: 500
-    lineHeight: 1.2
+    lineHeight: 1.25
   title:
-    fontFamily: "Rubik, Assistant, system-ui, sans-serif"
+    fontFamily: "Felix007, system-ui, sans-serif"
     fontSize: "1.4rem"
     fontWeight: 500
-    lineHeight: 1.3
+    lineHeight: 1.25
   body:
-    fontFamily: "Assistant, system-ui, -apple-system, Segoe UI, Arial, sans-serif"
+    fontFamily: "Felix007, system-ui, -apple-system, Segoe UI, Arial, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.75
   body-ruled:
-    fontFamily: "Assistant, system-ui, -apple-system, Segoe UI, Arial, sans-serif"
+    fontFamily: "Felix007, system-ui, -apple-system, Segoe UI, Arial, sans-serif"
     fontSize: "1.1rem"
     fontWeight: 400
     lineHeight: "2rem"
   label:
-    fontFamily: "Assistant, system-ui, -apple-system, Segoe UI, Arial, sans-serif"
+    fontFamily: "Felix007, system-ui, -apple-system, Segoe UI, Arial, sans-serif"
     fontSize: "0.8rem"
     fontWeight: 600
     letterSpacing: "0.04em"
   hand:
-    fontFamily: "Gveret Levin, Rubik, sans-serif"
+    fontFamily: "Gveret Levin, Felix007, sans-serif"
     fontSize: "1.7rem"
     fontWeight: 400
     lineHeight: 1.2
   verse:
-    fontFamily: "Verse (Noto Serif Hebrew), Rubik, sans-serif"
+    fontFamily: "Stam (Stam Ashkenaz CLM + Noto marks), Felix007, sans-serif"
     fontSize: "clamp(2rem, 9vw, 3.1rem)"
     fontWeight: 500
     lineHeight: 1.9
@@ -205,26 +205,25 @@ A cool paper-and-ink palette: one deep blue, one red pen, one yellow marker, on 
 
 ## Typography
 
-**Display Font:** Rubik 500 (with Assistant, system-ui)
-**Body Font:** Assistant 400/600/700 (with system-ui, Segoe UI, Arial)
-**Hand Font:** Gveret Levin 400 (with Rubik)
-**Verse Font:** Noto Serif Hebrew 500, subset as "Verse", for the pointed verse only
+**Display and Body Font:** felix007 (one face, one weight) for every heading, paragraph, button and label
+**Hand Font:** Gveret Levin 400, the twist: Oren's name, red-pen notes, captions, signature
+**Verse Font:** Stam Ashkenaz CLM (Torah-scroll letters) with niqqud and cantillation from Noto Serif Hebrew, built by `tools/build-verse-font.py`, for the verse only
 
-**Character:** A friendly rounded sans for what Oren says out loud, a clean humanist sans for reading, and his own handwriting for the personal marks. All faces are self-hosted, subset to Hebrew plus a small punctuation file, with `font-display: swap`. The root size is 112.5% (18px).
+**Character:** One friendly hand-drawn sans for everything Oren says, and his own handwriting for the personal marks. felix007 has a single weight, so the page never fakes bold (`font-synthesis-weight: none`); emphasis comes from ink colour and the yellow marker. Every heading has a line height of exactly 1.25em. All faces are self-hosted with `font-display: swap`. The root size is 112.5% (18px). Never Rubik, Assistant or Frank Ruhl Libre.
 
 ### Hierarchy
-- **Display** (Rubik 500, `clamp(1.6rem, 8.5vw, 4.1rem)` on mobile and `clamp(3rem, 4.6vw, 4.1rem)` on desktop, line-height 1.18): the hero headline only, balanced, two lines, the second in ink blue with the marker.
-- **Headline** (Rubik 500, `clamp(1.75rem, 6vw, 2.6rem)`, 1.2): section titles, balanced, with the marker. The contact title runs to `clamp(1.8rem, 7vw, 3rem)` at max 18ch; the story lead to `clamp(1.45rem, 5.6vw, 2.1rem)` (2.3rem on desktop).
-- **Title** (Rubik 500, 1.4rem, 1.3): step titles in ink blue; legal h2 at 1.35rem.
-- **Body** (Assistant 400, 1rem, 1.75): default copy. Running paragraphs in the story, steps and about section sit on the rules at exactly `2rem` line-height (1.08 to 1.1rem size) with 2rem between paragraphs, aligned to the ruling in JS; measure about 34rem.
-- **Label** (Assistant 600, 0.8rem, 0.04em tracking): the role line under the wordmark; buttons use Assistant 700 at 1.05rem.
+- **Display** (felix007, `clamp(1.6rem, 8.5vw, 4.1rem)` on mobile and `clamp(3rem, 4.6vw, 4.1rem)` on desktop, line-height 1.25em): the hero headline only, balanced, two lines, the second in ink blue with the marker.
+- **Headline** (felix007, `clamp(1.75rem, 6vw, 2.6rem)`, 1.25em): section titles, balanced, with the marker. The contact title runs to `clamp(1.8rem, 7vw, 3rem)` at max 18ch; the story lead to `clamp(1.45rem, 5.6vw, 2.1rem)` (2.3rem on desktop).
+- **Title** (felix007, 1.4rem, 1.25em): step titles in ink blue; legal h2 at 1.35rem.
+- **Body** (felix007, 1rem, 1.75): default copy. Running paragraphs in the story, steps and about section sit on the rules at exactly `2rem` line-height (1.08 to 1.1rem size) with 2rem between paragraphs, aligned to the ruling in JS; measure about 34rem.
+- **Label** (felix007, 0.8rem, 0.04em tracking): the role line under the wordmark; buttons use felix007 at 1.05rem.
 - **Hand** (Gveret Levin 400, 1.45 to 2.6rem, 1 to 1.2): the wordmark (1.65 to 2.35rem), the hero note (1.7rem, 2rem desktop, rotated -3deg), the story turn, the about subtitle (1.9rem), polaroid captions (1.45rem), the signature (2.6rem), chat and compose names.
 - **Verse** (Noto Serif Hebrew 500, `clamp(2rem, 9vw, 3.1rem)`, 3.4rem desktop, 1.9): the one verse on the sticky note.
 
 ### Named Rules
 **The Never Frank Ruhl Rule.** Frank Ruhl Libre is never used, anywhere, for any role (client decision).
 
-**The Hand Is Oren Rule.** Gveret Levin is reserved for Oren's own marks: his name, notes, captions and signature. It never sets body copy, buttons or navigation. Under the "readable font" option it falls back to Assistant 700.
+**The Hand Is Oren Rule.** Gveret Levin is reserved for Oren's own marks: his name, notes, captions and signature. It never sets body copy, buttons or navigation. Under the "readable font" option it falls back to felix007.
 
 **The Ruled Line Rule.** Running text sits on the 2rem rules. Paragraph spacing is one rule (2rem), not an arbitrary margin.
 
@@ -260,7 +259,7 @@ Small, papery corners: 2px on the sticky note, 3px on polaroids, 8px on the chec
 ### Buttons
 Character: a blue sticker stuck on the page.
 - **Shape:** 12px corners, minimum height 3.25rem (2.75rem small, 3.6rem large).
-- **Primary:** ink blue fill, white Assistant 700 text at 1.05rem, WhatsApp icon at 1.35rem, padding 0.85rem 1.75rem, a 3px white die-cut edge and the sticker shadow, rotated -1deg. Full-width and header instances are not rotated.
+- **Primary:** ink blue fill, white felix007 text at 1.05rem, WhatsApp icon at 1.35rem, padding 0.85rem 1.75rem, a 3px white die-cut edge and the sticker shadow, rotated -1deg. Full-width and header instances are not rotated.
 - **Hover / Focus:** on hover-capable devices it darkens to the deep blue and lifts 2px; press settles 1px down. Focus is a 3px deep-blue outline offset 4px. Transitions run 0.35s on `cubic-bezier(.22, .61, .36, 1)` and are removed under reduced motion.
 - **Secondary:** none. Text links are ink blue, bold, with a thin red-pen underline offset 0.3em.
 
@@ -273,7 +272,7 @@ Character: a real photo taped into the notebook.
 - Two-layer yellow swipe behind one phrase, starting from the right (RTL writing direction), clone-decorated across line breaks. With motion allowed, the hero phrase draws itself once, 1.5s after the site appears (or after the parochet opens), over 1s; every other marker is scroll-linked: its width follows the visitor's scroll (from 88% to 58% of the viewport) and never draws on its own. Otherwise it is simply there.
 
 ### Steps as a to-do list
-- Square checkboxes (2.5rem, 8px corners, 2px ink-blue border, paper fill) with the step number in Rubik; the active step fills ink blue with a white number. The goal step carries a red-pen checkmark and keeps its paper fill. A dashed rule-blue path (6px dash, 5px gap) links them: vertical on mobile, horizontal on desktop.
+- Square checkboxes (2.5rem, 8px corners, 2px ink-blue border, paper fill) with the step number in felix007; the active step fills ink blue with a white number. The goal step carries a red-pen checkmark and keeps its paper fill. A dashed rule-blue path (6px dash, 5px gap) links them: vertical on mobile, horizontal on desktop.
 
 ### Verse sticky note
 - Sticky-note yellow, 2px corners, the note shadow, max 34rem, sticky under the header. Three stacked layers of the verse cross-fade (1.1s) from full cantillation to unpointed text, with a caption naming the stage.
@@ -285,13 +284,13 @@ Character: a real photo taped into the notebook.
 - A tilted (-35deg) ink-blue Torah pointer whose fingertip follows the current word as the page scrolls, with the current word turning ink blue. It runs on one element only: the first story paragraph (the story lead, the only text marked for it); it was removed from the story body and the about paragraphs at the client's request, so new surfaces should not spread it to other running text. The yad text takes a looser line-height (1.8 on the lead) to leave room for the pointer. On desktop from 76rem a separate red-pen yad also rides a fixed rail in the margin to show scroll progress. Both are hidden under reduced motion and "stop animations".
 
 ### Navigation
-- Assistant 600 links, 48px targets on mobile in a drop-down panel, 44px on desktop inline in the header. Hover turns ink blue; the current section gets a 2px red-pen underline on desktop and ink blue text. The mobile toggle is a 2.75rem square with a 2px ink-blue border and 10px corners.
+- felix007 links, 48px targets on mobile in a drop-down panel, 44px on desktop inline in the header. Hover turns ink blue; the current section gets a 2px red-pen underline on desktop and ink blue text. The mobile toggle is a 2.75rem square with a 2px ink-blue border and 10px corners.
 
 ### Accessibility tool
 - A 2.75rem deep-blue circular launcher opens a paper panel (14px corners, rule-blue border) with text size, high contrast, stop animations, highlight links and readable font. Options are white 44px buttons with 10px corners; pressed options fill ink blue. High contrast swaps the palette to pure white and black, removes the ruling, and deepens blue and red.
 
 ### Wordmark
-- No logo exists: Oren's name in Gveret Levin ink blue, a red-pen hand-drawn flourish under it, and the role in a small Assistant 600 label.
+- No logo exists: Oren's name in Gveret Levin ink blue, a red-pen hand-drawn flourish under it, and the role in a small felix007 label.
 
 ## Do's and Don'ts
 

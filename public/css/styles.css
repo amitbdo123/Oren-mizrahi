@@ -1,15 +1,10 @@
 /* ---------- גופנים (מוגשים מהאתר עצמו, בלי צד שלישי) ---------- */
 /* קבצי punct: רק ספרות וסימני פיסוק, כדי לא להוריד את כל הלטינית בשביל "30" ונקודה */
-@font-face { font-family: "Verse"; font-weight: 500; font-display: swap; src: url("/fonts/noto-serif-hebrew-verse-500.woff2") format("woff2"); }
+/* felix007: כל הטקסט באתר, גופן אחד. Gveret Levin: כתב היד של אורן (שם, הערות, חתימה).
+   Stam Ashkenaz CLM: הפסוק בלבד, בכתב סת"ם כמו בספר תורה. */
+@font-face { font-family: "Felix007"; font-weight: 400; font-display: swap; src: url("/fonts/felix007-400.woff2") format("woff2"); }
+@font-face { font-family: "Stam"; font-weight: 400; font-display: swap; src: url("/fonts/stam-ashkenaz-verse.woff2") format("woff2"); }
 @font-face { font-family: "Gveret Levin"; font-weight: 400; font-display: swap; src: url("/fonts/gveret-levin-hebrew-400-normal.woff2") format("woff2"); unicode-range: U+0020, U+00A0, U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
-@font-face { font-family: "Rubik"; font-weight: 500; font-display: swap; src: url("/fonts/rubik-hebrew-500-normal.woff2") format("woff2"); unicode-range: U+0020, U+00A0, U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
-@font-face { font-family: "Rubik"; font-weight: 500; font-display: swap; src: url("/fonts/rubik-punct-500.woff2") format("woff2"); unicode-range: U+0021-0040, U+2011-2027; }
-@font-face { font-family: "Assistant"; font-weight: 400; font-display: swap; src: url("/fonts/assistant-hebrew-400-normal.woff2") format("woff2"); unicode-range: U+0020, U+00A0, U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
-@font-face { font-family: "Assistant"; font-weight: 400; font-display: swap; src: url("/fonts/assistant-punct-400.woff2") format("woff2"); unicode-range: U+0021-007E, U+2011-2027; }
-@font-face { font-family: "Assistant"; font-weight: 600; font-display: swap; src: url("/fonts/assistant-hebrew-600-normal.woff2") format("woff2"); unicode-range: U+0020, U+00A0, U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
-@font-face { font-family: "Assistant"; font-weight: 600; font-display: swap; src: url("/fonts/assistant-punct-600.woff2") format("woff2"); unicode-range: U+0021-007E, U+2011-2027; }
-@font-face { font-family: "Assistant"; font-weight: 700; font-display: swap; src: url("/fonts/assistant-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0020, U+00A0, U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
-@font-face { font-family: "Assistant"; font-weight: 700; font-display: swap; src: url("/fonts/assistant-punct-700.woff2") format("woff2"); unicode-range: U+0021-007E, U+2011-2027; }
 
 /* ---------- צבעים ---------- */
 :root {
@@ -27,9 +22,9 @@
   --rule: rgb(120 150 210 / .22);
   --focus: #162b6b;
 
-  --script: "Gveret Levin", "Rubik", sans-serif;
-  --display: "Rubik", "Assistant", system-ui, sans-serif;
-  --sans: "Assistant", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --script: "Gveret Levin", "Felix007", sans-serif;
+  --display: "Felix007", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --sans: var(--display);
 
   --shadow-soft: 0 1px 2px rgb(20 30 60 / .06), 0 12px 32px -12px rgb(20 30 60 / .18);
   --ease: cubic-bezier(.22, .61, .36, 1);
@@ -764,23 +759,6 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
   box-shadow: 0 0 0 2px var(--cream), 0 0 0 3px var(--gold);
 }
 .compose-name { font-family: var(--script); font-size: 1.6rem; line-height: 1; color: var(--terracotta); }
-/* בועה יוצאת: בצד הסוף (שמאל), בגוון טרקוטה בהיר */
-.compose-bubble {
-  position: relative;
-  align-self: flex-end;
-  max-width: 88%;
-  margin: 0;
-  padding: .8rem 1rem;
-  background: #dfe7f8;
-  color: var(--ink);
-  text-align: start;
-  font-size: 1.02rem;
-  line-height: 1.6;
-  border-radius: 18px;
-  border-start-end-radius: 18px;
-  border-end-end-radius: 4px;
-  box-shadow: 0 1px 1px rgb(20 30 60 / .06), 0 6px 16px -10px rgb(20 30 60 / .25);
-}
 .btn-send { width: 100%; }
 
 
@@ -799,8 +777,8 @@ html { scrollbar-color: var(--gold-soft) var(--cream); }
 .verse-text {
   display: grid;
   margin: 0;
-  font-family: "Verse", var(--display);
-  font-weight: 500;
+  font-family: "Stam", var(--display);
+  font-weight: 400;
   font-size: clamp(2rem, 9vw, 3.1rem);
   line-height: 1.9;
   color: var(--ink);
@@ -975,14 +953,13 @@ html.a11y-contrast {
 }
 html.a11y-contrast .phone-screen { background: #ffffff; }
 html.a11y-contrast .msg-bubble, html.a11y-contrast .msg-bubble::before, html.a11y-contrast .chat-typing { background: #ffffff; outline: 1px solid #000; }
-html.a11y-contrast .compose-bubble { background: #ffffff; outline: 1px solid #000; }
 
 html.a11y-still *, html.a11y-still *::before, html.a11y-still *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 html.a11y-still .intro { display: none !important; }
 
 html.a11y-links a { text-decoration: underline !important; text-decoration-thickness: 2px !important; outline: 2px dashed currentColor; outline-offset: 2px; }
 
-html.a11y-font { --script: "Assistant", system-ui, sans-serif; --display: "Assistant", system-ui, sans-serif; }
+html.a11y-font { --script: system-ui, -apple-system, "Segoe UI", Arial, sans-serif; --display: system-ui, -apple-system, "Segoe UI", Arial, sans-serif; }
 html.a11y-font .wordmark-name, html.a11y-font .story-turn, html.a11y-font .signature, html.a11y-font .compose-name, html.a11y-font .chat-sub { font-weight: 700; }
 
 @media print { .a11y-tool, .sticky-cta, .yad-rail { display: none !important; } .site-header { position: static; } }
@@ -1201,7 +1178,7 @@ body {
   }
 }
 /* דף חדש: קו ניקוב בראש הסקשנים, וגוון שקוף כדי שהשורות ימשיכו ברצף */
-.story, .words, .final-cta { border-top: 2px dashed rgb(150 170 215 / .8); background-color: rgb(238 233 214 / .45); background-image: none; }
+.about, .how, .final-cta { border-top: 2px dashed rgb(150 170 215 / .8); background-color: rgb(238 233 214 / .45); background-image: none; }
 .site-header { background: var(--cream); }
 
 /* כותרות עם מרקר צהוב */
@@ -1216,17 +1193,6 @@ body {
   box-decoration-break: clone;
 }
 
-/* הערה בעט אדום, בכתב היד של אורן */
-.hero-note {
-  margin: -1rem 0 1.5rem;
-  font-family: var(--script);
-  font-size: 1.7rem;
-  line-height: 1.2;
-  color: var(--gold);
-  transform: rotate(-3deg);
-}
-@media (min-width: 56rem) { .hero-note { margin-top: -1.5rem; font-size: 2rem; } }
-.pen-arrow { display: inline-block; width: 1.5em; height: .7em; vertical-align: middle; margin-inline-start: .15em; }
 
 /* כפתורים כמו מדבקות: כחול עם שוליים לבנים חתוכים, צל רך והטיה קלה */
 .btn { border-radius: 12px; }
@@ -1310,7 +1276,7 @@ body {
 .chat-avatar { box-shadow: 0 0 0 2px var(--cream), 0 0 0 3px var(--terracotta); }
 
 html.a11y-contrast body { background-image: none; }
-html.a11y-contrast .story, html.a11y-contrast .words, html.a11y-contrast .final-cta { background-color: #ffffff; }
+html.a11y-contrast .about, html.a11y-contrast .how, html.a11y-contrast .final-cta { background-color: #ffffff; }
 
 /* טקסט רץ על שורות המחברת: גובה שורה בדיוק כמו השורות (2rem), והיישור מתבצע ב-JS */
 .story-body, .about-text p:not(.about-sub):not(.signature):not(.about-proof), .step p, .story-next { line-height: 2rem !important; }
@@ -1369,7 +1335,7 @@ html.anim-on .polaroid.is-taped::after {
 /* =====================================================================
    מחשב בלבד (56rem ומעלה, או מכשיר עם עכבר). המובייל לא מושפע מהבלוק הזה.
    ===================================================================== */
-.words-cta { display: none; }
+.words-lead { display: none; }
 @media (min-width: 56rem) {
   /* טקסט רץ קצת גדול יותר, כי יש מקום; גובה השורה נשאר 2rem כדי לשבת על השורות */
   .story-body { font-size: 1.2rem; max-width: 38rem; }
@@ -1377,9 +1343,19 @@ html.anim-on .polaroid.is-taped::after {
   .about-text p:not(.about-sub):not(.signature):not(.about-proof) { font-size: 1.15rem; }
   .step p { font-size: 1.05rem; }
 
-  /* ליד ההמלצות: כפתור וואטסאפ מתחת לכותרת */
-  .words-cta { display: inline-flex; margin-top: 1.75rem; }
-  .words-intro { max-width: 20rem; }
+  /* ליד ההמלצות: מילה אישית של אורן, בכתב היד שלו בעט אדום */
+  .words-lead {
+    display: block;
+    margin: 1.75rem 0 0;
+    font-family: var(--script);
+    font-size: 1.9rem;
+    line-height: 1.25;
+    color: var(--gold);
+    transform: rotate(-2deg);
+    transform-origin: 100% 50%;
+    text-wrap: balance;
+  }
+  .words-intro { max-width: 22rem; }
 }
 
 /* ריחוף עם עכבר: תמונה שמושכים קצת מהדף, ומרקר מתחת לקישורי התפריט */
@@ -1399,3 +1375,100 @@ html.anim-on .polaroid.is-taped::after {
 @media (prefers-reduced-motion: reduce) {
   .polaroid:hover { transition: none !important; }
 }
+
+/* =====================================================================
+   גופן אחד, כותרות צפופות, קרדיט
+   ===================================================================== */
+/* ל-felix007 יש משקל אחד: לא מייצרים הדגשה מלאכותית. ההדגשה באתר נעשית בצבע ובמרקר. */
+body { font-synthesis-weight: none; }
+html.a11y-font body { font-synthesis-weight: auto; }
+h1, h2, h3, .hero-title, .section-title, .final-title, .step-title, .legal-title, .legal h2, .a11y-panel-title { line-height: 1.25em !important; }
+
+.br-desk { display: none; }
+@media (min-width: 56rem) { .br-desk { display: inline; } }
+
+/* קרדיט בפוטר */
+.credit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: .4rem .9rem;
+  margin: 0;
+  font-size: .9rem;
+  color: var(--muted);
+}
+.credit-logo {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: transform .3s var(--ease), opacity .3s var(--ease);
+}
+.credit-logo img { width: auto; height: 2.2rem; opacity: .85; }
+@media (hover: hover) { .credit-logo:hover { transform: rotate(-3deg) scale(1.05); } .credit-logo:hover img { opacity: 1; } }
+
+/* =====================================================================
+   מחשב: הירו, "איך זה עובד" נעוץ, טלפון ביחס 19.5:9
+   ===================================================================== */
+@media (min-width: 56rem) {
+  /* ההירו בגובה המסך שמתחת להדר (ולא יותר מ-43.6rem). התמונה: 85% מהגובה הזה, לא יותר. */
+  .hero {
+    --hero-h: clamp(30rem, calc(100svh - 4.85rem), 43.6rem);
+    min-height: var(--hero-h);
+    padding-block: calc(var(--hero-h) * .075);
+    display: flex;
+    align-items: center;
+  }
+  .hero > .container { width: min(100% - 2.5rem, 68rem); }
+  /* הכותרת והתמונה כקבוצה אחת במרכז: הכותרת ברוחב הטבעי שלה, והתמונה במרחק של כ-100px ממנה
+     (קודם 215px, כלומר כ-3 ס"מ קרוב יותר) */
+  .hero-grid { grid-template-columns: minmax(0, max-content) auto; justify-content: center; gap: 5.6rem; }
+  /* פולארויד: מסגרת .6rem, תחתית 2.8rem, תמונה 4:5. רוחב שנותן גובה כולל של 85% מההירו. */
+  .hero .arch {
+    width: calc((var(--hero-h) * .85 - 3.4rem) / 1.25 + 1.2rem);
+    max-width: none;
+    margin-inline: 0;
+  }
+  .hero-text { padding-bottom: 0; }
+  .hero-title { text-wrap: nowrap; }
+  .hero-title .line { white-space: nowrap; }
+}
+
+/* "איך זה עובד": במחשב הכותרת, הפתק והצעדים נעוצים במסך. כל קטע גלילה מקדם שלב:
+   1 עם טעמים וניקוד, 2 בלי טעמים, 3 בלי ניקוד. אחרי שלב 3 הכול ממשיך יחד לסקשן הבא,
+   כך שהפתק לא נגרר ולא מכסה טקסט. מרחק הגלילה הוא כפולה של שורה (2rem), כדי שהשורות
+   על הרקע הנעוץ יתאימו לשורות של הדף כשהנעיצה מתחילה ונגמרת. */
+@media (min-width: 56rem) and (min-height: 38rem) {
+  html:not(.a11y-still) .how { padding: 0; --pin-h: calc(100svh - 4.85rem); height: calc(var(--pin-h) + 48rem); }
+  html:not(.a11y-still) .how-pin {
+    position: sticky;
+    top: 4.85rem;
+    height: var(--pin-h);
+    display: flex;
+    align-items: center;
+    background-color: var(--cream);
+    background-image:
+      linear-gradient(rgb(238 233 214 / .45), rgb(238 233 214 / .45)),
+      linear-gradient(90deg, transparent calc(100% - 3rem), rgb(214 69 58 / .45) calc(100% - 3rem), rgb(214 69 58 / .45) calc(100% - 3rem + 1.5px), transparent calc(100% - 3rem + 1.5px)),
+      repeating-linear-gradient(180deg, transparent 0 calc(2rem - 1px), var(--rule) calc(2rem - 1px) 2rem);
+    background-position: 0 0, 0 0, 0 var(--pin-bg-y, 0px);
+  }
+  html:not(.a11y-still) .how-inner { width: min(100% - 2.5rem, 68rem); }
+  html:not(.a11y-still) .how .section-title { margin-bottom: 1.5rem; }
+  /* הפתק נשאר במקומו בתוך האזור הנעוץ: לא דביק בפני עצמו, ולא עולה על הצעדים */
+  html:not(.a11y-still) .how .verse { position: relative; top: auto; margin: 0 auto 2.5rem; }
+  html.a11y-contrast .how-pin { background-image: none; background-color: #ffffff; }
+}
+
+/* הטלפון ביחס של אייפון, 19.5:9 */
+@media (min-width: 56rem) {
+  .phone { width: auto; height: min(42rem, 84svh); aspect-ratio: 9 / 19.5; display: flex; }
+  .phone-screen { flex: 1; height: auto; }
+}
+
+/* סדר הסקשנים: אודות, היום הגדול, איך זה עובד, המלצות, יצירת קשר. דף "צבוע" ודף שקוף לסירוגין,
+   והדפים השקופים מראים את שורות המחברת של הרקע */
+.story, .words { background: transparent; }

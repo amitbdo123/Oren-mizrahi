@@ -1,0 +1,11 @@
+stam-ashkenaz-verse.woff2 (the verse in "how it works")
+
+Letters: Stam Ashkenaz CLM, Copyright 2007-2010 by Yoram Gnat (Culmus project),
+distributed under the GNU GPL v2 with the font exception (embedding the font in a
+document does not make the document GPL).
+Niqqud and cantillation marks: Noto Serif Hebrew, SIL Open Font License 1.1
+(see tools/verse-font-src/LICENSE-noto-serif-hebrew.txt).
+
+Rebuilt by tools/build-verse-font.py: the original Stam font maps niqqud and
+cantillation to empty glyphs, so the script adds the mark drawings and the
+mark-to-letter positioning.
