@@ -156,6 +156,13 @@ main:focus, [tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
   .site-header .wordmark-name { font-size: 1.75rem; }
   .header-cta { padding-inline: .8rem; }
 }
+/* מסך צר (כ-360px ומטה, או טלפון עם תצוגה מוגדלת): כפתור ההדר רק עם האייקון, כדי שכפתור התפריט לא ייצא מהמסך */
+@media (max-width: 22.4rem) {
+  .header-cta-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .header-cta { width: 2.75rem; padding: 0; }
+}
+/* מסך צר מאוד (הגדלה חזקה): בלי כפתור בהדר, כפתור הוואטסאפ הצף נשאר */
+@media (max-width: 18.5rem) { .header-cta { display: none; } }
 @media (max-width: 20rem) {
   .wordmark-name { font-size: 1.4rem; }
   .wordmark-role { display: none; }
@@ -567,4 +574,9 @@ html.intro-on { overflow: hidden; }
   .contact { padding-block: clamp(3rem, 10svh, 5.5rem) clamp(2.5rem, 9svh, 5rem); }
   .contact-title { font-size: clamp(1.9rem, min(6.4vw, 6.4svh), 3rem); margin-bottom: clamp(1rem, 3svh, 1.8rem); }
   .contact-who { margin-bottom: clamp(.8rem, 2.4svh, 1.4rem); }
+}
+
+/* מובייל: הכותרת הראשית ביחס קבוע לרוחב המסך (שלוש שורות, השורה האמצעית כ-70% מהרוחב) */
+@media (max-width: 55.99rem) {
+  .hero-title { font-size: clamp(2.2rem, 13.8vw, 3.8rem); }
 }
