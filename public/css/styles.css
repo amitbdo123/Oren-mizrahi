@@ -478,7 +478,7 @@ html.a11y-font { --text: system-ui, -apple-system, "Segoe UI", Arial, sans-serif
 html.a11y-font body { font-synthesis-weight: auto; }
 @media print { .a11y-tool, .wa-float, .intro { display: none !important; } .site-header { position: static; } }
 
-/* ---------- פתיחה: הפרוכת, ומאחוריה הטלית ---------- */
+/* ---------- פתיחה: הפרוכת (קטיפה בכחול חצות עם רקמת כסף), ומאחוריה הטלית ---------- */
 .intro { position: fixed; inset: 0; z-index: 200; overflow: hidden; background-color: var(--wool); background-image: var(--weave); transition: opacity 1.1s ease; }
 html.intro-on { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) { .intro { display: none; } }
@@ -490,13 +490,13 @@ html.intro-on { overflow: hidden; }
 }
 .intro-curtain {
   position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem;
-  padding: 2rem 1.5rem 4rem; color: #ecd29b; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none;
-  background-color: #5e1219;
+  padding: 2rem 1.5rem 4rem; color: #e6e9ef; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  background-color: #1a2152;
   background-image:
     radial-gradient(ellipse 80% 45% at 50% 18%, rgb(255 255 255 / .1), transparent 70%),
     repeating-linear-gradient(90deg, rgb(0 0 0 / .22) 0, rgb(255 255 255 / .05) 2.2%, rgb(0 0 0 / .1) 4.6%, rgb(0 0 0 / .22) 7%),
-    linear-gradient(180deg, #74181e, #57101a 70%, #4a0d15);
-  box-shadow: -18px 0 40px rgb(30 8 10 / .55);
+    linear-gradient(180deg, #232c66, #181f4e 70%, #121840);
+  box-shadow: -18px 0 40px rgb(8 10 30 / .55);
   transform: translateX(var(--dx, 0px)); will-change: transform;
 }
 .intro-curtain.is-dragging { cursor: grabbing; }
@@ -506,22 +506,22 @@ html.intro-on { overflow: hidden; }
 .intro-curtain.is-opening { transition: transform .9s cubic-bezier(.33, 0, .2, 1); }
 .intro-curtain.is-idle { animation: peek 3.2s cubic-bezier(.45, 0, .25, 1) 1.2s infinite; }
 @keyframes peek { 0%, 62%, 100% { transform: translateX(0); } 76% { transform: translateX(34px); } }
-.intro-curtain::before { content: ""; position: absolute; inset: 1.1rem 1.1rem 2.6rem; border: 2px solid rgb(226 196 130 / .85); box-shadow: inset 0 0 0 7px rgb(226 196 130 / .45); border-radius: 6px 6px 0 0; pointer-events: none; }
+.intro-curtain::before { content: ""; position: absolute; inset: 1.1rem 1.1rem 2.6rem; border: 2px solid rgb(207 211 218 / .85); box-shadow: inset 0 0 0 7px rgb(207 211 218 / .4); border-radius: 6px 6px 0 0; pointer-events: none; }
 .intro-curtain::after {
   content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 2.2rem; pointer-events: none;
-  background: linear-gradient(#d9b56c, #b48a45) top / 100% 6px no-repeat, repeating-linear-gradient(90deg, #d4ae66 0 2px, transparent 2px 6px) 0 6px / 100% calc(100% - 6px) no-repeat;
+  background: linear-gradient(#eef1f5, #9aa3b2) top / 100% 6px no-repeat, repeating-linear-gradient(90deg, #c9ced8 0 2px, transparent 2px 6px) 0 6px / 100% calc(100% - 6px) no-repeat;
 }
 .parochet { display: flex; flex-direction: column; align-items: center; gap: .6rem; text-align: center; }
-.parochet-crown { width: 4.5rem; height: 4.5rem; color: #e2c482; filter: drop-shadow(0 2px 0 rgb(0 0 0 / .25)); }
-.parochet-name { font-family: var(--hand); font-size: clamp(3rem, 14vw, 5.5rem); line-height: 1; color: #ecd29b; text-shadow: 0 2px 0 rgb(0 0 0 / .3); }
-.parochet-role { font-size: 1.05rem; letter-spacing: .04em; color: #e6cc95; }
+.parochet-crown { width: 4.5rem; height: 4.5rem; color: #dfe3ea; filter: drop-shadow(0 2px 0 rgb(0 0 0 / .25)); }
+.parochet-name { font-family: var(--hand); font-size: clamp(3rem, 14vw, 5.5rem); line-height: 1; color: #eef0f4; text-shadow: 0 2px 0 rgb(0 0 0 / .3); }
+.parochet-role { font-size: 1.05rem; letter-spacing: .04em; color: #cfd3da; }
 .intro-hint { display: flex; flex-direction: column; align-items: center; gap: .75rem; }
-.intro-hint-text { margin: 0; font-size: 1.05rem; color: #fff4dc; }
-.intro-hand { width: 3rem; height: 1.5rem; color: #ecd29b; animation: nudge 1.6s ease-in-out infinite; }
+.intro-hint-text { margin: 0; font-size: 1.05rem; color: #ffffff; }
+.intro-hand { width: 3rem; height: 1.5rem; color: #cfd3da; animation: nudge 1.6s ease-in-out infinite; }
 @keyframes nudge { 0%, 100% { transform: translateX(-6px); } 50% { transform: translateX(6px); } }
-.intro-open { min-height: 44px; padding: .55rem 1.4rem; border: 1.5px solid #e2c482; border-radius: 999px; background: transparent; color: #fff4dc; font: 400 1rem/1.2 var(--text); cursor: pointer; }
-.intro-open:hover { background: rgb(226 196 130 / .15); }
-.intro .intro-open:focus-visible { outline-color: #fff4dc; }
+.intro-open { min-height: 44px; padding: .55rem 1.4rem; border: 1.5px solid #cfd3da; border-radius: 999px; background: transparent; color: #ffffff; font: 400 1rem/1.2 var(--text); cursor: pointer; }
+.intro-open:hover { background: rgb(207 211 218 / .15); }
+.intro .intro-open:focus-visible { outline-color: #ffffff; }
 .intro.is-bright .intro-light { --light: 1; --light-scale: 2.4; }
 .intro.is-done { opacity: 0; pointer-events: none; }
 

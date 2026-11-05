@@ -13,8 +13,8 @@ colors:
   ink: "#141a2c"
   muted-ink: "#4a5068"
   whatsapp: "#25d366"
-  parochet-velvet: "#5e1219"
-  parochet-gold: "#e2c482"
+  parochet-velvet: "#1a2152"
+  parochet-silver: "#cfd3da"
 typography:
   display:
     fontFamily: "Felix007, system-ui, sans-serif"
@@ -60,7 +60,7 @@ spacing:
 
 ## Overview
 
-The site is the boy's first tallit. The visitor drags open a velvet parochet (the ark curtain) and finds the white wool behind it: holiness he will wear, and learning tied in knot after knot. Every surface comes from the shul's textiles and silver, so the sacred opening and the learning page are one world. No parchment as a ground, no notebook, no school stationery.
+The site is the boy's first tallit. The visitor drags open a midnight-blue velvet parochet (the ark curtain) and finds the white wool behind it: holiness he will wear, and learning tied in knot after knot. Every surface comes from the shul's textiles and silver, so the sacred opening and the learning page are one world. No parchment as a ground, no notebook, no school stationery.
 
 - **Ground:** cool white wool with a fine diagonal twill (two 45° repeating gradients at 2.5 to 3.5% ink).
 - **Stripes:** the tallit stripe group (a wide tekhelet band, two thin tekhelet bands and one thin black line between them) runs full width behind the hero photo, behind Oren in About, and above and below the story band.
@@ -74,7 +74,7 @@ The site is the boy's first tallit. The visitor drags open a velvet parochet (th
 - **Wool** `#f4f5f2` is the page; **wool-deep** `#e9ebe6` the testimonials section.
 - **Stripe-black** `#141a2c` appears only as the one thin line in a stripe group and as ink.
 - **WhatsApp green** `#25d366` only on the floating round button.
-- The parochet keeps its own velvet and gold; it is the only warm colour on the site.
+- The parochet is midnight-blue velvet (`#1a2152`) with silver embroidery, crown and fringe, matching the atarah.
 
 ### Named Rules
 
