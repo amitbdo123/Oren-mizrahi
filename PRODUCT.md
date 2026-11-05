@@ -31,10 +31,12 @@ Lessons in Jerusalem, at Oren's place or at the student's home. Contact only by 
 ## Brand Commitments
 - No logo exists; the name is set as a handwritten wordmark.
 - Frank Ruhl Libre must never be used (client decision).
-- Signature experiences already approved by the client: opening parochet (Torah-ark curtain) the visitor drags open into light; testimonials as a WhatsApp conversation on Oren's phone; a Torah pointer (yad) that follows words on scroll; a verse that loses cantillation then vowels across the three steps.
+- Visual world approved by the client: the tallit (white wool, tekhelet stripes, silver atarah, jewelled atarah bands on photos). Not parchment, not a notebook.
+- Signature experiences already approved by the client: opening parochet (Torah-ark curtain) the visitor drags open; testimonials as a WhatsApp conversation on Oren's phone; a Torah pointer (yad) that follows words on scroll; a verse in Stam script that loses cantillation then vowels across the three steps.
+- One floating round WhatsApp button (bottom right, logo only); no bottom bar.
 
 ## Evidence on Hand
-- Photos (parental consent): Oren with a boy in tallit and tefillin before the ark (memorial text blurred); Oren with the boy's brother in a light suit. `public/images/`.
+- Photos (parental consent): Oren with a boy in tallit and tefillin before the ark (memorial text blurred); Oren with the boy's brother in a light suit; a portrait of Oren in a light suit for About, background removed, supplied edited by the client. `public/images/`.
 - Four real parent testimonials, sent for publication, shortened, pseudonymous names.
 - No video, audio or further photos yet. Do not fabricate any.
 

@@ -178,46 +178,6 @@ function motionOK() {
 })();
 
 // ---------------------------------------------------------------------------
-// כפתור וואטסאפ קבוע: פס תחתון במובייל, פס עליון במחשב.
-// מופיעים כשכפתור ההירו כבר מעל המסך, ונעלמים כשמגיעים לאזור data-hide-sticky.
-// ---------------------------------------------------------------------------
-(function () {
-  var bars = document.querySelectorAll('[data-sticky-cta], [data-topbar]');
-  var heroCta = document.getElementById('hero-cta');
-  if (!bars.length || !heroCta || !('IntersectionObserver' in window)) return;
-
-  bars.forEach(function (bar) { bar.hidden = false; bar.inert = true; });
-
-  var heroPassed = false;
-  var endVisible = false;
-
-  function update() {
-    var show = heroPassed && !endVisible;
-    bars.forEach(function (bar) {
-      bar.classList.toggle('is-visible', show);
-      bar.inert = !show;
-    });
-  }
-
-  new IntersectionObserver(function (entries) {
-    var e = entries[0];
-    heroPassed = !e.isIntersecting && e.boundingClientRect.top < 0;
-    update();
-  }).observe(heroCta);
-
-  var ends = document.querySelectorAll('[data-hide-sticky]');
-  var visible = new Set();
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) visible.add(e.target); else visible.delete(e.target);
-    });
-    endVisible = visible.size > 0;
-    update();
-  });
-  ends.forEach(function (el) { io.observe(el); });
-})();
-
-// ---------------------------------------------------------------------------
 // שיחת ההמלצות בטלפון של אורן:
 // מקליד מיד (שנייה) -> הודעה (2.5) -> מקליד (2) -> הודעה (2.5) -> מקליד (1.5) -> הודעה (2.5) ...
 // וכשההודעות נגמרות, השיחה ממשיכה
@@ -336,7 +296,6 @@ function motionOK() {
   var layers = verse.querySelectorAll('[data-layer]');
   var modes = verse.querySelectorAll('[data-mode]');
   var steps = section.querySelectorAll('.step');
-  var pin = section.querySelector('[data-how-pin]');
   var root = document.documentElement;
   var current = 0;
 
@@ -345,23 +304,11 @@ function motionOK() {
     current = n;
     layers.forEach(function (l) { l.classList.toggle('is-on', +l.dataset.layer === n); });
     modes.forEach(function (m) { m.classList.toggle('is-on', +m.dataset.mode === n); });
-    steps.forEach(function (s, i) { s.classList.toggle('is-active', i === n - 1); });
+    steps.forEach(function (s, i) { s.classList.toggle('is-active', i === n - 1); s.classList.toggle('is-past', i < n - 1); });
   }
 
   function update() {
     var vh = window.innerHeight;
-    var r0 = section.getBoundingClientRect();
-    // מחשב, אזור נעוץ: השורות על הרקע הנעוץ מיושרות לשורות של הדף, והשלב נקבע לפי ההתקדמות בנעיצה
-    if (pin && getComputedStyle(pin).position === 'sticky') {
-      var rule = parseFloat(getComputedStyle(root).fontSize) * 2;
-      var docTop = r0.top + window.scrollY;
-      pin.style.setProperty('--pin-bg-y', (-(docTop % rule)).toFixed(2) + 'px');
-      var headerH = parseFloat(getComputedStyle(pin).top) || 0;
-      var travel = Math.max(r0.height - pin.offsetHeight, 1);
-      var q = (headerH - r0.top) / travel;
-      setStage(q < 1 / 3 ? 1 : q < 2 / 3 ? 2 : 3);
-      return;
-    }
     var vertical = steps.length > 1 && steps[1].getBoundingClientRect().top > steps[0].getBoundingClientRect().bottom - 1;
     if (vertical) {
       // מובייל: הצעד שנמצא כרגע מתחת לפסוק הדביק קובע את השלב
@@ -385,26 +332,6 @@ function motionOK() {
   }, { passive: true });
   window.addEventListener('resize', update);
   new MutationObserver(update).observe(root, { attributes: true, attributeFilter: ['class'] });
-  update();
-})();
-
-// ---------------------------------------------------------------------------
-// היד לקריאה בתורה: יורדת לאורך השוליים לפי ההתקדמות בדף (מחשב רחב בלבד, ב-CSS).
-// ---------------------------------------------------------------------------
-(function () {
-  var rail = document.querySelector('.yad-rail');
-  if (!rail || !motionOK()) return;
-  var ticking = false;
-  function update() {
-    ticking = false;
-    var max = document.documentElement.scrollHeight - window.innerHeight;
-    var p = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
-    rail.style.setProperty('--p', p.toFixed(4));
-  }
-  window.addEventListener('scroll', function () {
-    if (!ticking) { ticking = true; requestAnimationFrame(update); }
-  }, { passive: true });
-  window.addEventListener('resize', update);
   update();
 })();
 
@@ -549,113 +476,3 @@ function motionOK() {
   mark();
 })();
 
-// ---------------------------------------------------------------------------
-// טקסט רץ על שורות המחברת: מזיזים כל קבוצה (כותרת+פסקה) בפחות מחצי שורה, כך שקו הבסיס
-// של הפסקה ייפול על הקווים. ההזזה היא חזותית בלבד (position: relative; top), ולכן היא
-// לא מוסיפה רווחים ולא מנתקת כותרת מהטקסט שלה. השורות מצוירות על רקע הדף כל 2rem.
-// ---------------------------------------------------------------------------
-(function () {
-  var BASE = 0.305;  // מיקום הקו בתוך שורה, כחלק מגובה השורה (כוון לפי הגופן felix007)
-  // [העוגן שמיישרים לפיו, האלמנט שזז]
-  var pairs = [];
-  function add(anchor, mover) { if (anchor && mover) pairs.push([anchor, mover]); }
-  add(document.querySelector('.story-body'), document.querySelector('.story-body'));
-  add(document.querySelector('.story-next'), document.querySelector('.story-next'));
-  var about = document.querySelector('.about-text');
-  if (about) add(about.querySelector('p:not(.about-sub):not(.signature):not(.about-proof)'), about);
-  Array.prototype.forEach.call(document.querySelectorAll('.step'), function (st) { add(st.querySelector('p'), st); });
-  if (!pairs.length) return;
-
-  function align() {
-    pairs.forEach(function (pr) { pr[1].style.top = ''; });
-    if (document.documentElement.classList.contains('a11y-contrast')) return;
-    var rule = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2;
-    pairs.forEach(function (pr) {
-      var top = pr[0].getBoundingClientRect().top + window.scrollY;
-      var off = ((BASE * rule - top) % rule + rule) % rule;
-      if (off > rule / 2) off -= rule;          // תמיד ההזזה הקטנה יותר, למעלה או למטה
-      pr[1].style.top = off.toFixed(2) + 'px';
-    });
-  }
-  var t = null;
-  function later() { clearTimeout(t); t = setTimeout(align, 80); }
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(align); else align();
-  window.addEventListener('load', align);
-  window.addEventListener('resize', later);
-  new MutationObserver(later).observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-text-size'] });
-})();
-
-// ---------------------------------------------------------------------------
-// מרקר ודבק, רק לפי הגלילה של הגולש:
-// - המרקר מצטייר בהדרגה, לפי כמה שגוללים לכיוון הטקסט (גוללים לאט, הוא מסמן לאט).
-//   יוצא מן הכלל: המרקר בהירו מצטייר לבד, שנייה וחצי אחרי שהאתר עולה.
-// - תמונה מודבקת בסלוטייפ רק כשגוללים אליה.
-// מה שכבר על המסך כשהאתר עולה (ההירו) מחכה לגלילה הראשונה. שום דבר לא קורה לבד.
-// בלי JS, עם "הפחתת תנועה" או "עצירת אנימציות": הכול מוצג במצב הסופי.
-// ---------------------------------------------------------------------------
-(function () {
-  if (!motionOK()) return;
-  var root = document.documentElement;
-  // המרקר בהירו לא תלוי בגלילה: הוא מצטייר לבד, שנייה וחצי אחרי שהאתר עולה (או אחרי שהפרוכת נפתחת)
-  var heroMark = document.querySelector('.hero-title .hl');
-  var marks = Array.prototype.slice.call(document.querySelectorAll('.hl')).filter(function (el) { return el !== heroMark; });
-  // במחשב התמונה שבהירו נדבקת לבד, חצי שנייה אחרי שהאתר עולה. במובייל: לפי הגלילה, כמו השאר.
-  var heroTape = window.matchMedia('(min-width: 56rem)').matches ? document.querySelector('.hero-media .polaroid') : null;
-  var tapes = Array.prototype.slice.call(document.querySelectorAll('.polaroid')).filter(function (el) { return el !== heroTape; });
-  if (!marks.length && !tapes.length) return;
-  root.classList.add('anim-on');
-
-  function docTop(el) { return el.getBoundingClientRect().top + window.scrollY; }
-  var H = window.innerHeight;
-  var markItems = marks.map(function (el) { return { el: el, first: false }; });
-  var tapeItems = tapes.map(function (el) { return { el: el, done: false }; });
-  var userScrolled = false;
-  // מה שנמצא במסך הראשון (אחרי שהגופנים נטענו והפריסה התייצבה) נצבע רק במהלך הגלילה הראשונה
-  function classify() { markItems.forEach(function (it) { it.first = docTop(it.el) < H * 0.6; }); }
-
-  function clamp(v) { return Math.min(Math.max(v, 0), 1); }
-
-  function update() {
-    if (root.classList.contains('intro-on') || !userScrolled) return;   // שום דבר לא קורה לבד
-    H = window.innerHeight;
-    var y = window.scrollY;
-    markItems.forEach(function (it) {
-      var p;
-      if (it.first) p = clamp(y / (H * 0.25));                       // ההירו: נצבע במהלך הגלילה הראשונה
-      else p = clamp((H * 0.88 - it.el.getBoundingClientRect().top) / (H * 0.3));  // נכנס מלמטה: נצבע בדרך למעלה
-      it.el.style.setProperty('--hlp', p.toFixed(3));
-    });
-    tapeItems.forEach(function (it) {
-      if (it.done) return;
-      if (it.el.getBoundingClientRect().top < H * 0.72) { it.done = true; it.el.classList.add('is-taped'); }
-    });
-  }
-
-  var ticking = false;
-  window.addEventListener('scroll', function () {
-    if (!userScrolled && window.scrollY > 0 && !root.classList.contains('intro-on')) userScrolled = true;
-    if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; update(); }); }
-  }, { passive: true });
-  window.addEventListener('resize', update);
-  classify();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(classify);
-  window.addEventListener('load', classify);
-  if (heroMark || heroTape) {
-    var HERO_DELAY = 1500, TAPE_DELAY = 500;
-    var heroDone = false;
-    var drawHero = function () {
-      if (heroDone) return; heroDone = true;
-      if (heroMark) setTimeout(function () { heroMark.classList.add('is-marked'); }, HERO_DELAY);
-      if (heroTape) setTimeout(function () { heroTape.classList.add('is-taped'); }, TAPE_DELAY);
-    };
-    if (!root.classList.contains('intro-on')) drawHero();
-    else new MutationObserver(function (m, obs) {
-      if (!root.classList.contains('intro-on')) { obs.disconnect(); drawHero(); }
-    }).observe(root, { attributes: true, attributeFilter: ['class'] });
-  }
-
-  // דף שנטען כשהוא כבר גלול (רענון באמצע): מה שמעל נחשב כאילו כבר גוללו אליו
-  if (window.scrollY > 0) { userScrolled = true; update(); }
-
-  document.addEventListener('a11y:still', function () { root.classList.remove('anim-on'); });
-})();
