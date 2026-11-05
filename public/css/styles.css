@@ -591,3 +591,47 @@ html.intro-on { overflow: hidden; }
   .warm-cap { font-size: clamp(2.1rem, 13.2vw, 3.8rem); }
   .contact-title { font-size: clamp(1.9rem, 11.9vw, 3.4rem); }
 }
+
+/* =====================================================================
+   תפריט המובייל נפתח כמו מגילה שנגללת: הדף נפרש מלמעלה למטה, בתחתיתו מוט כסף,
+   והקישורים נכנסים אחד אחרי השני. בסגירה הוא מתגלגל חזרה.
+   ===================================================================== */
+@media (max-width: 55.99rem) {
+  .site-nav {
+    display: block; visibility: hidden;
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path .45s cubic-bezier(.6, 0, .4, 1), visibility 0s linear .45s;
+  }
+  .site-nav.is-open {
+    visibility: visible; clip-path: inset(0 0 -1.4rem 0);
+    transition: clip-path .6s cubic-bezier(.2, .8, .2, 1), visibility 0s;
+  }
+  /* מוט הכסף של המגילה */
+  .site-nav::after {
+    content: ""; position: absolute; left: .6rem; right: .6rem; bottom: -.55rem; height: .7rem; border-radius: .35rem;
+    background: linear-gradient(#f4f6f9, #b9c1cd 45%, #eef1f5 60%, #8d97aa);
+    box-shadow: 0 4px 8px -3px rgb(0 0 0 / .5);
+  }
+  .site-nav .nav-list li { opacity: 0; transform: translateY(-.6rem); transition: opacity .2s ease, transform .2s ease; }
+  .site-nav.is-open .nav-list li { opacity: 1; transform: none; transition: opacity .35s ease, transform .45s cubic-bezier(.2, .8, .2, 1); }
+  .site-nav.is-open .nav-list li:nth-child(1) { transition-delay: .12s; }
+  .site-nav.is-open .nav-list li:nth-child(2) { transition-delay: .17s; }
+  .site-nav.is-open .nav-list li:nth-child(3) { transition-delay: .22s; }
+  .site-nav.is-open .nav-list li:nth-child(4) { transition-delay: .27s; }
+  .site-nav.is-open .nav-list li:nth-child(5) { transition-delay: .32s; }
+  .nav-toggle svg path { transition: d .3s ease; }
+}
+@media (max-width: 55.99rem) and (prefers-reduced-motion: reduce) {
+  .site-nav, .site-nav.is-open, .site-nav .nav-list li { transition: none !important; }
+}
+
+/* =====================================================================
+   אודות: הטקסט הרץ "נכתב" מהר, מילה אחרי מילה מימין לשמאל, כשמגיעים לסקשן.
+   רק עם JS ותנועה מותרת (html.write-on). בלעדיהם הטקסט מוצג כרגיל.
+   ===================================================================== */
+html.write-on .about-text .wr { display: inline-block; opacity: 0; clip-path: inset(0 0 0 100%); transform: translateY(.15em); }
+html.write-on .about-text.is-writing .wr {
+  opacity: 1; clip-path: inset(0 0 0 0); transform: none;
+  transition: clip-path .22s ease-out, opacity .12s linear, transform .22s ease-out;
+  transition-delay: calc(var(--i) * 14ms);
+}

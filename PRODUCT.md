@@ -16,7 +16,7 @@ A one-page site for Oren Mizrahi, a bar mitzvah teacher. Success is a parent und
 - Practice in front of a real Torah scroll, and sometimes in front of a listening audience, not only from a book.
 - Kind words and encouragement throughout; mistakes are part of the process.
 - Oren is 18 and has taught since 15. His age is the advantage: he is the boy's big brother.
-- 23 boys have read from the Torah with him. One family trusted him twice (two brothers a year apart, shown in the photos).
+- More than 20 boys have read from the Torah with him (the site says "מעל 20"; 23 at the time of writing). One family trusted him twice (two brothers a year apart, shown in the photos).
 
 ## Operating Context
 Lessons in Jerusalem, at Oren's place or at the student's home. Contact only by WhatsApp (050-672-3214). Parents decide quickly on mobile, often after another parent's recommendation.
