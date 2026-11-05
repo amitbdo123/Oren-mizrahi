@@ -193,9 +193,9 @@ main:focus, [tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
   }
   .hero-grid { grid-template-columns: max-content auto; justify-content: center; gap: clamp(2.5rem, 5vw, 6rem); }
   .hero-text { text-align: start; align-self: start; padding-top: clamp(0rem, 4svh - 1.5rem, 3.5rem); }
-  .hero-title { font-size: clamp(2.4rem, min(4vw, 7.4svh), 4.3rem); white-space: nowrap; }
+  .hero-title { font-size: clamp(2.6rem, min(4.9vw, 10.5svh), 4.3rem); white-space: nowrap; }
   .hero-sub { font-size: clamp(1rem, 2.2svh, 1.15rem); margin: clamp(.5rem, 2svh, 1.1rem) 0 clamp(.9rem, 3svh, 1.6rem); }
-  .hero-photo { width: min(25rem, 26vw, calc((100svh - 4.4rem - 10rem - 3rem) * .8)); min-width: 15rem; margin-top: 0; }
+  .hero-photo { width: min(25rem, 28vw, calc((100svh - 4.4rem - 3rem) * .8)); min-width: 16rem; margin-top: 0; }
   .hero-photo::before { height: var(--stripe-h); top: calc(100% - 3rem - var(--stripe-h) - .6rem); }
   .hero-photo figcaption { text-align: start; }
 }
