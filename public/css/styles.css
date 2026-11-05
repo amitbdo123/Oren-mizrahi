@@ -177,9 +177,6 @@ main:focus, [tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
 .hero-text { text-align: center; }
 .hero-title { font-size: clamp(2.2rem, 9vw, 4.4rem); color: var(--ink); text-wrap: balance; }
 .hero-title span { display: block; color: var(--tekhelet); }
-/* מובייל: הכותרת בארבע שורות קבועות. במחשב השבירות האלה לא קיימות */
-.br-mob { display: none; }
-@media (max-width: 55.99rem) { .br-mob { display: inline; } }
 .hero-sub { margin: 1.1rem 0 1.6rem; font-size: 1.15rem; color: var(--muted); }
 .hero-photo { position: relative; margin: 1.4rem auto 0; width: min(100%, 22rem); }
 /* מסגרת תמונה לבנה של פעם, עם "סנטר" רחב למטה שעליו הכיתוב */
@@ -570,14 +567,4 @@ html.intro-on { overflow: hidden; }
   .contact { padding-block: clamp(3rem, 10svh, 5.5rem) clamp(2.5rem, 9svh, 5rem); }
   .contact-title { font-size: clamp(1.9rem, min(6.4vw, 6.4svh), 3rem); margin-bottom: clamp(1rem, 3svh, 1.8rem); }
   .contact-who { margin-bottom: clamp(.8rem, 2.4svh, 1.4rem); }
-}
-
-/* =====================================================================
-   מובייל בלבד: הכותרת בהירו תופסת חצי מהמסך הראשון (5 שורות קבועות, לפי גובה המסך),
-   והכותרות של אודות ו"איך זה עובד" גדולות ב-10px.
-   ===================================================================== */
-@media (max-width: 55.99rem) {
-  .hero-title { font-size: min(17vw, calc((100svh - 4.4rem) * .08)); }
-  .about .section-title, .how .section-title { font-size: calc(clamp(1.9rem, 6vw, 2.7rem) + 10px); }
-  .about-sub { font-size: calc(1.9rem + 10px) !important; }
 }
