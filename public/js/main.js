@@ -517,3 +517,44 @@ function motionOK() {
 
   document.addEventListener('a11y:still', function () { root.classList.remove('glue-on'); });
 })();
+
+// ---------------------------------------------------------------------------
+// אודות: הטקסט הרץ נכתב מהר, מילה אחרי מילה, כשהגולש מגיע לסקשן.
+// הטקסט נמצא ב-DOM כל הזמן (קוראי מסך קוראים אותו כרגיל); רק התצוגה מונפשת.
+// ---------------------------------------------------------------------------
+(function () {
+  if (!motionOK() || !('IntersectionObserver' in window)) return;
+  var box = document.querySelector('.about-text');
+  if (!box) return;
+  var paras = box.querySelectorAll('p:not(.about-sub):not(.about-proof):not(.signature)');
+  if (!paras.length) return;
+  var root = document.documentElement;
+  var i = 0;
+  paras.forEach(function (p) {
+    var walker = document.createTreeWalker(p, NodeFilter.SHOW_TEXT);
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (node) {
+      var parts = node.nodeValue.split(/(\s+)/);
+      var frag = document.createDocumentFragment();
+      parts.forEach(function (part) {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+        var span = document.createElement('span');
+        span.className = 'wr';
+        span.textContent = part;
+        span.style.setProperty('--i', i++);
+        frag.appendChild(span);
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+  });
+  root.classList.add('write-on');
+  var io = new IntersectionObserver(function (entries) {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    box.classList.add('is-writing');
+  }, { threshold: 0.2 });
+  io.observe(box);
+  document.addEventListener('a11y:still', function () { root.classList.remove('write-on'); });
+})();
