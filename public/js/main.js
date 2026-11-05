@@ -476,3 +476,44 @@ function motionOK() {
   mark();
 })();
 
+
+// ---------------------------------------------------------------------------
+// הדבקה ופייד:
+// - התמונה בהירו "נדבקת" עם העטרה חצי שנייה אחרי שהאתר עולה (או אחרי שהפרוכת נפתחת).
+// - התמונה שאחרי ההמלצות נדבקת חצי שנייה אחרי שמגיעים אליה.
+// - אורן באודות נכנס בפייד של חצי שנייה כשמגיעים לסקשן.
+// בלי JS, עם "הפחתת תנועה" או "עצירת אנימציות": הכול מוצג במצב הסופי.
+// ---------------------------------------------------------------------------
+(function () {
+  if (!motionOK()) return;
+  var root = document.documentElement;
+  var onLoad = document.querySelectorAll('[data-glue="load"]');
+  var onView = document.querySelectorAll('[data-glue="view"]');
+  var fades = document.querySelectorAll('[data-fade]');
+  if (!onLoad.length && !onView.length && !fades.length) return;
+  root.classList.add('glue-on');
+  var DELAY = 500;
+
+  function glueLoad() { setTimeout(function () { onLoad.forEach(function (el) { el.classList.add('is-glued'); }); }, DELAY); }
+  if (!root.classList.contains('intro-on')) glueLoad();
+  else new MutationObserver(function (m, obs) {
+    if (!root.classList.contains('intro-on')) { obs.disconnect(); glueLoad(); }
+  }).observe(root, { attributes: true, attributeFilter: ['class'] });
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        if (e.target.hasAttribute('data-fade')) e.target.classList.add('is-faded');
+        else setTimeout(function () { e.target.classList.add('is-glued'); }, DELAY);
+      });
+    }, { threshold: 0.35 });
+    onView.forEach(function (el) { io.observe(el); });
+    fades.forEach(function (el) { io.observe(el); });
+  } else {
+    root.classList.remove('glue-on');
+  }
+
+  document.addEventListener('a11y:still', function () { root.classList.remove('glue-on'); });
+})();
