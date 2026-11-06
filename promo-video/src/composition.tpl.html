@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>אורן מזרחי · פרומו 15 שניות</title>
+<style>
+/* ======================================================================
+   אורן מזרחי · פרומו אנכי 1080×1920, 15 שניות, 30fps
+   כל פריים מחושב מהזמן בלבד (renderFrame), כך שהרינדור דטרמיניסטי.
+   ====================================================================== */
+@font-face { font-family: "Felix007"; src: url("../../public/fonts/felix007-400.woff2") format("woff2"); }
+@font-face { font-family: "Gveret Levin"; src: url("../../public/fonts/gveret-levin-hebrew-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Stam"; src: url("../../public/fonts/stam-ashkenaz-verse.woff2") format("woff2"); }
+:root {
+  --wool: #f4f5f2; --wool-deep: #e9ebe6; --tekhelet: #22418f; --tekhelet-deep: #18306e;
+  --black: #141a2c; --atarah: #1b2230; --silver: #cfd3da; --ink: #141a2c; --muted: #4a5068;
+  --velvet: #1a2152;
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+body { font-family: "Felix007", sans-serif; font-synthesis-weight: none; color: var(--ink); }
+.symbols { position: absolute; width: 0; height: 0; overflow: hidden; }
+#stage { position: absolute; inset: 0; overflow: hidden; background-color: var(--wool);
+  background-image: repeating-linear-gradient(45deg, rgb(20 30 50 / .045) 0 4px, transparent 4px 10px), repeating-linear-gradient(-45deg, rgb(20 30 50 / .03) 0 4px, transparent 4px 10px); }
+#cam { position: absolute; inset: 0; transform-origin: 50% 45%; }
+.abs { position: absolute; }
+.weave-light { background-image: repeating-linear-gradient(90deg, rgb(255 255 255 / .07) 0 3px, transparent 3px 10px); }
+
+/* ---------- 1. הפרוכת ---------- */
+#light { inset: -10%; background: radial-gradient(circle at 50% 46%, #ffffff 0, #f4f7ff 20%, #dfe7f8 42%, rgb(200 214 245 / .45) 62%, rgb(244 245 242 / 0) 80%); }
+#curtain { inset: 0; background-color: var(--velvet);
+  background-image:
+    radial-gradient(ellipse 85% 40% at 50% 16%, rgb(255 255 255 / .13), transparent 70%),
+    repeating-linear-gradient(90deg, rgb(0 0 0 / .26) 0, rgb(255 255 255 / .06) 2.6%, rgb(0 0 0 / .12) 5.2%, rgb(0 0 0 / .26) 7.8%),
+    linear-gradient(180deg, #252f6b, #181f4e 68%, #10163a);
+  box-shadow: -40px 0 80px rgb(4 6 20 / .6); }
+#cframe { inset: 44px 44px 120px; border: 4px solid rgb(207 211 218 / .9); border-radius: 14px 14px 0 0; box-shadow: inset 0 0 0 14px transparent, inset 0 0 0 16px rgb(207 211 218 / .45); }
+#fringe { left: 0; right: 0; bottom: 0; height: 104px; background: linear-gradient(#eef1f5, #9aa3b2) top / 100% 14px no-repeat, repeating-linear-gradient(90deg, #c9ced8 0 4px, transparent 4px 12px) 0 14px / 100% calc(100% - 14px) no-repeat; }
+#pcrown { left: 50%; top: 600px; width: 210px; height: 210px; margin-left: -105px; color: #e3e6ec; filter: drop-shadow(0 6px 0 rgb(0 0 0 / .25)); }
+#pname { left: 0; right: 0; top: 820px; text-align: center; font-family: "Gveret Levin"; font-size: 210px; line-height: 1; color: #f1f3f6; text-shadow: 0 5px 0 rgb(0 0 0 / .3); }
+#prole { left: 0; right: 0; top: 1080px; text-align: center; font-size: 56px; letter-spacing: .06em; color: var(--silver); }
+
+/* ---------- 2. פסי הטלית והכותרת ---------- */
+.band { left: 0; right: 0; }
+#stripes { left: 0; right: 0; top: 1290px; height: 210px; }
+#b1 { top: 0; height: 96px; background-color: var(--tekhelet); }
+#b2 { top: 130px; height: 19px; background-color: var(--tekhelet); }
+#b3 { top: 166px; height: 11px; background-color: var(--black); }
+#b4 { top: 191px; height: 19px; background-color: var(--tekhelet); }
+.mask { overflow: hidden; display: block; padding-block: .06em; }
+.mask > span { display: inline-block; will-change: transform; }
+#title { right: 96px; left: 96px; top: 420px; font-size: 136px; line-height: 1.16; text-align: right; }
+#title .accent { color: var(--tekhelet); }
+#stitch { right: 96px; top: 1080px; height: 14px; width: 690px; }
+#sub { right: 96px; top: 1140px; font-size: 50px; color: var(--muted); }
+
+/* ---------- 3. איך זה עובד ---------- */
+#flood { left: 0; right: 0; background-color: var(--tekhelet); }
+#howT { left: 0; right: 0; top: 300px; text-align: center; font-size: 108px; line-height: 1.2; color: #fff; }
+#card { background: #fff; border-radius: 10px; box-shadow: 0 40px 70px -30px rgb(5 10 40 / .7); overflow: hidden; }
+#cardIn { position: absolute; inset: 0; }
+#cardOutline { position: absolute; inset: 16px; border: 3px dashed rgb(34 65 143 / .55); border-radius: 6px; }
+.layer { position: absolute; left: 0; right: 0; top: 70px; text-align: center; font-family: "Stam"; font-size: 104px; line-height: 1.75; color: var(--ink); white-space: nowrap; }
+.mode { position: absolute; left: 0; right: 0; top: 310px; text-align: center; font-size: 46px; color: var(--tekhelet); }
+#vsrc { position: absolute; left: 0; right: 0; top: 380px; text-align: center; font-size: 34px; color: var(--muted); }
+#thread { left: 140px; right: 140px; top: 1186px; height: 6px; background: repeating-linear-gradient(90deg, #fff 0 14px, transparent 14px 24px); opacity: .85; }
+.knot { width: 120px; height: 104px; margin-left: -60px; top: 1138px; }
+.knot svg { width: 100%; height: 100%; overflow: visible; }
+.klabel { width: 300px; margin-left: -150px; top: 1270px; text-align: center; font-size: 52px; line-height: 1.2; color: #fff; }
+
+/* ---------- 4. הטלפון וההמלצות ---------- */
+#wordsT { left: 0; right: 0; top: 262px; text-align: center; font-size: 86px; line-height: 1.2; }
+#bezel { background: var(--atarah); box-shadow: 0 60px 100px -50px rgb(20 30 60 / .7); }
+#screen { overflow: hidden; background: #f3f1ea url("../../public/images/chat-pattern.svg") 0 0 / 110px 110px; }
+#notch { left: 50%; top: 18px; width: 170px; height: 42px; margin-left: -85px; border-radius: 30px; background: var(--atarah); z-index: 3; }
+#chead { left: 0; right: 0; top: 0; height: 196px; padding: 76px 30px 0; display: flex; align-items: center; gap: 22px; background: var(--wool); border-bottom: 7px solid var(--tekhelet); }
+#chead img { width: 96px; height: 96px; border-radius: 50%; box-shadow: 0 0 0 4px var(--wool), 0 0 0 8px var(--tekhelet); }
+#chead .t { font-size: 38px; line-height: 1.2; color: var(--ink); }
+#chead .s { font-family: "Gveret Levin"; font-size: 46px; line-height: 1.1; color: var(--tekhelet); }
+.bubble { right: 30px; width: 400px; padding: 18px 26px 22px; background: #fff; border-radius: 30px; border-top-right-radius: 6px; box-shadow: 0 2px 3px rgb(20 30 60 / .16); transform-origin: 100% 0; }
+.bubble b { display: block; font-weight: 400; font-size: 30px; color: var(--tekhelet); margin-bottom: 4px; }
+.bubble p { font-size: 34px; line-height: 1.4; color: var(--ink); }
+#typing { right: 30px; width: 130px; height: 70px; border-radius: 30px; border-top-right-radius: 6px; background: #fff; box-shadow: 0 2px 3px rgb(20 30 60 / .16); display: flex; align-items: center; justify-content: center; gap: 12px; }
+#typing i { width: 16px; height: 16px; border-radius: 50%; background: var(--tekhelet); }
+
+/* ---------- 5. התמונה והעטרה ---------- */
+#frame { left: 210px; top: 250px; width: 660px; padding: 22px 22px 0; background: #fff; box-shadow: 0 6px 8px rgb(20 30 60 / .08), 0 60px 90px -44px rgb(20 30 60 / .65); transform-origin: 50% 0; }
+#frame img { display: block; width: 100%; height: 770px; object-fit: cover; object-position: 50% 0; }
+#frameChin { height: 34px; }
+#jewels { left: 50%; top: -48px; width: 600px; height: 75px; margin-left: -300px; filter: drop-shadow(0 8px 10px rgb(20 30 60 / .35)); }
+#shine { left: 50%; top: -48px; width: 600px; height: 75px; margin-left: -300px; mix-blend-mode: screen;
+  background: linear-gradient(105deg, transparent 40%, rgb(255 255 255 / .9) 50%, transparent 60%) no-repeat; background-size: 60% 100%; }
+#warmCap { left: 70px; right: 70px; top: 1200px; text-align: center; font-family: "Gveret Levin"; font-size: 108px; line-height: 1.2; color: var(--tekhelet); }
+
+/* ---------- 6. העטרה, הלוגו והקריאה לפעולה ---------- */
+#shutter { left: 0; right: 0; top: -40px; height: 2000px; background: var(--atarah); }
+#shutter::after { content: ""; position: absolute; left: 0; right: 0; bottom: -28px; height: 28px;
+  background: linear-gradient(135deg, var(--silver) 25%, transparent 25%) 0 0 / 56px 28px, linear-gradient(225deg, var(--silver) 25%, transparent 25%) 0 0 / 56px 28px, var(--atarah); }
+.zig { left: 0; right: 0; height: 28px; background: linear-gradient(135deg, var(--silver) 25%, transparent 25%) 0 0 / 56px 28px, linear-gradient(225deg, var(--silver) 25%, transparent 25%) 0 0 / 56px 28px; }
+#endCrown { left: 50%; top: 520px; width: 150px; height: 150px; margin-left: -75px; color: #e3e6ec; }
+#logo { left: 0; right: 0; top: 700px; text-align: center; font-family: "Gveret Levin"; font-size: 220px; line-height: 1.05; color: #f1f3f6; }
+#logoRole { left: 0; right: 0; top: 960px; text-align: center; font-size: 54px; letter-spacing: .05em; color: var(--silver); }
+#endJewels { left: 50%; top: 1070px; width: 640px; height: 80px; margin-left: -320px; filter: drop-shadow(0 8px 10px rgb(0 0 0 / .4)); }
+#cta { left: 50%; top: 1220px; width: 720px; height: 150px; margin-left: -360px; border-radius: 14px; background: var(--wool); color: var(--tekhelet);
+  display: flex; align-items: center; justify-content: center; gap: 26px; font-size: 68px; box-shadow: 0 24px 40px -18px rgb(0 0 0 / .6); }
+#cta::after { content: ""; position: absolute; inset: 14px; border: 4px dashed var(--tekhelet); border-radius: 8px; }
+#cta svg { width: 70px; height: 70px; }
+#domain { left: 0; right: 0; top: 1430px; text-align: center; font-size: 50px; letter-spacing: .03em; color: var(--silver); direction: ltr; }
+</style>
+</head>
+<body>
+{{SYMBOLS}}
+<div id="stage"><div id="cam">
+
+  <!-- 5→ background stripes used behind the photo scene -->
+  <div id="stripes2" class="abs" style="left:0;right:0;top:820px;height:210px">
+    <div class="abs band weave-light" id="c1" style="top:0;height:96px;background-color:#22418f"></div>
+    <div class="abs band" id="c2" style="top:130px;height:19px;background:#22418f"></div>
+    <div class="abs band" id="c3" style="top:166px;height:11px;background:#141a2c"></div>
+    <div class="abs band" id="c4" style="top:191px;height:19px;background:#22418f"></div>
+  </div>
+
+  <!-- 2. title + stripes -->
+  <div id="stripes" class="abs">
+    <div id="b1" class="abs band weave-light"></div><div id="b2" class="abs band"></div><div id="b3" class="abs band"></div><div id="b4" class="abs band"></div>
+  </div>
+  <h1 id="title" class="abs">
+    <span class="mask"><span id="t1">מעל 20 ילדים</span></span>
+    <span class="mask"><span id="t2">עלו לתורה</span></span>
+    <span class="mask"><span id="t3">בביטחון.</span></span>
+    <span class="mask"><span id="t4" class="accent">הבן שלכם הבא.</span></span>
+  </h1>
+  <svg id="stitch" class="abs" viewBox="0 0 690 14" preserveAspectRatio="none"><line x1="690" y1="7" x2="0" y2="7" stroke="#22418f" stroke-width="6" stroke-dasharray="22 14" stroke-linecap="round"/></svg>
+  <p id="sub" class="abs">תוכנית מותאמת ליכולת של כל ילד.</p>
+
+  <!-- 3. how it works -->
+  <div id="flood" class="abs weave-light"></div>
+  <h2 id="howT" class="abs"><span class="mask"><span id="howIn">איך זה עובד?</span></span></h2>
+  <div id="card" class="abs">
+    <div id="cardIn">
+      <div id="cardOutline"></div>
+      <p class="layer" id="L1">וְאָֽהַבְתָּ֥ לְרֵעֲךָ֖ כָּמ֑וֹךָ</p>
+      <p class="layer" id="L2">וְאָהַבְתָּ לְרֵעֲךָ כָּמוֹךָ</p>
+      <p class="layer" id="L3">ואהבת לרעך כמוך</p>
+      <p class="mode" id="M1">בתיקון: עם ניקוד וטעמים</p>
+      <p class="mode" id="M2">באמצע הדרך: בלי טעמים</p>
+      <p class="mode" id="M3">בספר התורה: בלי ניקוד ובלי טעמים</p>
+      <p id="vsrc">ויקרא יט, יח</p>
+    </div>
+  </div>
+  <div id="thread" class="abs"></div>
+  <div class="abs knot" id="k1"><svg viewBox="0 0 120 104"><rect x="6" y="6" width="108" height="92" rx="32" fill="#fff"/><path d="M14 36h92M10 52h100M14 68h92" stroke="#22418f" stroke-width="3" opacity=".28"/><text x="60" y="67" text-anchor="middle" font-family="Felix007" font-size="46" fill="#22418f">1</text></svg></div>
+  <div class="abs knot" id="k2"><svg viewBox="0 0 120 104"><rect x="6" y="6" width="108" height="92" rx="32" fill="#fff"/><path d="M14 36h92M10 52h100M14 68h92" stroke="#22418f" stroke-width="3" opacity=".28"/><text x="60" y="67" text-anchor="middle" font-family="Felix007" font-size="46" fill="#22418f">2</text></svg></div>
+  <div class="abs knot" id="k3"><svg viewBox="0 0 120 104"><rect x="6" y="6" width="108" height="92" rx="32" fill="#fff"/><path d="M14 36h92M10 52h100M14 68h92" stroke="#22418f" stroke-width="3" opacity=".28"/><text x="60" y="67" text-anchor="middle" font-family="Felix007" font-size="46" fill="#22418f">3</text></svg></div>
+  <p class="abs klabel" id="l1">היכרות<br>ומפה</p>
+  <p class="abs klabel" id="l2">תרגול<br>וחיזוק</p>
+  <p class="abs klabel" id="l3">היעד</p>
+
+  <!-- 4. phone -->
+  <h2 id="wordsT" class="abs">מה ההורים כותבים לי</h2>
+  <div id="bezel" class="abs"></div>
+  <div id="screen" class="abs">
+    <div id="notch" class="abs"></div>
+    <div id="chead" class="abs"><img src="../../public/images/oren-avatar.jpg" alt=""><div><p class="t">הודעות מההורים</p><p class="s">אורן מזרחי</p></div></div>
+    <div id="typing" class="abs"><i></i><i></i><i></i></div>
+    <div class="abs bubble" id="m1"><b>מיכל</b><p>אומרים שמורה טוב מלמד חומר, אבל מורה מיוחד מלמד גם דרך, מעניק ביטחון ומשאיר חותם בלב.</p></div>
+    <div class="abs bubble" id="m2"><b>שירה</b><p>יש מורים שמלמדים, ויש מורים שמשאירים חותם בלב, ואתה בהחלט אחד מהם!</p></div>
+    <div class="abs bubble" id="m3"><b>רונית</b><p>זכינו לראות אותו קורא בתורה מתוך קדושה, התרגשות וגאווה.</p></div>
+  </div>
+
+  <!-- 5. photo + jewelled atarah -->
+  <div id="frame" class="abs">
+    <img src="../../public/images/hero-1000.jpg" alt="">
+    <div id="frameChin"></div>
+    <svg id="jewels" class="abs" viewBox="0 0 320 40"><use href="#atarah"/></svg>
+    <div id="shine" class="abs"></div>
+  </div>
+  <p id="warmCap" class="abs">יחס חם של אח גדול<br>לכל תלמיד!</p>
+
+  <!-- 1. parochet (above everything at the start) -->
+  <div id="light" class="abs"></div>
+  <div id="curtain" class="abs">
+    <div id="cframe" class="abs"></div>
+    <div id="fringe" class="abs"></div>
+    <svg id="pcrown" class="abs" viewBox="0 0 16 16"><use href="#crown"/></svg>
+    <p id="pname" class="abs">אורן מזרחי</p>
+    <p id="prole" class="abs">מלמד בר מצווה</p>
+  </div>
+
+  <!-- 6. atarah shutter, logo, CTA -->
+  <div id="shutter" class="abs"></div>
+  <div class="abs zig" id="zigTop" style="top:150px"></div>
+  <div class="abs zig" id="zigBot" style="top:1740px;transform:scaleY(-1)"></div>
+  <svg id="endCrown" class="abs" viewBox="0 0 16 16"><use href="#crown"/></svg>
+  <p id="logo" class="abs"><span class="mask"><span id="logoIn">אורן מזרחי</span></span></p>
+  <p id="logoRole" class="abs">מלמד בר מצווה בירושלים</p>
+  <svg id="endJewels" class="abs" viewBox="0 0 320 40"><use href="#atarah"/></svg>
+  <div id="cta" class="abs"><svg viewBox="0 0 24 24"><path fill="currentColor" d="{{WA}}"/></svg><span>מוזמנים לדבר איתי</span></div>
+  <p id="domain" class="abs">oren-mizrahi.vercel.app</p>
+</div></div>
+
+<script>
+const FPS = 30, TOTAL = 450;
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, x) => a + (b - a) * x;
+const eo3 = x => 1 - Math.pow(1 - x, 3);
+const eo5 = x => 1 - Math.pow(1 - x, 5);
+const eio3 = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const eob = (x, s = 1.70158) => { const c = s + 1; return 1 + c * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2); };
+// spring: 0→1 with a soft overshoot and settle
+const spring = (x, k = 6.5, w = 10.5) => x <= 0 ? 0 : x >= 1.6 ? 1 : 1 - Math.exp(-k * x) * Math.cos(w * x);
+function set(el, s) { el = typeof el === 'string' ? $(el) : el; for (const k in s) el.style[k] = s[k]; }
+function show(el, o) { set(el, { opacity: String(o), visibility: o <= 0.001 ? 'hidden' : 'visible' }); }
+
+function renderFrame(f) {
+  const t = f / FPS;
+
+  /* ---------- camera: slow push that resets per scene ---------- */
+  let cs = 1, cy = 0;
+  if (t < 1.2) cs = lerp(1.07, 1.0, eo3(prog(t, 0, 1.2)));
+  else if (t < 4.6) cs = lerp(1.0, 1.035, prog(t, 1.6, 4.6));
+  else if (t < 8.6) cs = lerp(1.0, 1.03, prog(t, 5.0, 8.6));
+  else if (t < 11.6) cs = lerp(1.0, 1.025, prog(t, 9.0, 11.6));
+  else if (t < 13.4) cs = lerp(1.0, 1.03, prog(t, 11.8, 13.4));
+  else cs = lerp(1.05, 1.0, eo3(prog(t, 13.4, 14.4)));
+  set('cam', { transform: `scale(${cs}) translateY(${cy}px)` });
+
+  /* ---------- 1. parochet: crown, name, then it slides open into light ---------- */
+  const open = eio3(prog(t, 1.05, 1.9));
+  set('curtain', { transform: `translateX(${open * 1260}px) rotate(${open * 2.2}deg)` });
+  show('curtain', t < 2.0 ? 1 : 0);
+  show('light', t < 2.6 ? (t < 1.9 ? lerp(.2, 1, prog(t, 1.0, 1.8)) : 1 - prog(t, 1.9, 2.5)) : 0);
+  set('light', { transform: `scale(${lerp(.8, 1.6, prog(t, 1.0, 2.4))})` });
+  const cr = spring(prog(t, -0.12, 0.6));
+  set('pcrown', { transform: `translateY(${(1 - cr) * -120}px) scale(${lerp(1.5, 1, cr)})`, opacity: String(clamp(cr * 1.4)) });
+  set('pname', { clipPath: `inset(-20% 0 -30% ${100 - 100 * eo3(prog(t, -0.3, 0.6))}%)` });
+  set('prole', { opacity: String(prog(t, 0.6, 0.95)), transform: `translateY(${(1 - eo3(prog(t, 0.6, 0.95))) * 24}px)` });
+  set('cframe', { clipPath: `inset(0 0 ${100 - 100 * eo3(prog(t, -0.3, 0.7))}% 0)` });
+
+  /* ---------- 2. tallit stripes weave in, title writes on them ---------- */
+  const bands = ['b1', 'b2', 'b3', 'b4'];
+  bands.forEach((id, i) => {
+    const x = eo5(prog(t, 1.7 + i * .09, 2.35 + i * .09));
+    set(id, { transform: `translateX(${(1 - x) * 1150}px)` });
+  });
+  const lines = ['t1', 't2', 't3', 't4'];
+  lines.forEach((id, i) => {
+    const a = 2.0 + i * .16;
+    const x = eo3(prog(t, a, a + .5));
+    const out = eio3(prog(t, 4.25 + (3 - i) * .05, 4.6 + (3 - i) * .05));
+    set(id, { transform: `translateY(${(1 - x) * 110 + out * -115}%)` });
+  });
+  set('stitch', { clipPath: `inset(0 0 0 ${100 - 100 * eo3(prog(t, 2.85, 3.35))}%)`, opacity: String(1 - prog(t, 4.2, 4.4)) });
+  set('sub', { opacity: String(prog(t, 3.0, 3.4) * (1 - prog(t, 4.15, 4.35))), transform: `translateY(${(1 - eo3(prog(t, 3.0, 3.4))) * 30}px)` });
+  const s2vis = t >= 1.6 && t < 5.2;
+  show('stripes', s2vis ? 1 : 0); show('title', s2vis && t < 4.9 ? 1 : 0);
+  ['b2', 'b3', 'b4'].forEach(id => show(id, 1 - prog(t, 4.35, 4.55)));
+
+  /* ---------- 3. the wide stripe floods the screen: how it works ---------- */
+  const fl = eio3(prog(t, 4.4, 5.0));
+  const flTop = lerp(1290, 0, fl), flH = lerp(96, 1920, fl);
+  const flOut = prog(t, 8.55, 9.05);
+  set('flood', { top: flTop + 'px', height: flH + 'px' });
+  show('flood', t >= 4.4 && t < 9.1 ? 1 - flOut : 0);
+  show('b1', t < 4.4 ? 1 : 0);
+  set('howIn', { transform: `translateY(${(1 - eo3(prog(t, 5.0, 5.45))) * 110 + eio3(prog(t, 8.3, 8.6)) * -115}%)` });
+  show('howT', t >= 4.95 && t < 8.7 ? 1 : 0);
+
+  // card: enters, then morphs into the phone screen
+  const cIn = spring(prog(t, 5.1, 5.75));
+  const mor = eio3(prog(t, 8.45, 9.1));
+  const card0 = { x: 70, y: 480, w: 940, h: 470, r: 10 };
+  const scr = { x: 290, y: 400, w: 500, h: 1083 - 32, r: 64 };
+  const cx = lerp(card0.x, scr.x, mor), cyy = lerp(card0.y, scr.y, mor), cw = lerp(card0.w, scr.w, mor), ch = lerp(card0.h, scr.h, mor);
+  set('card', { left: cx + 'px', top: cyy + 'px', width: cw + 'px', height: ch + 'px', borderRadius: lerp(card0.r, scr.r, mor) + 'px',
+    transform: mor > 0 ? 'none' : `translateY(${(1 - cIn) * 120}px) scale(${lerp(.86, 1, cIn)})` });
+  show('card', t >= 5.1 && t < 9.12 ? clamp(cIn * 1.5) : 0);
+  set('cardIn', { opacity: String(1 - prog(t, 8.4, 8.6)) });
+  // verse loses cantillation, then vowels (with a soft blur on the outgoing layer)
+  const v2 = prog(t, 6.35, 6.85), v3 = prog(t, 7.35, 7.85);
+  set('L1', { opacity: String(1 - v2), filter: `blur(${v2 * 10}px)` });
+  set('L2', { opacity: String(v2 * (1 - v3)), filter: `blur(${v3 * 10}px)` });
+  set('L3', { opacity: String(v3) });
+  const mA = prog(t, 6.35, 6.55), mB = prog(t, 6.6, 6.85), mC = prog(t, 7.35, 7.55), mD = prog(t, 7.6, 7.85);
+  set('M1', { opacity: String(1 - mA) });
+  set('M2', { opacity: String(mB * (1 - mC)), transform: `translateY(${(1 - eo3(mB)) * 18}px)` });
+  set('M3', { opacity: String(mD), transform: `translateY(${(1 - eo3(mD)) * 18}px)` });
+  // thread + knots tie in sync with the verse
+  const thr = eo3(prog(t, 5.45, 6.0)), thrOut = prog(t, 8.3, 8.55);
+  set('thread', { clipPath: `inset(0 0 0 ${100 - thr * 100}%)`, opacity: String(.85 * (1 - thrOut)) });
+  const kx = [800, 540, 280], kt = [5.85, 6.75, 7.75];
+  kx.forEach((x, i) => {
+    const k = spring(prog(t, kt[i], kt[i] + .55));
+    set('k' + (i + 1), { left: x + 'px', transform: `scale(${k}) rotate(${(1 - clamp(k)) * -25}deg)`, opacity: String((k > 0 ? 1 : 0) * (1 - thrOut)) });
+    const l = eo3(prog(t, kt[i] + .1, kt[i] + .5));
+    set('l' + (i + 1), { left: x + 'px', opacity: String(l * (1 - thrOut)), transform: `translateY(${(1 - l) * 26}px)` });
+  });
+
+  /* ---------- 4. the card becomes a phone; parents' messages arrive ---------- */
+  const bz = eo3(prog(t, 8.85, 9.2));
+  set('bezel', { left: (scr.x - 16) + 'px', top: (scr.y - 16) + 'px', width: (scr.w + 32) + 'px', height: (scr.h + 32) + 'px', borderRadius: (scr.r + 16) + 'px',
+    transform: `scale(${lerp(.96, 1, bz)})` });
+  const phoneOut = eio3(prog(t, 11.45, 12.0));
+  const phoneT = `translate(${phoneOut * -760}px, ${phoneOut * 380}px) rotate(${phoneOut * -14}deg)`;
+  set('bezel', { opacity: String(bz) });
+  show('bezel', t >= 8.85 && t < 12.05 ? bz : 0);
+  set('bezel', { transform: `${phoneT} scale(${lerp(.96, 1, bz)})`, transformOrigin: '50% 50%' });
+  set('screen', { left: scr.x + 'px', top: scr.y + 'px', width: scr.w + 'px', height: scr.h + 'px', borderRadius: scr.r + 'px', transform: phoneT, transformOrigin: '50% 50%' });
+  show('screen', t >= 9.05 && t < 12.05 ? prog(t, 9.05, 9.15) : 0);
+  set('chead', { transform: `translateY(${(1 - eo3(prog(t, 9.1, 9.45))) * -200}px)` });
+  set('wordsT', { opacity: String(prog(t, 9.05, 9.4) * (1 - prog(t, 11.35, 11.6))), transform: `translateY(${(1 - eo3(prog(t, 9.05, 9.45))) * 30}px)` });
+  // stack: typing → message, three times
+  const msgs = [{ id: 'm1', ty: 9.3, at: 9.75 }, { id: 'm2', ty: 10.05, at: 10.45 }, { id: 'm3', ty: 10.7, at: 11.05 }];
+  let y = 226;
+  let typingY = null, typingOn = 0;
+  msgs.forEach(m => {
+    const el = $(m.id);
+    const h = el.offsetHeight;
+    if (t >= m.ty && t < m.at) { typingY = y; typingOn = 1; }
+    const p = spring(prog(t, m.at, m.at + .5));
+    set(el, { top: y + 'px', transform: `translateY(${(1 - clamp(p)) * 40}px) scale(${lerp(.8, 1, clamp(p * 1.1))})`, opacity: String(t >= m.at ? clamp(p * 2) : 0) });
+    if (t >= m.at) y += lerp(0, h + 22, eo3(prog(t, m.at, m.at + .3)));
+  });
+  set('typing', { top: (typingY ?? y) + 'px', opacity: String(typingOn) });
+  $('typing').querySelectorAll('i').forEach((d, i) => set(d, { transform: `translateY(${Math.sin(t * 14 - i * 1.1) * -7}px)`, opacity: String(.55 + .45 * Math.max(0, Math.sin(t * 14 - i * 1.1))) }));
+
+  /* ---------- 5. photo drops in, the jewelled atarah stretches and sticks ---------- */
+  const st2 = ['c1', 'c2', 'c3', 'c4'];
+  st2.forEach((id, i) => { const x = eo5(prog(t, 11.7 + i * .07, 12.3 + i * .07)); set(id, { transform: `translateX(${(1 - x) * -1150}px)` }); });
+  show('stripes2', t >= 11.6 && t < 13.75 ? 1 : 0);
+  const dr = spring(prog(t, 11.75, 12.55), 5.5, 9);
+  set('frame', { transform: `translateY(${(1 - dr) * -1500}px) rotate(${lerp(10, -2, clamp(dr))}deg)` });
+  show('frame', t >= 11.7 && t < 13.75 ? 1 : 0);
+  const jw = eob(prog(t, 12.4, 12.75), 2.2);
+  set('jewels', { transform: `rotate(-1.5deg) scaleX(${Math.max(0, jw)})`, opacity: String(prog(t, 12.4, 12.45)) });
+  const sh = prog(t, 12.8, 13.2);
+  set('shine', { backgroundPosition: `${lerp(-60, 160, sh)}% 0`, opacity: String(sh > 0 && sh < 1 ? 1 : 0), transform: 'rotate(-1.5deg)',
+    webkitMaskImage: 'linear-gradient(#000,#000)' });
+  set('warmCap', { clipPath: `inset(-10% 0 -10% ${100 - 100 * eo3(prog(t, 12.55, 13.15))}%)` });
+  show('warmCap', t >= 12.5 && t < 13.75 ? 1 : 0);
+
+  /* ---------- 6. atarah shutter closes, logo + CTA + domain ---------- */
+  const sht = eio3(prog(t, 13.2, 13.7));
+  set('shutter', { transform: `translateY(${(1 - sht) * -2060}px)` });
+  show('shutter', t >= 13.2 ? 1 : 0);
+  const endOn = t >= 13.55;
+  ['zigTop', 'zigBot'].forEach((id, i) => { const z = eo3(prog(t, 13.6 + i * .05, 14.0 + i * .05)); set(id, { opacity: String(endOn ? z : 0), transform: `${i ? 'scaleY(-1) ' : ''}scaleX(${z})` }); });
+  const ec = spring(prog(t, 13.65, 14.25));
+  set('endCrown', { opacity: String(endOn ? clamp(ec * 1.5) : 0), transform: `translateY(${(1 - ec) * -60}px) scale(${lerp(1.4, 1, clamp(ec))})` });
+  set('logoIn', { transform: `translateY(${(1 - eo3(prog(t, 13.75, 14.2))) * 110}%)` });
+  show('logo', endOn ? 1 : 0);
+  set('logoRole', { opacity: String(prog(t, 14.0, 14.3)), transform: `translateY(${(1 - eo3(prog(t, 14.0, 14.3))) * 24}px)` });
+  const ej = eob(prog(t, 14.05, 14.4), 2.2);
+  set('endJewels', { opacity: String(prog(t, 14.05, 14.1)), transform: `scaleX(${Math.max(0, ej)})` });
+  const ct = spring(prog(t, 14.2, 14.75));
+  set('cta', { opacity: String(clamp(ct * 2)), transform: `translateY(${(1 - clamp(ct)) * 60}px) scale(${lerp(.82, 1, clamp(ct))}) rotate(${lerp(-4, -1, clamp(ct))}deg)` });
+  set('domain', { opacity: String(prog(t, 14.4, 14.7)) });
+}
+window.renderFrame = renderFrame;
+window.TOTAL = TOTAL;
+renderFrame(0);
+</script>
+</body>
+</html>
